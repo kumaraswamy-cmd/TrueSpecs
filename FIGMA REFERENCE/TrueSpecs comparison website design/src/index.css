@@ -1,0 +1,114 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,900&family=Outfit:wght@300;400;500;600;700&family=DM+Mono:ital,wght@0,400;0,500;1,400&display=swap');
+@import 'tailwindcss';
+
+/* ─── TrueSpecs Design Tokens ─────────────────────────────────────────────── */
+:root {
+  --ts-bg: #FAF9F7;
+  --ts-bg-elevated: #FFFFFF;
+  --ts-card: #FFFFFF;
+  --ts-card-hover: #F5F4F1;
+  --ts-fg: #111110;
+  --ts-fg-muted: #6B6860;
+  --ts-fg-subtle: #9B9892;
+  --ts-border: #E8E6E1;
+  --ts-border-strong: #C8C6C0;
+  --ts-primary: #0D9488;
+  --ts-primary-hover: #0F766E;
+  --ts-primary-fg: #FFFFFF;
+  --ts-success: #16A34A;
+  --ts-success-bg: #F0FDF4;
+  --ts-warning: #D97706;
+  --ts-warning-bg: #FFFBEB;
+  --ts-danger: #DC2626;
+  --ts-danger-bg: #FEF2F2;
+  --ts-wishlist: #F43F5E;
+  --ts-wishlist-bg: #FFF1F2;
+  --ts-secondary: #F0EEE9;
+  --ts-secondary-hover: #E4E2DC;
+  --ts-ring-track: #E8E6E1;
+  --ts-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --ts-shadow-md: 0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.05);
+  --ts-shadow-lg: 0 12px 32px rgba(0,0,0,0.10), 0 4px 8px rgba(0,0,0,0.06);
+}
+
+[data-theme='dark'] {
+  --ts-bg: #1C1C1E;
+  --ts-bg-elevated: #252528;
+  --ts-card: #2C2C2E;
+  --ts-card-hover: #363638;
+  --ts-fg: #F2F2F2;
+  --ts-fg-muted: #A8A8B0;
+  --ts-fg-subtle: #68686F;
+  --ts-border: #3A3A3C;
+  --ts-border-strong: #52525A;
+  --ts-primary: #14B8A6;
+  --ts-primary-hover: #0D9488;
+  --ts-primary-fg: #FFFFFF;
+  --ts-success: #22C55E;
+  --ts-success-bg: rgba(34,197,94,0.12);
+  --ts-warning: #F59E0B;
+  --ts-warning-bg: rgba(245,158,11,0.12);
+  --ts-danger: #EF4444;
+  --ts-danger-bg: rgba(239,68,68,0.12);
+  --ts-wishlist: #FB7185;
+  --ts-wishlist-bg: rgba(251,113,133,0.12);
+  --ts-secondary: #3A3A3C;
+  --ts-secondary-hover: #48484A;
+  --ts-ring-track: #3A3A3C;
+  --ts-shadow: 0 1px 3px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.2);
+  --ts-shadow-md: 0 4px 12px rgba(0,0,0,0.4), 0 2px 4px rgba(0,0,0,0.3);
+  --ts-shadow-lg: 0 12px 32px rgba(0,0,0,0.5), 0 4px 8px rgba(0,0,0,0.4);
+}
+
+@theme inline {
+  --color-ts-bg: var(--ts-bg);
+  --color-ts-elevated: var(--ts-bg-elevated);
+  --color-ts-card: var(--ts-card);
+  --color-ts-card-hover: var(--ts-card-hover);
+  --color-ts-fg: var(--ts-fg);
+  --color-ts-muted: var(--ts-fg-muted);
+  --color-ts-subtle: var(--ts-fg-subtle);
+  --color-ts-border: var(--ts-border);
+  --color-ts-border-strong: var(--ts-border-strong);
+  --color-ts-primary: var(--ts-primary);
+  --color-ts-primary-hover: var(--ts-primary-hover);
+  --color-ts-primary-fg: var(--ts-primary-fg);
+  --color-ts-success: var(--ts-success);
+  --color-ts-success-bg: var(--ts-success-bg);
+  --color-ts-warning: var(--ts-warning);
+  --color-ts-warning-bg: var(--ts-warning-bg);
+  --color-ts-danger: var(--ts-danger);
+  --color-ts-danger-bg: var(--ts-danger-bg);
+  --color-ts-wishlist: var(--ts-wishlist);
+  --color-ts-wishlist-bg: var(--ts-wishlist-bg);
+  --color-ts-secondary: var(--ts-secondary);
+  --color-ts-secondary-hover: var(--ts-secondary-hover);
+  --color-ts-ring-track: var(--ts-ring-track);
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body: 'Outfit', system-ui, sans-serif;
+  --font-mono: 'DM Mono', 'JetBrains Mono', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--ts-bg);
+  color: var(--ts-fg);
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+/* Thin scrollbars */
+* { scrollbar-width: thin; scrollbar-color: var(--ts-border) transparent; }
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--ts-border); border-radius: 9px; }
+
+/* Gauge animation */
+.gauge-fill { transition: stroke-dashoffset 1s cubic-bezier(0.4,0,0.2,1); }
+
+/* Tabular numbers for spec data */
+.tabnum { font-variant-numeric: tabular-nums; }

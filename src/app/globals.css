@@ -1,26 +1,274 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+:root,
+[data-theme="light"] {
+  /* Ocean Blue light theme values */
+  --bg-app: #F1F5F9;
+  --bg-surface: #FFFFFF;
+  --bg-surface-hover: #F8FAFC;
+  --bg-surface-elevated: #F8FAFC;
+  --border-theme: #E2E8F0;
+  --text-primary: #0F172A;
+  --text-secondary: #64748B;
+
+  /* Premium blue accent */
+  --color-accent: #2563EB;
+  --color-accent-hover: #1D4ED8;
+  --color-accent-active: #1E40AF;
+  --color-accent-bg: rgba(37, 99, 235, 0.08);
+
+  /* Semantic status colors tuned to blue accent */
+  --color-success: #10B981;
+  --color-success-bg: rgba(16, 185, 129, 0.08);
+  --color-success-border: rgba(16, 185, 129, 0.2);
+
+  --color-warning: #F59E0B;
+  --color-warning-bg: rgba(245, 158, 11, 0.08);
+  --color-warning-border: rgba(245, 158, 11, 0.2);
+
+  --color-danger: #EF4444;
+  --color-danger-bg: rgba(239, 68, 68, 0.08);
+  --color-danger-border: rgba(239, 68, 68, 0.2);
+
+  --color-accent-secondary: #4F46E5;
+  --color-accent-secondary-hover: #4338CA;
+  --color-accent-secondary-bg: rgba(79, 70, 229, 0.08);
+  --color-accent-secondary-border: rgba(79, 70, 229, 0.2);
+
+  --color-category-phone: #2563EB;
+  --color-category-phone-bg: rgba(37, 99, 235, 0.08);
+  --color-category-laptop: #4F46E5;
+  --color-category-laptop-bg: rgba(79, 70, 229, 0.08);
+
+  --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.04), 0 2px 6px -1px rgba(0, 0, 0, 0.02);
+  --scrollbar-track: #F1F5F9;
+  --scrollbar-thumb: #CBD5E1;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+[data-theme="dark"] {
+  /* Slate dark theme values */
+  --bg-app: #0B1120;
+  --bg-surface: #0F172A;
+  --bg-surface-hover: #1E293B;
+  --bg-surface-elevated: #1E293B;
+  --border-theme: #1E293B;
+  --text-primary: #F8FAFC;
+  --text-secondary: #94A3B8;
+
+  /* Premium blue accent */
+  --color-accent: #3B82F6;
+  --color-accent-hover: #2563EB;
+  --color-accent-active: #1D4ED8;
+  --color-accent-bg: rgba(59, 130, 246, 0.15);
+
+  /* Semantic status colors tuned to accent */
+  --color-success: #10B981;
+  --color-success-bg: rgba(16, 185, 129, 0.12);
+  --color-success-border: rgba(16, 185, 129, 0.25);
+
+  --color-warning: #F59E0B;
+  --color-warning-bg: rgba(245, 158, 11, 0.12);
+  --color-warning-border: rgba(245, 158, 11, 0.25);
+
+  --color-danger: #EF4444;
+  --color-danger-bg: rgba(239, 68, 68, 0.12);
+  --color-danger-border: rgba(239, 68, 68, 0.25);
+
+  --color-accent-secondary: #6366F1;
+  --color-accent-secondary-hover: #4F46E5;
+  --color-accent-secondary-bg: rgba(99, 102, 241, 0.12);
+  --color-accent-secondary-border: rgba(99, 102, 241, 0.25);
+
+  --color-category-phone: #3B82F6;
+  --color-category-phone-bg: rgba(59, 130, 246, 0.10);
+  --color-category-laptop: #6366F1;
+  --color-category-laptop-bg: rgba(99, 102, 241, 0.10);
+
+  --card-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.4);
+  --scrollbar-track: #0B1120;
+  --scrollbar-thumb: #1E293B;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@theme {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui;
+  --font-display: var(--font-space-grotesk), sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  /* Custom theme mapping for Tailwind v4 */
+  --color-accent: var(--color-accent);
+  --color-accent-hover: var(--color-accent-hover);
+  --color-accent-active: var(--color-accent-active);
+  --color-accent-bg: var(--color-accent-bg);
+  --color-success: var(--color-success);
+  --color-success-bg: var(--color-success-bg);
+  --color-success-border: var(--color-success-border);
+  --color-warning: var(--color-warning);
+  --color-warning-bg: var(--color-warning-bg);
+  --color-warning-border: var(--color-warning-border);
+  --color-danger: var(--color-danger);
+  --color-danger-bg: var(--color-danger-bg);
+  --color-danger-border: var(--color-danger-border);
+  --color-accent-secondary: var(--color-accent-secondary);
+  --color-accent-secondary-hover: var(--color-accent-secondary-hover);
+  --color-accent-secondary-bg: var(--color-accent-secondary-bg);
+  --color-accent-secondary-border: var(--color-accent-secondary-border);
+  --color-category-phone: var(--color-category-phone);
+  --color-category-phone-bg: var(--color-category-phone-bg);
+  --color-category-laptop: var(--color-category-laptop);
+  --color-category-laptop-bg: var(--color-category-laptop-bg);
+
+  --animate-slide-up: slide-up 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-bounce-short: bounce-short 2s infinite;
+
+  @keyframes slide-up {
+    from {
+      transform: translateY(16px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  @keyframes bounce-short {
+    0%, 100% {
+      transform: translateY(0);
+      animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+    }
+    50% {
+      transform: translateY(-6px);
+      animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+    }
   }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--bg-app);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  overflow-y: scroll;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 4px;
+}
+
+/* Tabular figures for spec grids */
+.font-tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Theme Utilities */
+.bg-theme-app { background-color: var(--bg-app); }
+.bg-theme-surface { background-color: var(--bg-surface); }
+.bg-theme-surface-hover { background-color: var(--bg-surface-hover); }
+.bg-theme-elevated { background-color: var(--bg-surface-elevated); }
+
+.border-theme { border-color: var(--border-theme); }
+
+.text-theme-primary { color: var(--text-primary); }
+.text-theme-secondary { color: var(--text-secondary); }
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Graceful degradation for broken images */
+img {
+  position: relative;
+  /* Hide the default broken image icon by making color transparent */
+  color: transparent;
+}
+img::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--bg-surface-elevated);
+  border-radius: inherit;
+}
+
+/* Admin Form Light Theme Overrides */
+[data-theme="light"] .admin-form-theme {
+  h1, h2, h3, h4, h5, h6, .text-white, .text-zinc-100, .text-zinc-300 {
+    color: var(--text-primary) !important;
+  }
+  .text-zinc-400, .text-zinc-500 {
+    color: var(--text-secondary) !important;
+  }
+  
+  /* Sections, grid components, and borders */
+  .bg-zinc-900\/10, .bg-zinc-900\/25, .bg-zinc-900\/5, .bg-zinc-900, .bg-zinc-950, .bg-zinc-800\/40 {
+    background-color: var(--bg-surface-elevated) !important;
+  }
+  .border-zinc-800\/80, .border-zinc-800\/50, .border-zinc-800\/60, .border-zinc-800, .border-zinc-850, .border-zinc-700 {
+    border-color: var(--border-theme) !important;
+  }
+  
+  /* Form elements: text input, select, textarea */
+  input, select, textarea, option {
+    background-color: var(--bg-surface) !important;
+    color: var(--text-primary) !important;
+    border-color: var(--border-theme) !important;
+  }
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--color-accent) !important;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15) !important;
+  }
+  input:disabled, select:disabled, textarea:disabled {
+    background-color: var(--bg-surface-hover) !important;
+    opacity: 0.6;
+  }
+  
+  /* Buttons inside form (that are outline style) */
+  .border-zinc-800.text-zinc-400 {
+    border-color: var(--border-theme) !important;
+    color: var(--text-secondary) !important;
+  }
+  .border-zinc-800.text-zinc-400:hover {
+    background-color: var(--bg-surface-hover) !important;
+    color: var(--text-primary) !important;
+  }
+}
+
+/* Global Button States for Accent Action Buttons */
+.bg-accent {
+  transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease !important;
+}
+.bg-accent:hover {
+  background-color: var(--color-accent-hover) !important;
+}
+.bg-accent:active {
+  background-color: var(--color-accent-active) !important;
+  transform: scale(0.985) !important;
+}
+
+/* Pulse cursor animation for typewriter */
+@keyframes pulse-cursor {
+  from, to { border-color: transparent }
+  50% { border-color: var(--color-accent) }
+}
+.animate-pulse-cursor {
+  animation: pulse-cursor 0.75s step-end infinite;
+}
+
+
+

@@ -1,0 +1,10 @@
+{
+  "description": "Compare mobile phones and laptops with detailed specs, user ratings, and verified data to help consumers make informed purchasing decisions.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
