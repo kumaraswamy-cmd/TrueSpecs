@@ -338,16 +338,16 @@ function ListingContent() {
                   className="group flex flex-col items-center gap-1.5 shrink-0 cursor-pointer select-none bg-transparent border-0 p-0 focus:outline-none"
                 >
                   <div
-                    className={`relative rounded-full p-0.5 transition-all duration-200 group-hover:scale-110 group-active:scale-95 ${
+                    className={`relative flex items-center justify-center rounded-full aspect-square w-12 h-12 sm:w-14 sm:h-14 transition-transform duration-200 group-hover:scale-105 group-active:scale-95 ${
                       isSelected
-                        ? 'ring-2 ring-accent ring-offset-2 ring-offset-theme-surface shadow-md'
-                        : 'group-hover:shadow-xs'
+                        ? 'ring-3 ring-accent ring-offset-2 ring-offset-white shadow-md'
+                        : 'shadow-xs group-hover:shadow-md'
                     }`}
                   >
-                    <BrandLogo brand={b} size="lg" className="shadow-xs" />
+                    <BrandLogo brand={b} size="lg" className="w-full h-full" />
                   </div>
                   <span
-                    className={`text-[11px] font-bold transition-colors ${
+                    className={`text-[11px] font-bold transition-colors text-center ${
                       isSelected ? 'text-accent font-black' : 'text-theme-secondary group-hover:text-theme-primary'
                     }`}
                   >

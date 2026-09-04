@@ -62,18 +62,18 @@ export default function PopularBrandsRow({
             <div className="group flex flex-col items-center gap-2 shrink-0 cursor-pointer select-none">
               {/* Circular Avatar */}
               <div
-                className={`relative rounded-full p-1 transition-all duration-200 group-hover:scale-110 group-active:scale-95 ${
+                className={`relative flex items-center justify-center rounded-full aspect-square w-14 h-14 sm:w-16 sm:h-16 transition-transform duration-200 group-hover:scale-105 group-active:scale-95 ${
                   isSelected
-                    ? 'ring-2 ring-accent ring-offset-2 ring-offset-theme-surface shadow-md'
-                    : 'group-hover:shadow-md'
+                    ? 'ring-3 ring-accent ring-offset-2 ring-offset-white shadow-md'
+                    : 'shadow-xs group-hover:shadow-md'
                 }`}
               >
-                <BrandLogo brand={brand} size="xl" className="shadow-xs" />
+                <BrandLogo brand={brand} size="xl" className="w-full h-full" />
               </div>
 
               {/* Brand Name Below */}
               <span
-                className={`text-xs font-bold transition-colors ${
+                className={`text-xs font-bold transition-colors text-center ${
                   isSelected
                     ? 'text-accent font-black'
                     : 'text-theme-primary group-hover:text-accent'
