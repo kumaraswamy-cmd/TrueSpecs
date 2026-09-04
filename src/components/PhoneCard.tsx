@@ -43,11 +43,16 @@ function scoreLabel(score: number) {
 
 export default function PhoneCard({ phone: p, configCount, compact = false }: PhoneCardProps) {
   const router = useRouter();
-  const { selectedIds, isMounted: compareIsMounted, addPhone, removePhone } = useCompare();
-  const { wishlistIds, isMounted: wishlistIsMounted, toggleWishlist } = useWishlist();
+  const { selectedIds, addPhone, removePhone } = useCompare();
+  const { wishlistIds, toggleWishlist } = useWishlist();
 
-  const isSelected = compareIsMounted && selectedIds.includes(p.id);
-  const isLiked = wishlistIsMounted && wishlistIds.includes(p.id);
+  const [mounted, setMounted] = React.useState(false);
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const isSelected = mounted && selectedIds.includes(p.id);
+  const isLiked = mounted && wishlistIds.includes(p.id);
   const isLaptop = p.category === 'laptop';
   const price = p.price.amazonPrice || p.price.flipkartPrice || p.price.mrp;
   const isVerified = !p.dataCompleteness?.unverifiedFields || p.dataCompleteness.unverifiedFields.length === 0;

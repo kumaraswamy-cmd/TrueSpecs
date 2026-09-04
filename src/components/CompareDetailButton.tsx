@@ -9,10 +9,15 @@ interface CompareDetailButtonProps {
 }
 
 export default function CompareDetailButton({ phoneId }: CompareDetailButtonProps) {
-  const { selectedIds, isMounted, addPhone, removePhone } = useCompare();
+  const { selectedIds, addPhone, removePhone } = useCompare();
 
-  const isSelected = isMounted && selectedIds.includes(phoneId);
-  const isFull = isMounted && selectedIds.length >= 4 && !isSelected;
+  const [mounted, setMounted] = React.useState(false);
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const isSelected = mounted && selectedIds.includes(phoneId);
+  const isFull = mounted && selectedIds.length >= 4 && !isSelected;
 
   const handleToggle = () => {
     if (isSelected) {
@@ -72,8 +77,14 @@ export default function CompareDetailButton({ phoneId }: CompareDetailButtonProp
 
 // Local helper component for Wishlist button state
 function WishlistHeartButton({ phoneId }: { phoneId: string }) {
-  const { wishlistIds, isMounted, toggleWishlist } = useWishlist();
-  const isLiked = isMounted && wishlistIds.includes(phoneId);
+  const { wishlistIds, toggleWishlist } = useWishlist();
+
+  const [mounted, setMounted] = React.useState(false);
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const isLiked = mounted && wishlistIds.includes(phoneId);
 
   return (
     <button
