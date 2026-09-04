@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 import { useCompare } from '@/context/CompareContext';
 import phonesData from '@/data/phones.json';
 import { Phone } from '@/types/phone';
+import BrandLogo from '@/components/BrandLogo';
 import { ArrowRight, ChevronDown, ChevronUp, Scale, Trash2, X } from 'lucide-react';
 
 export default function CompareTray() {
@@ -76,15 +77,9 @@ export default function CompareTray() {
                 {selectedPhones.map((phone) => (
                   <div
                     key={phone.id}
-                    className="group relative flex items-center gap-2 pl-2 pr-7 py-1.5 rounded-lg border border-theme bg-theme-surface hover:bg-theme-surface-hover transition-colors"
+                    className="group relative flex items-center gap-1.5 pl-2 pr-7 py-1.5 rounded-lg border border-theme bg-theme-surface hover:bg-theme-surface-hover transition-colors"
                   >
-                    <div className="h-6 w-6 rounded bg-theme-elevated overflow-hidden flex items-center justify-center border border-theme shrink-0">
-                      <img
-                        src={phone.images[0] || '/placeholder.png'}
-                        alt={phone.model}
-                        className="h-full object-contain"
-                      />
-                    </div>
+                    <BrandLogo brand={phone.brand} size="xs" />
                     <span className="text-xs font-semibold text-theme-primary max-w-[120px] truncate">
                       {phone.model}
                     </span>

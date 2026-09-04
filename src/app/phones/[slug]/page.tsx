@@ -10,6 +10,7 @@ import SpecsTable from '@/components/SpecsTable';
 import CompareDetailButton from '@/components/CompareDetailButton';
 import PhoneImageGallery from '@/components/PhoneImageGallery';
 import BentoGrid from '@/components/BentoGrid';
+import BrandLogo from '@/components/BrandLogo';
 import { CheckCircle2, ChevronLeft, ShieldAlert } from 'lucide-react';
 
 interface PageProps {
@@ -142,8 +143,9 @@ export default async function PhoneDetailPage({ params }: PageProps) {
         {/* Right Column: Title Info, Specs Score & Pros/Cons */}
         <div className="lg:col-span-7 space-y-5 sm:space-y-6">
           <div>
-            <span className="text-[10px] sm:text-xs font-bold text-accent bg-accent-bg px-2.5 py-1 rounded-md border border-accent/20 uppercase tracking-wider">
-              {phone.brand}
+            <span className="inline-flex items-center gap-1.5 text-[10px] sm:text-xs font-bold text-accent bg-accent-bg px-2.5 py-1 rounded-md border border-accent/20 uppercase tracking-wider">
+              <BrandLogo brand={phone.brand} size="xs" />
+              <span>{phone.brand}</span>
             </span>
             <h1 className="text-2xl sm:text-4xl font-extrabold text-theme-primary tracking-tight mt-2 font-display">
               {phone.model}

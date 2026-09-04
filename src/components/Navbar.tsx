@@ -6,6 +6,8 @@ import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { useCompare } from '@/context/CompareContext';
 import { useWishlist } from '@/context/WishlistContext';
 import ThemeToggle from '@/components/ThemeToggle';
+import TrueSpecsLogo from '@/components/TrueSpecsLogo';
+import BrandLogo from '@/components/BrandLogo';
 import phonesData from '@/data/phones.json';
 import { Phone } from '@/types/phone';
 import { searchProducts } from '@/utils/search';
@@ -194,15 +196,9 @@ export default function Navbar() {
       }`}
     >
       <div className="mx-auto flex h-14 md:h-16 max-w-7xl items-center justify-between px-3 sm:px-6 lg:px-8 gap-3 sm:gap-4">
-        {/* 1. Logo & Symbol Wordmark */}
-        <Link href="/" className="flex items-center gap-2.5 group shrink-0" title="TrueSpecs Home">
-          <span className="relative flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-xl bg-accent font-black text-xs sm:text-sm text-white shadow-md shadow-accent/25 group-hover:scale-105 transition-all font-display">
-            TS
-            <span className="absolute -inset-0.5 rounded-xl bg-accent opacity-20 blur-sm group-hover:opacity-50 transition-opacity" />
-          </span>
-          <span className="text-base sm:text-lg md:text-xl font-black tracking-tight text-theme-primary group-hover:text-accent transition-colors font-display">
-            TrueSpecs
-          </span>
+        {/* 1. TrueSpecs 2D Logo Mark & Wordmark */}
+        <Link href="/" className="group shrink-0" title="TrueSpecs Home">
+          <TrueSpecsLogo size="md" showWordmark />
         </Link>
 
         {/* 2. Desktop Live Search Bar with ⌘K Symbol */}
@@ -284,6 +280,7 @@ export default function Navbar() {
                           </div>
                           <div className="min-w-0">
                             <div className="flex items-center gap-1.5">
+                              <BrandLogo brand={product.brand} size="xs" />
                               <span className="text-[9px] uppercase font-bold text-theme-secondary">
                                 {product.brand}
                               </span>
@@ -507,7 +504,8 @@ export default function Navbar() {
                             <img src={product.images[0] || '/placeholder.png'} alt={product.model} className="h-full object-contain" />
                           </div>
                           <div className="min-w-0">
-                            <div className="flex items-center gap-1">
+                            <div className="flex items-center gap-1.5">
+                              <BrandLogo brand={product.brand} size="xs" />
                               <span className="text-[9px] text-theme-secondary uppercase font-bold">{product.brand}</span>
                               <span className={`text-[8px] font-bold px-1 rounded ${isLaptop ? 'text-purple-500 bg-purple-500/10' : 'text-accent bg-accent-bg'}`}>
                                 {isLaptop ? 'Laptop' : 'Phone'}

@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import phonesData from '@/data/phones.json';
 import { Phone } from '@/types/phone';
 import PhoneCard from '@/components/PhoneCard';
+import BrandLogo from '@/components/BrandLogo';
 import { searchProducts } from '@/utils/search';
 import {
   ArrowRight,
@@ -309,9 +310,12 @@ export default function HomePage() {
                                 />
                               </div>
                               <div className="min-w-0">
-                                <span className="text-[10px] uppercase font-bold text-theme-secondary block">
-                                  {product.brand}
-                                </span>
+                                <div className="flex items-center gap-1.5">
+                                  <BrandLogo brand={product.brand} size="xs" />
+                                  <span className="text-[10px] uppercase font-bold text-theme-secondary">
+                                    {product.brand}
+                                  </span>
+                                </div>
                                 <span className="text-xs font-extrabold text-theme-primary truncate block group-hover:text-accent transition-colors font-display">
                                   {product.model}
                                 </span>
@@ -478,9 +482,10 @@ export default function HomePage() {
               <Link
                 key={brand}
                 href={`/phones?category=${activeCategory}&brand=${brand}`}
-                className="rounded-md border border-theme bg-theme-surface px-3 py-2 text-xs font-bold text-theme-secondary transition-all hover:border-accent/40 hover:text-theme-primary"
+                className="inline-flex items-center gap-2 rounded-lg border border-theme bg-theme-surface px-3 py-2 text-xs font-bold text-theme-secondary transition-all hover:border-accent/40 hover:text-theme-primary hover:bg-theme-surface-hover hover-lift"
               >
-                {brand}
+                <BrandLogo brand={brand} size="xs" />
+                <span>{brand}</span>
               </Link>
             ))}
           </div>

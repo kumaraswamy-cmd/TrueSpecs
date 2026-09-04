@@ -6,6 +6,7 @@ import { Phone } from '@/types/phone';
 import { useCompare } from '@/context/CompareContext';
 import { useWishlist } from '@/context/WishlistContext';
 import SpecsScoreGauge from './SpecsScoreGauge';
+import BrandLogo from '@/components/BrandLogo';
 import {
   BatteryCharging,
   Check,
@@ -154,9 +155,12 @@ export default function PhoneCard({ phone: p, configCount, compact = false }: Ph
         <div className="space-y-1.5">
           <div className="flex items-start justify-between gap-2">
             <div className="min-w-0">
-              <p className="font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-wide text-theme-secondary">
-                {p.brand}
-              </p>
+              <div className="flex items-center gap-1.5">
+                <BrandLogo brand={p.brand} size="xs" />
+                <p className="font-mono text-[10px] sm:text-[11px] font-bold uppercase tracking-wide text-theme-secondary">
+                  {p.brand}
+                </p>
+              </div>
               <h3 className="mt-0.5 truncate font-display text-sm sm:text-base font-extrabold leading-tight text-theme-primary">
                 {p.model}
               </h3>

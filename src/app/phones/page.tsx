@@ -7,6 +7,7 @@ import phonesData from '@/data/phones.json';
 import { Phone } from '@/types/phone';
 import PhoneCard from '@/components/PhoneCard';
 import FilterSidebar, { FilterState } from '@/components/FilterSidebar';
+import BrandLogo from '@/components/BrandLogo';
 import { searchProducts, getAlternateCategoryCount } from '@/utils/search';
 import { ArrowDownUp, Laptop, RotateCcw, Search, SlidersHorizontal, Smartphone, Sparkles, X } from 'lucide-react';
 
@@ -315,6 +316,39 @@ function ListingContent() {
             )}
           </button>
         </div>
+
+        {/* Quick Brand Logos Filter Strip */}
+        <div className="mt-3.5 pt-3 border-t border-theme/60 flex items-center gap-1.5 overflow-x-auto pb-1 no-scrollbar">
+          <span className="text-[10px] uppercase font-bold text-theme-secondary tracking-wider shrink-0 mr-1">
+            Top Brands:
+          </span>
+          {(category === 'laptop'
+            ? ['Apple', 'Dell', 'HP', 'Lenovo', 'Asus', 'Acer', 'Microsoft']
+            : ['Apple', 'Samsung', 'Google', 'OnePlus', 'Nothing', 'Xiaomi', 'Poco', 'Motorola', 'Realme', 'iQOO']
+          ).map((b) => {
+            const isSelected = filters.brands.includes(b);
+            return (
+              <button
+                key={b}
+                type="button"
+                onClick={() => {
+                  setFilters((prev) => ({
+                    ...prev,
+                    brands: isSelected ? prev.brands.filter((item) => item !== b) : [...prev.brands, b],
+                  }));
+                }}
+                className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold transition-all shrink-0 cursor-pointer ${
+                  isSelected
+                    ? 'bg-accent text-white shadow-sm border border-accent'
+                    : 'bg-theme-surface hover:bg-theme-surface-hover text-theme-secondary hover:text-theme-primary border border-theme'
+                }`}
+              >
+                <BrandLogo brand={b} size="xs" />
+                <span>{b}</span>
+              </button>
+            );
+          })}
+        </div>
       </section>
 
       {/* Cross-Category Recommendation Hint (e.g. When searching 'MacBook' while on phone category) */}
@@ -368,6 +402,7 @@ function ListingContent() {
                   key={brand}
                   className="inline-flex items-center gap-1.5 rounded-lg bg-ts-secondary border border-theme px-2.5 py-1 font-semibold text-theme-primary text-xs"
                 >
+                  <BrandLogo brand={brand} size="xs" />
                   <span>{brand}</span>
                   <button
                     type="button"

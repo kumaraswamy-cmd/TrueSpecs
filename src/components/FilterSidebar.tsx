@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { ChevronDown, RotateCcw, SlidersHorizontal, X } from 'lucide-react';
+import BrandLogo from '@/components/BrandLogo';
 
 export interface FilterState {
   brands: string[];
@@ -185,6 +186,7 @@ export default function FilterSidebar({
                         onChange={(e) => handleBrandChange(brand, e.target.checked)}
                         className="h-3.5 w-3.5 rounded border-theme text-accent focus:ring-accent"
                       />
+                      <BrandLogo brand={brand} size="xs" />
                       <span>{brand}</span>
                     </span>
                     <span className="text-[10px] opacity-70 font-mono">({count})</span>
@@ -310,13 +312,14 @@ export default function FilterSidebar({
             {expandedSections.cpu && (
               <div className="space-y-1.5 max-h-48 overflow-y-auto pr-1 mt-3 animate-slide-up">
                 {CPU_BRANDS.map((cpuBrand) => (
-                  <label key={cpuBrand} className="flex items-center gap-2.5 text-xs text-theme-secondary hover:text-theme-primary cursor-pointer select-none">
+                  <label key={cpuBrand} className="flex items-center gap-2 text-xs text-theme-secondary hover:text-theme-primary cursor-pointer select-none py-1">
                     <input
                       type="checkbox"
                       checked={(filters.cpuBrands || []).includes(cpuBrand)}
                       onChange={(e) => handleCpuBrandChange(cpuBrand, e.target.checked)}
                       className="h-3.5 w-3.5 rounded border-theme text-accent focus:ring-accent"
                     />
+                    <BrandLogo brand={cpuBrand} size="xs" />
                     <span className="font-medium">{cpuBrand}</span>
                   </label>
                 ))}
