@@ -1,4 +1,5 @@
 import React from 'react';
+import brandsData from '@/data/brands.json';
 
 export type BrandName =
   | 'Vivo'
@@ -52,6 +53,27 @@ export default function BrandLogo({
   };
 
   const currentSize = sizeClasses[size] || sizeClasses.sm;
+
+  // Check if admin uploaded a custom logo for this brand
+  const customBrandEntry = Object.entries(
+    brandsData as Record<string, { logoUrl?: string }>
+  ).find(([key]) => key.toLowerCase() === normalized);
+  const customLogoUrl = customBrandEntry?.[1]?.logoUrl;
+
+  if (customLogoUrl) {
+    return (
+      <div
+        className={`inline-flex items-center justify-center shrink-0 select-none overflow-hidden rounded-full aspect-square bg-white border border-theme shadow-xs ${currentSize} ${className}`}
+        title={brand}
+      >
+        <img
+          src={customLogoUrl}
+          alt={brand}
+          className="w-full h-full object-contain p-1"
+        />
+      </div>
+    );
+  }
 
   // Render authentic SVG matching original brand identities inside true 100x100 circle
   const renderSvg = () => {

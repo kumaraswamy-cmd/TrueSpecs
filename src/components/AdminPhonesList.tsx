@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Phone } from '@/types/phone';
 import { deletePhone, logoutAdmin } from '@/app/admin/actions';
+import { Sparkles } from 'lucide-react';
 
 interface AdminPhonesListProps {
   initialPhones: Phone[];
@@ -132,6 +133,13 @@ export default function AdminPhonesList({ initialPhones }: AdminPhonesListProps)
           </p>
         </div>
         <div className="flex items-center gap-3">
+          <Link
+            href="/admin/brands"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border border-theme bg-theme-surface hover:bg-theme-surface-hover text-theme-primary font-bold text-xs sm:text-sm transition-all shadow-xs cursor-pointer font-sans"
+          >
+            <Sparkles className="w-4 h-4 text-accent" />
+            <span>Brand Logos</span>
+          </Link>
           <Link
             href="/admin/import"
             className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border border-theme bg-transparent text-theme-secondary hover:text-theme-primary hover:bg-theme-surface-hover font-semibold text-xs sm:text-sm transition-all cursor-pointer font-sans"

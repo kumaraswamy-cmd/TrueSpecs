@@ -779,3 +779,121 @@ export async function bulkImportProducts(productsData: any) {
   }
 }
 
+const BRANDS_FILE_PATH = path.join(process.cwd(), 'src/data/brands.json');
+
+export interface BrandEntry {
+  name: string;
+  logoUrl?: string;
+  category?: 'phone' | 'laptop' | 'both' | 'chip';
+  isPopular?: boolean;
+}
+
+// Helper to read brands.json
+export async function getBrandsRegistry(): Promise<Record<string, BrandEntry>> {
+  try {
+    const data = await fs.readFile(BRANDS_FILE_PATH, 'utf-8');
+    return JSON.parse(data) as Record<string, BrandEntry>;
+  } catch {
+    return {};
+  }
+}
+
+// Update or attach a custom logo for a brand
+export async function updateBrandLogo(brandName: string, logoUrl: string) {
+  try {
+    const brands = await getBrandsRegistry();
+    const existing = brands[brandName] || { name: brandName, logoUrl: '', category: 'phone', isPopular: true };
+    
+    brands[brandName] = {
+      ...existing,
+      name: brandName,
+      logoUrl: logoUrl.trim(),
+    };
+
+    await fs.writeFile(BRANDS_FILE_PATH, JSON.stringify(brands, null, 2), 'utf-8');
+
+    // Revalidate all pages using BrandLogo
+    revalidatePath('/');
+    revalidatePath('/phones');
+    revalidatePath('/compare');
+    revalidatePath('/admin/brands');
+
+    return { success: true, brand: brands[brandName] };
+  } catch (error: any) {
+    console.error('Error updating brand logo:', error);
+    return { success: false, error: error?.message || 'Failed to update brand logo' };
+  }
+}
+
+// Reset brand logo back to built-in vector
+export async function resetBrandLogo(brandName: string) {
+  try {
+    const brands = await getBrandsRegistry();
+    if (brands[brandName]) {
+      brands[brandName].logoUrl = '';
+      await fs.writeFile(BRANDS_FILE_PATH, JSON.stringify(brands, null, 2), 'utf-8');
+    }
+
+    revalidatePath('/');
+    revalidatePath('/phones');
+    revalidatePath('/compare');
+    revalidatePath('/admin/brands');
+
+    return { success: true };
+  } catch (error: any) {
+    console.error('Error resetting brand logo:', error);
+    return { success: false, error: error?.message || 'Failed to reset brand logo' };
+  }
+}
+
+// Add or edit a brand entry
+export async function upsertBrand(brandData: BrandEntry) {
+  try {
+    if (!brandData.name.trim()) {
+      return { success: false, error: 'Brand name is required.' };
+    }
+
+    const brands = await getBrandsRegistry();
+    brands[brandData.name.trim()] = {
+      name: brandData.name.trim(),
+      logoUrl: brandData.logoUrl || '',
+      category: brandData.category || 'phone',
+      isPopular: brandData.isPopular ?? true,
+    };
+
+    await fs.writeFile(BRANDS_FILE_PATH, JSON.stringify(brands, null, 2), 'utf-8');
+
+    revalidatePath('/');
+    revalidatePath('/phones');
+    revalidatePath('/compare');
+    revalidatePath('/admin/brands');
+
+    return { success: true, brand: brands[brandData.name.trim()] };
+  } catch (error: any) {
+    console.error('Error saving brand:', error);
+    return { success: false, error: error?.message || 'Failed to save brand' };
+  }
+}
+
+// Delete brand entry
+export async function deleteBrand(brandName: string) {
+  try {
+    const brands = await getBrandsRegistry();
+    if (brands[brandName]) {
+      delete brands[brandName];
+      await fs.writeFile(BRANDS_FILE_PATH, JSON.stringify(brands, null, 2), 'utf-8');
+    }
+
+    revalidatePath('/');
+    revalidatePath('/phones');
+    revalidatePath('/compare');
+    revalidatePath('/admin/brands');
+
+    return { success: true };
+  } catch (error: any) {
+    console.error('Error deleting brand:', error);
+    return { success: false, error: error?.message || 'Failed to delete brand' };
+  }
+}
+
+
