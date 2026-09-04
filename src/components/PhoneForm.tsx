@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation';
 import { Phone, RearCameraLens, MediaPhoto } from '@/types/phone';
 import { savePhone } from '@/app/admin/actions';
 import { calculateSpecsScore } from '@/utils/specsScore';
+import BrandLogo from '@/components/BrandLogo';
+import brandsData from '@/data/brands.json';
 
 interface PhoneFormProps {
   initialPhone?: Phone;
@@ -351,13 +353,41 @@ export default function PhoneForm({ initialPhone, allPhones }: PhoneFormProps) {
   // 4. Auto-generate slug when brand or model changes (if slug not manually overridden)
   const [manualSlug, setManualSlug] = useState(!!initialPhone?.slug);
 
-  const handleBrandChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const brand = e.target.value;
+  // Available brands computed from brands.json and existing catalog
+  const availableBrands = useMemo(() => {
+    const registered = Object.values(brandsData as Record<string, { name: string; category?: string }>);
+    const category = formState.category;
+
+    const filtered = registered
+      .filter((b) => {
+        if (category === 'phone') return b.category === 'phone' || b.category === 'both' || !b.category;
+        if (category === 'laptop') return b.category === 'laptop' || b.category === 'both';
+        return true;
+      })
+      .map((b) => b.name);
+
+    const fromProducts = allPhones
+      .filter((p) => p.category === category)
+      .map((p) => p.brand)
+      .filter(Boolean);
+
+    return Array.from(new Set([...filtered, ...fromProducts])).sort((a, b) => a.localeCompare(b));
+  }, [formState.category, allPhones]);
+
+  const [isCustomBrand, setIsCustomBrand] = useState(
+    Boolean(initialPhone?.brand && !Object.keys(brandsData).includes(initialPhone.brand))
+  );
+
+  const setBrand = (brand: string) => {
     setFormState((prev) => {
       const model = prev.model;
       const slug = manualSlug ? prev.slug : generateSlug(brand, model);
       return { ...prev, brand, slug };
     });
+  };
+
+  const handleBrandChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setBrand(e.target.value);
   };
 
   const handleModelChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -863,15 +893,84 @@ export default function PhoneForm({ initialPhone, allPhones }: PhoneFormProps) {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-1.5">
-                <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider">Brand Name *</label>
-                <input
-                  type="text"
-                  required
-                  placeholder="e.g. Apple, Samsung, OnePlus"
-                  value={formState.brand}
-                  onChange={handleBrandChange}
-                  className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
-                />
+                <div className="flex items-center justify-between">
+                  <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider">
+                    Brand Name *
+                  </label>
+                  {isCustomBrand ? (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIsCustomBrand(false);
+                        if (availableBrands.length > 0 && !availableBrands.includes(formState.brand)) {
+                          setBrand(availableBrands[0]);
+                        }
+                      }}
+                      className="text-[10px] font-bold text-accent hover:underline cursor-pointer"
+                    >
+                      ← Select from list
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => setIsCustomBrand(true)}
+                      className="text-[10px] font-bold text-accent hover:underline cursor-pointer"
+                    >
+                      + Custom Brand
+                    </button>
+                  )}
+                </div>
+
+                {!isCustomBrand ? (
+                  <div className="relative flex items-center">
+                    {formState.brand && (
+                      <div className="absolute left-3 z-10 pointer-events-none flex items-center">
+                        <BrandLogo brand={formState.brand} size="xs" />
+                      </div>
+                    )}
+                    <select
+                      value={availableBrands.includes(formState.brand) ? formState.brand : (formState.brand ? '__custom__' : '')}
+                      onChange={(e) => {
+                        if (e.target.value === '__custom__') {
+                          setIsCustomBrand(true);
+                        } else {
+                          setBrand(e.target.value);
+                        }
+                      }}
+                      className={`w-full h-11 pr-8 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all cursor-pointer font-medium ${
+                        formState.brand ? 'pl-9' : 'px-3'
+                      }`}
+                      required
+                    >
+                      <option value="" disabled>-- Select a Brand --</option>
+                      {availableBrands.map((b) => (
+                        <option key={b} value={b}>
+                          {b}
+                        </option>
+                      ))}
+                      <option value="__custom__">+ Enter Custom / New Brand...</option>
+                    </select>
+                  </div>
+                ) : (
+                  <div className="relative flex items-center">
+                    {formState.brand && (
+                      <div className="absolute left-3 z-10 pointer-events-none flex items-center">
+                        <BrandLogo brand={formState.brand} size="xs" />
+                      </div>
+                    )}
+                    <input
+                      type="text"
+                      required
+                      placeholder="e.g. Apple, Samsung, Xiaomi"
+                      value={formState.brand}
+                      onChange={handleBrandChange}
+                      className={`w-full h-11 pr-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all ${
+                        formState.brand ? 'pl-9' : 'px-3'
+                      }`}
+                      autoFocus
+                    />
+                  </div>
+                )}
               </div>
               <div className="space-y-1.5">
                 <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider">Model Name *</label>
