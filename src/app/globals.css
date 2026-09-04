@@ -2,99 +2,196 @@
 
 :root,
 [data-theme="light"] {
-  /* Ocean Blue light theme values */
-  --bg-app: #F1F5F9;
-  --bg-surface: #FFFFFF;
-  --bg-surface-hover: #F8FAFC;
-  --bg-surface-elevated: #F8FAFC;
-  --border-theme: #E2E8F0;
-  --text-primary: #0F172A;
-  --text-secondary: #64748B;
+  /* TrueSpecs product-lab palette (Light) */
+  --ts-bg: #F6F8FB;
+  --ts-bg-elevated: #FFFFFF;
+  --ts-card: #FFFFFF;
+  --ts-card-hover: #F0F4F8;
+  --ts-fg: #111827;
+  --ts-fg-muted: #5F6875;
+  --ts-fg-subtle: #8A94A6;
+  --ts-border: #DFE5EE;
+  --ts-border-strong: #B8C4D4;
+  --ts-primary: #2563EB;
+  --ts-primary-hover: #1D4ED8;
+  --ts-primary-fg: #FFFFFF;
+  --ts-accent-2: #0F766E;
+  --ts-accent-2-bg: #E6FFFA;
+  --ts-accent-3: #B45309;
+  --ts-accent-3-bg: #FFF7ED;
+  --ts-success: #15803D;
+  --ts-success-bg: #ECFDF3;
+  --ts-warning: #B45309;
+  --ts-warning-bg: #FFF7ED;
+  --ts-danger: #DC2626;
+  --ts-danger-bg: #FFF1F2;
+  --ts-wishlist: #E11D48;
+  --ts-wishlist-bg: #FFF1F2;
+  --ts-secondary: #EEF2F7;
+  --ts-secondary-hover: #E3EAF3;
+  --ts-ring-track: #E2E8F0;
+  --ts-hero-bg: #EDF2F8;
+  --ts-hero-ink: #0F172A;
+  --ts-shadow: 0 1px 2px rgba(16,24,40,0.05), 0 1px 3px rgba(16,24,40,0.08);
+  --ts-shadow-md: 0 10px 24px rgba(16,24,40,0.10);
+  --ts-shadow-lg: 0 18px 48px rgba(16,24,40,0.14);
 
-  /* Premium blue accent */
-  --color-accent: #2563EB;
-  --color-accent-hover: #1D4ED8;
+  /* Mapping old vars to new tokens to avoid breaking other pages */
+  --bg-app: var(--ts-bg);
+  --bg-surface: var(--ts-card);
+  --bg-surface-hover: var(--ts-card-hover);
+  --bg-surface-elevated: var(--ts-bg-elevated);
+  --border-theme: var(--ts-border);
+  --text-primary: var(--ts-fg);
+  --text-secondary: var(--ts-fg-muted);
+
+  --color-accent: var(--ts-primary);
+  --color-accent-hover: var(--ts-primary-hover);
   --color-accent-active: #1E40AF;
-  --color-accent-bg: rgba(37, 99, 235, 0.08);
+  --color-accent-bg: rgba(37, 99, 235, 0.10);
 
-  /* Semantic status colors tuned to blue accent */
-  --color-success: #10B981;
-  --color-success-bg: rgba(16, 185, 129, 0.08);
-  --color-success-border: rgba(16, 185, 129, 0.2);
+  --color-success: var(--ts-success);
+  --color-success-bg: var(--ts-success-bg);
+  --color-success-border: rgba(22, 163, 74, 0.2);
 
-  --color-warning: #F59E0B;
-  --color-warning-bg: rgba(245, 158, 11, 0.08);
-  --color-warning-border: rgba(245, 158, 11, 0.2);
+  --color-warning: var(--ts-warning);
+  --color-warning-bg: var(--ts-warning-bg);
+  --color-warning-border: rgba(217, 119, 6, 0.2);
 
-  --color-danger: #EF4444;
-  --color-danger-bg: rgba(239, 68, 68, 0.08);
-  --color-danger-border: rgba(239, 68, 68, 0.2);
+  --color-danger: var(--ts-danger);
+  --color-danger-bg: var(--ts-danger-bg);
+  --color-danger-border: rgba(220, 38, 38, 0.2);
 
-  --color-accent-secondary: #4F46E5;
-  --color-accent-secondary-hover: #4338CA;
-  --color-accent-secondary-bg: rgba(79, 70, 229, 0.08);
-  --color-accent-secondary-border: rgba(79, 70, 229, 0.2);
+  --color-accent-secondary: var(--ts-secondary);
+  --color-accent-secondary-hover: var(--ts-secondary-hover);
+  --color-accent-secondary-bg: var(--ts-secondary);
+  --color-accent-secondary-border: var(--ts-border);
 
-  --color-category-phone: #2563EB;
-  --color-category-phone-bg: rgba(37, 99, 235, 0.08);
-  --color-category-laptop: #4F46E5;
-  --color-category-laptop-bg: rgba(79, 70, 229, 0.08);
+  --color-category-phone: var(--ts-primary);
+  --color-category-phone-bg: rgba(37, 99, 235, 0.10);
+  --color-category-laptop: var(--ts-accent-2);
+  --color-category-laptop-bg: rgba(15, 118, 110, 0.10);
 
-  --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.04), 0 2px 6px -1px rgba(0, 0, 0, 0.02);
-  --scrollbar-track: #F1F5F9;
-  --scrollbar-thumb: #CBD5E1;
+  --card-shadow: var(--ts-shadow-md);
+  --scrollbar-track: var(--ts-bg);
+  --scrollbar-thumb: var(--ts-border-strong);
 }
 
 [data-theme="dark"] {
-  /* Slate dark theme values */
-  --bg-app: #0B1120;
-  --bg-surface: #0F172A;
-  --bg-surface-hover: #1E293B;
-  --bg-surface-elevated: #1E293B;
-  --border-theme: #1E293B;
-  --text-primary: #F8FAFC;
-  --text-secondary: #94A3B8;
+  /* TrueSpecs product-lab palette (Dark) */
+  --ts-bg: #0F1115;
+  --ts-bg-elevated: #151922;
+  --ts-card: #171C25;
+  --ts-card-hover: #202838;
+  --ts-fg: #F4F7FB;
+  --ts-fg-muted: #AAB4C3;
+  --ts-fg-subtle: #6E7A8C;
+  --ts-border: #2B3442;
+  --ts-border-strong: #465469;
+  --ts-primary: #60A5FA;
+  --ts-primary-hover: #93C5FD;
+  --ts-primary-fg: #FFFFFF;
+  --ts-accent-2: #2DD4BF;
+  --ts-accent-2-bg: rgba(45,212,191,0.12);
+  --ts-accent-3: #FBBF24;
+  --ts-accent-3-bg: rgba(251,191,36,0.12);
+  --ts-success: #22C55E;
+  --ts-success-bg: rgba(34,197,94,0.12);
+  --ts-warning: #F59E0B;
+  --ts-warning-bg: rgba(245,158,11,0.12);
+  --ts-danger: #EF4444;
+  --ts-danger-bg: rgba(239,68,68,0.12);
+  --ts-wishlist: #FB7185;
+  --ts-wishlist-bg: rgba(251,113,133,0.12);
+  --ts-secondary: #202838;
+  --ts-secondary-hover: #293449;
+  --ts-ring-track: #2B3442;
+  --ts-hero-bg: #121722;
+  --ts-hero-ink: #F8FAFC;
+  --ts-shadow: 0 1px 2px rgba(0,0,0,0.30), 0 1px 3px rgba(0,0,0,0.35);
+  --ts-shadow-md: 0 10px 24px rgba(0,0,0,0.35);
+  --ts-shadow-lg: 0 18px 48px rgba(0,0,0,0.48);
 
-  /* Premium blue accent */
-  --color-accent: #3B82F6;
-  --color-accent-hover: #2563EB;
-  --color-accent-active: #1D4ED8;
-  --color-accent-bg: rgba(59, 130, 246, 0.15);
+  /* Mapping old vars to new tokens */
+  --bg-app: var(--ts-bg);
+  --bg-surface: var(--ts-card);
+  --bg-surface-hover: var(--ts-card-hover);
+  --bg-surface-elevated: var(--ts-bg-elevated);
+  --border-theme: var(--ts-border);
+  --text-primary: var(--ts-fg);
+  --text-secondary: var(--ts-fg-muted);
 
-  /* Semantic status colors tuned to accent */
-  --color-success: #10B981;
-  --color-success-bg: rgba(16, 185, 129, 0.12);
-  --color-success-border: rgba(16, 185, 129, 0.25);
+  --color-accent: var(--ts-primary);
+  --color-accent-hover: var(--ts-primary-hover);
+  --color-accent-active: #BFDBFE;
+  --color-accent-bg: rgba(96, 165, 250, 0.15);
 
-  --color-warning: #F59E0B;
-  --color-warning-bg: rgba(245, 158, 11, 0.12);
+  --color-success: var(--ts-success);
+  --color-success-bg: var(--ts-success-bg);
+  --color-success-border: rgba(34, 197, 94, 0.25);
+
+  --color-warning: var(--ts-warning);
+  --color-warning-bg: var(--ts-warning-bg);
   --color-warning-border: rgba(245, 158, 11, 0.25);
 
-  --color-danger: #EF4444;
-  --color-danger-bg: rgba(239, 68, 68, 0.12);
+  --color-danger: var(--ts-danger);
+  --color-danger-bg: var(--ts-danger-bg);
   --color-danger-border: rgba(239, 68, 68, 0.25);
 
-  --color-accent-secondary: #6366F1;
-  --color-accent-secondary-hover: #4F46E5;
-  --color-accent-secondary-bg: rgba(99, 102, 241, 0.12);
-  --color-accent-secondary-border: rgba(99, 102, 241, 0.25);
+  --color-accent-secondary: var(--ts-secondary);
+  --color-accent-secondary-hover: var(--ts-secondary-hover);
+  --color-accent-secondary-bg: var(--ts-secondary);
+  --color-accent-secondary-border: var(--ts-border);
 
-  --color-category-phone: #3B82F6;
-  --color-category-phone-bg: rgba(59, 130, 246, 0.10);
-  --color-category-laptop: #6366F1;
-  --color-category-laptop-bg: rgba(99, 102, 241, 0.10);
+  --color-category-phone: var(--ts-primary);
+  --color-category-phone-bg: rgba(96, 165, 250, 0.14);
+  --color-category-laptop: var(--ts-accent-2);
+  --color-category-laptop-bg: rgba(45, 212, 191, 0.12);
 
-  --card-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.4);
-  --scrollbar-track: #0B1120;
-  --scrollbar-thumb: #1E293B;
+  --card-shadow: var(--ts-shadow-md);
+  --scrollbar-track: var(--ts-bg);
+  --scrollbar-thumb: var(--ts-border-strong);
 }
 
 @theme {
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui;
-  --font-display: var(--font-space-grotesk), sans-serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-display: var(--font-space-grotesk), var(--font-inter), system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), 'SFMono-Regular', monospace;
 
-  /* Custom theme mapping for Tailwind v4 */
+  /* Figma TS colors */
+  --color-ts-bg: var(--ts-bg);
+  --color-ts-elevated: var(--ts-bg-elevated);
+  --color-ts-card: var(--ts-card);
+  --color-ts-card-hover: var(--ts-card-hover);
+  --color-ts-fg: var(--ts-fg);
+  --color-ts-muted: var(--ts-fg-muted);
+  --color-ts-subtle: var(--ts-fg-subtle);
+  --color-ts-border: var(--ts-border);
+  --color-ts-border-strong: var(--ts-border-strong);
+  --color-ts-primary: var(--ts-primary);
+  --color-ts-primary-hover: var(--ts-primary-hover);
+  --color-ts-primary-fg: var(--ts-primary-fg);
+  --color-ts-accent-2: var(--ts-accent-2);
+  --color-ts-accent-2-bg: var(--ts-accent-2-bg);
+  --color-ts-accent-3: var(--ts-accent-3);
+  --color-ts-accent-3-bg: var(--ts-accent-3-bg);
+  --color-ts-success: var(--ts-success);
+  --color-ts-success-bg: var(--ts-success-bg);
+  --color-ts-warning: var(--ts-warning);
+  --color-ts-warning-bg: var(--ts-warning-bg);
+  --color-ts-danger: var(--ts-danger);
+  --color-ts-danger-bg: var(--ts-danger-bg);
+  --color-ts-wishlist: var(--ts-wishlist);
+  --color-ts-wishlist-bg: var(--ts-wishlist-bg);
+  --color-ts-secondary: var(--ts-secondary);
+  --color-ts-secondary-hover: var(--ts-secondary-hover);
+  --color-ts-ring-track: var(--ts-ring-track);
+
+  --shadow-ts-shadow: var(--ts-shadow);
+  --shadow-ts-shadow-md: var(--ts-shadow-md);
+  --shadow-ts-shadow-lg: var(--ts-shadow-lg);
+
+  /* Custom theme mapping for existing classes */
   --color-accent: var(--color-accent);
   --color-accent-hover: var(--color-accent-hover);
   --color-accent-active: var(--color-accent-active);
@@ -143,33 +240,33 @@
 }
 
 body {
-  background-color: var(--bg-app);
+  background:
+    linear-gradient(180deg, var(--ts-hero-bg) 0, var(--bg-app) 340px),
+    var(--bg-app);
   color: var(--text-primary);
   font-family: var(--font-sans);
   overflow-y: scroll;
   transition: background-color 0.2s ease, color 0.2s ease;
+  --font-body: var(--font-sans);
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
+  letter-spacing: 0;
 }
 
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-::-webkit-scrollbar-track {
-  background: var(--scrollbar-track);
-}
-::-webkit-scrollbar-thumb {
-  background: var(--scrollbar-thumb);
-  border-radius: 4px;
-}
+/* Custom Scrollbar (Thin from Figma) */
+* { scrollbar-width: thin; scrollbar-color: var(--scrollbar-thumb) transparent; }
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 9px; }
 
 /* Tabular figures for spec grids */
 .font-tabular {
   font-variant-numeric: tabular-nums;
+}
+.tabnum { 
+  font-variant-numeric: tabular-nums; 
 }
 
 /* Theme Utilities */
@@ -269,6 +366,5 @@ img::before {
 .animate-pulse-cursor {
   animation: pulse-cursor 0.75s step-end infinite;
 }
-
 
 

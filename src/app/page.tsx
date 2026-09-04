@@ -1,242 +1,294 @@
 'use client';
 
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useMemo, useState } from 'react';
 import Link from 'next/link';
 import phonesData from '@/data/phones.json';
 import { Phone } from '@/types/phone';
 import PhoneCard from '@/components/PhoneCard';
+import {
+  ArrowRight,
+  BadgeCheck,
+  BarChart3,
+  Laptop,
+  Search,
+  ShieldCheck,
+  Smartphone,
+  Sparkles,
+  TrendingUp,
+} from 'lucide-react';
 
-function Typewriter() {
-  const words = ['Genuinely Right.', '100% Accurately.', 'Without Bias.', 'Transparently.'];
-  const [wordIndex, setWordIndex] = useState(0);
-  const [currentText, setCurrentText] = useState('');
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [typingSpeed, setTypingSpeed] = useState(150);
+type Category = 'phone' | 'laptop';
 
-  useEffect(() => {
-    let timer;
-    const currentWord = words[wordIndex];
+const CATEGORY_COPY: Record<Category, { label: string; placeholder: string; searches: string[]; brands: string[] }> = {
+  phone: {
+    label: 'Phones',
+    placeholder: 'Search iPhone, Galaxy, Snapdragon, camera OIS...',
+    searches: ['iPhone 16 Pro', 'Galaxy S25', 'Pixel 9 Pro', 'OnePlus 13', 'Nothing Phone'],
+    brands: ['Apple', 'Samsung', 'Google', 'OnePlus', 'Nothing', 'Xiaomi', 'Motorola', 'Realme'],
+  },
+  laptop: {
+    label: 'Laptops',
+    placeholder: 'Search MacBook, Ryzen AI, OLED, RTX, 32GB RAM...',
+    searches: ['MacBook M4', 'Dell XPS', 'ThinkPad', 'Zenbook OLED', 'Surface Laptop'],
+    brands: ['Apple', 'Dell', 'Asus', 'Lenovo', 'HP', 'Microsoft', 'Razer', 'Acer'],
+  },
+};
 
-    const handleTyping = () => {
-      if (!isDeleting) {
-        setCurrentText(currentWord.substring(0, currentText.length + 1));
-        setTypingSpeed(100);
+function priceOf(product: Phone) {
+  return product.price.amazonPrice || product.price.flipkartPrice || product.price.mrp;
+}
 
-        if (currentText === currentWord) {
-          setTypingSpeed(2000); // pause 2s at complete word
-          setIsDeleting(true);
-        }
-      } else {
-        setCurrentText(currentWord.substring(0, currentText.length - 1));
-        setTypingSpeed(50);
+function featuredByCategory(category: Category) {
+  const result: { product: Phone; configCount: number }[] = [];
+  const groups = new Map<string, Phone[]>();
 
-        if (currentText === '') {
-          setIsDeleting(false);
-          setWordIndex((prev) => (prev + 1) % words.length);
-          setTypingSpeed(500); // pause 0.5s before typing next word
-        }
+  (phonesData as Phone[])
+    .filter((item) => (item.category || 'phone') === category)
+    .sort((a, b) => b.specsScore - a.specsScore)
+    .forEach((product) => {
+      if (!product.variantGroupId) {
+        result.push({ product, configCount: 1 });
+        return;
       }
-    };
 
-    timer = setTimeout(handleTyping, typingSpeed);
-    return () => clearTimeout(timer);
-  }, [currentText, isDeleting, wordIndex, typingSpeed]);
+      if (!groups.has(product.variantGroupId)) {
+        groups.set(product.variantGroupId, []);
+      }
+      groups.get(product.variantGroupId)!.push(product);
+    });
 
-  return (
-    <span className="text-accent border-r-3 border-accent animate-pulse-cursor pr-1">
-      {currentText}
-    </span>
-  );
+  groups.forEach((groupProducts) => {
+    const representative = groupProducts.reduce((best, current) => {
+      return priceOf(current) < priceOf(best) ? current : best;
+    }, groupProducts[0]);
+
+    result.push({ product: representative, configCount: groupProducts.length });
+  });
+
+  return result.sort((a, b) => b.product.specsScore - a.product.specsScore);
 }
 
 export default function HomePage() {
-  const [activeCategory, setActiveCategory] = useState<'phone' | 'laptop'>('phone');
+  const [activeCategory, setActiveCategory] = useState<Category>('phone');
 
-  // Filter and sort items by category and specsScore
-  const featuredProducts = useMemo(() => {
-    const list = [...(phonesData as Phone[])]
-      .filter((item) => (item.category || 'phone') === activeCategory)
-      .sort((a, b) => b.specsScore - a.specsScore);
+  const featuredProducts = useMemo(() => featuredByCategory(activeCategory).slice(0, 6), [activeCategory]);
+  const heroProducts = featuredProducts.slice(0, 3);
+  const copy = CATEGORY_COPY[activeCategory];
 
-    const result: { product: Phone; configCount: number }[] = [];
-    const groupMap = new Map<string, Phone[]>();
-
-    list.forEach((p) => {
-      if (p.variantGroupId) {
-        if (!groupMap.has(p.variantGroupId)) {
-          groupMap.set(p.variantGroupId, []);
-        }
-        groupMap.get(p.variantGroupId)!.push(p);
-      } else {
-        result.push({ product: p, configCount: 1 });
-      }
-    });
-
-    groupMap.forEach((groupProducts) => {
-      const representative = groupProducts.reduce((min, curr) => {
-        const minPrice = min.price.amazonPrice || min.price.flipkartPrice || Infinity;
-        const currPrice = curr.price.amazonPrice || curr.price.flipkartPrice || Infinity;
-        return currPrice < minPrice ? curr : min;
-      }, groupProducts[0]);
-
-      result.push({
-        product: representative,
-        configCount: groupProducts.length,
-      });
-    });
-
-    return result
-      .sort((a, b) => b.product.specsScore - a.product.specsScore)
-      .slice(0, 4);
-  }, [activeCategory]);
-
-  const popularBrands = activeCategory === 'laptop'
-    ? ['Apple', 'Dell', 'HP', 'Lenovo', 'Asus', 'Acer']
-    : ['Apple', 'Samsung', 'OnePlus', 'Google', 'Nothing', 'Poco'];
+  const categoryCounts = useMemo(() => {
+    return (phonesData as Phone[]).reduce(
+      (acc, item) => {
+        const category = (item.category || 'phone') as Category;
+        acc[category] += 1;
+        return acc;
+      },
+      { phone: 0, laptop: 0 }
+    );
+  }, []);
 
   return (
-    <div className="space-y-16 py-8 md:py-16">
-      {/* Hero Section */}
-      <section className="text-center max-w-4xl mx-auto space-y-6">
-        <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-md bg-accent-secondary-bg text-accent-secondary border border-accent-secondary-border text-xs font-bold uppercase tracking-wider">
-          ✨ The Premium Specs Platform
-        </span>
-        <h1 className="text-4xl sm:text-6xl font-black text-theme-primary tracking-tight leading-none font-display">
-          Product Comparison <br />
-          <span className="block mt-2">
-            Done <Typewriter />
-          </span>
-        </h1>
-        <p className="text-sm sm:text-base text-theme-secondary max-w-2xl mx-auto leading-relaxed">
-          Say goodbye to incomplete technical details, missing camera samples, and broken filters that silently drop results. TrueSpecs gives you 100% verified, side-by-side specs with computed Specs Scores.
-        </p>
+    <div className="min-h-screen space-y-10 pb-16 text-theme-primary">
+      <section className="overflow-hidden rounded-lg border border-theme bg-[var(--ts-hero-bg)] shadow-ts-shadow">
+        <div className="relative p-5 sm:p-8 lg:p-10">
+          <div className="absolute inset-x-0 top-0 h-1 bg-[linear-gradient(90deg,var(--ts-primary),var(--ts-accent-2),var(--ts-accent-3))]" />
 
-        {/* Category Switcher Tabs */}
-        <div className="pt-4">
-          <div className="inline-flex rounded-xl bg-theme-surface border border-theme p-1.5">
-            <button
-              onClick={() => setActiveCategory('phone')}
-              className={`px-6 py-2 rounded-lg text-xs font-black uppercase tracking-wider transition-all cursor-pointer ${
-                activeCategory === 'phone' ? 'bg-category-phone text-white shadow-md'
-                  : 'text-theme-secondary hover:text-theme-primary'
-              }`}
-            >
-              Phones
-            </button>
-            <button
-              onClick={() => setActiveCategory('laptop')}
-              className={`px-6 py-2 rounded-lg text-xs font-black uppercase tracking-wider transition-all cursor-pointer ${
-                activeCategory === 'laptop' ? 'bg-category-laptop text-white shadow-md'
-                  : 'text-theme-secondary hover:text-theme-primary'
-              }`}
-            >
-              Laptops
-            </button>
+          <div className="max-w-3xl space-y-5">
+            <div className="inline-flex items-center gap-2 rounded-md border border-theme bg-theme-elevated px-3 py-1.5 text-xs font-bold text-theme-secondary shadow-ts-shadow">
+              <Sparkles className="h-3.5 w-3.5 text-ts-accent-3" />
+              Verified product intelligence
+            </div>
+
+            <div className="space-y-3">
+              <h1 className="font-display text-4xl font-black leading-none tracking-tight text-[var(--ts-hero-ink)] sm:text-5xl lg:text-6xl">
+                TrueSpecs
+              </h1>
+              <p className="max-w-2xl text-sm leading-6 text-theme-secondary sm:text-base">
+                Compare phones and laptops with clean specs, evidence-aware scores, live pricing, and side-by-side decisions that are easy to trust.
+              </p>
+            </div>
           </div>
-        </div>
 
-        {/* Large search input */}
-        <div className="max-w-2xl mx-auto pt-2">
-          <form action="/phones" method="GET" className="relative flex items-center">
-            <input type="hidden" name="category" value={activeCategory} />
-            <input
-              type="text"
-              name="q"
-              placeholder={
-                activeCategory === 'laptop'
-                  ? "Search by brand, CPU, RAM, GPU, display quality..."
-                  : "Search by brand, processor, display, OIS camera specs..."
-              }
-              className="w-full h-14 pl-6 pr-36 rounded-xl border border-theme bg-theme-surface text-theme-primary placeholder-theme-secondary focus:outline-none focus:ring-2 focus:ring-accent/40 focus:border-accent/40 text-sm sm:text-base transition-all shadow-xl"
-            />
-            <button
-              type="submit"
-              className="absolute right-2 top-1/2 -translate-y-1/2 h-10 px-6 rounded-lg bg-accent hover:bg-accent-hover text-white font-bold text-xs sm:text-sm hover:scale-102 transition-all shadow-md shadow-accent/10 cursor-pointer"
-            >
-              Search Specs
-            </button>
-          </form>
-        </div>
+          <div className="mt-7 grid gap-4 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
+            <div className="rounded-lg border border-theme bg-theme-elevated p-2 shadow-ts-shadow-md">
+              <form action="/phones" method="GET" className="grid gap-2 md:grid-cols-[auto_minmax(0,1fr)_auto] md:items-center">
+                <input type="hidden" name="category" value={activeCategory} />
+                <div className="grid grid-cols-2 gap-1 rounded-md bg-ts-secondary p-1">
+                  {(['phone', 'laptop'] as const).map((category) => {
+                    const Icon = category === 'phone' ? Smartphone : Laptop;
+                    const isActive = activeCategory === category;
 
-        {/* Popular Quick Filters */}
-        <div className="flex flex-wrap items-center justify-center gap-3 pt-2 text-xs">
-          <span className="text-theme-secondary font-bold uppercase tracking-wider">Popular Brands:</span>
-          {popularBrands.map((brand) => (
+                    return (
+                      <button
+                        key={category}
+                        type="button"
+                        onClick={() => setActiveCategory(category)}
+                        className="inline-flex h-10 items-center justify-center gap-2 rounded-md px-3 text-xs font-bold transition-colors"
+                        style={{
+                          backgroundColor: isActive ? 'var(--ts-card)' : 'transparent',
+                          color: isActive
+                            ? category === 'phone'
+                              ? 'var(--color-category-phone)'
+                              : 'var(--color-category-laptop)'
+                            : 'var(--ts-fg-muted)',
+                          boxShadow: isActive ? 'var(--ts-shadow)' : 'none',
+                        }}
+                      >
+                        <Icon className="h-4 w-4" />
+                        {CATEGORY_COPY[category].label}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                <label className="relative block">
+                  <Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-theme-secondary" />
+                  <input
+                    type="text"
+                    name="q"
+                    placeholder={copy.placeholder}
+                    className="h-12 w-full rounded-lg border border-transparent bg-theme-surface px-10 text-sm text-theme-primary outline-none transition-all placeholder:text-theme-secondary focus:border-accent/40 focus:ring-2 focus:ring-accent/20"
+                  />
+                </label>
+
+                <button
+                  type="submit"
+                  className="inline-flex h-12 items-center justify-center gap-2 rounded-lg bg-ts-primary px-5 text-sm font-bold text-white shadow-ts-shadow transition-all hover:bg-ts-primary-hover"
+                >
+                  Find Matches
+                  <ArrowRight className="h-4 w-4" />
+                </button>
+              </form>
+            </div>
+
             <Link
-              key={brand}
-              href={`/phones?category=${activeCategory}&brand=${brand}`}
-              className="px-3.5 py-1.5 rounded-lg border border-theme bg-theme-surface text-theme-secondary hover:text-theme-primary hover:bg-theme-surface-hover transition-all font-semibold"
+              href="/compare"
+              className="inline-flex h-12 items-center justify-center gap-2 rounded-lg border border-theme bg-theme-elevated px-5 text-sm font-bold text-theme-primary shadow-ts-shadow transition-all hover:border-accent/40 hover:text-accent"
             >
-              {brand}
+              Compare Tool
+              <BarChart3 className="h-4 w-4" />
             </Link>
-          ))}
+          </div>
+
+          <div className="mt-5 flex flex-wrap gap-2">
+            {copy.searches.map((query) => (
+              <Link
+                key={query}
+                href={`/phones?category=${activeCategory}&q=${encodeURIComponent(query)}`}
+                className="rounded-md border border-theme bg-theme-elevated px-3 py-1.5 text-xs font-semibold text-theme-secondary transition-all hover:border-accent/40 hover:text-theme-primary"
+              >
+                {query}
+              </Link>
+            ))}
+          </div>
+
+          <div className="mt-8 grid gap-3 md:grid-cols-3">
+            {heroProducts.map(({ product, configCount }, index) => (
+              <Link
+                key={product.id}
+                href={`/phones/${product.slug}`}
+                className="group grid grid-cols-[76px_minmax(0,1fr)] items-center gap-3 rounded-lg border border-theme bg-theme-elevated p-3 shadow-ts-shadow transition-all hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-ts-shadow-md"
+              >
+                <div className="flex aspect-square items-center justify-center rounded-md bg-ts-secondary p-2">
+                  <img src={product.images[0]} alt={product.model} className="h-full w-full object-contain transition-transform group-hover:scale-105" />
+                </div>
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wide text-ts-subtle">
+                    <span>#{index + 1}</span>
+                    <span>{configCount > 1 ? `${configCount} configs` : product.brand}</span>
+                  </div>
+                  <p className="mt-1 truncate text-sm font-extrabold text-theme-primary">{product.model}</p>
+                  <div className="mt-2 flex items-center gap-2">
+                    <span className="rounded-md bg-accent-bg px-2 py-1 font-mono text-[10px] font-bold text-accent">
+                      {product.specsScore}
+                    </span>
+                    <span className="truncate text-[11px] font-semibold text-theme-secondary">
+                      from {new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(priceOf(product))}
+                    </span>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* Differentiators Grid */}
-      <section className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-6 items-stretch">
-        <div className="rounded-xl border border-theme bg-theme-surface p-6 flex flex-col justify-start space-y-4 shadow-sm hover:border-accent/30 hover:shadow-lg hover:shadow-accent/5 transition-all duration-300 h-full">
-          <div className="h-10 w-10 rounded-lg bg-accent-bg text-accent flex items-center justify-center font-bold shrink-0">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
-            </svg>
+      <section className="grid gap-3 md:grid-cols-4">
+        {[
+          { label: 'Products indexed', value: `${categoryCounts.phone + categoryCounts.laptop}`, icon: BadgeCheck },
+          { label: 'Phone variants', value: `${categoryCounts.phone}`, icon: Smartphone },
+          { label: 'Laptop variants', value: `${categoryCounts.laptop}`, icon: Laptop },
+          { label: 'Score model', value: '5-axis', icon: TrendingUp },
+        ].map(({ label, value, icon: Icon }) => (
+          <div key={label} className="rounded-lg border border-theme bg-theme-elevated p-4 shadow-ts-shadow">
+            <div className="flex items-center justify-between gap-3">
+              <p className="text-xs font-bold uppercase tracking-wide text-theme-secondary">{label}</p>
+              <Icon className="h-4 w-4 text-ts-accent-2" />
+            </div>
+            <p className="mt-3 font-mono text-2xl font-bold text-theme-primary">{value}</p>
           </div>
-          <h3 className="text-base font-bold text-theme-primary tracking-tight font-display">100% Uncompromised Details</h3>
-          <p className="text-xs sm:text-sm text-theme-secondary leading-relaxed font-normal">
-            Competitors skip minor specs. We list Widevine levels, carrier aggregation bands, cooling systems, and materials. Unverified specs are flagged transparently, never hidden.
-          </p>
-        </div>
-
-        <div className="rounded-xl border border-theme bg-theme-surface p-6 flex flex-col justify-start space-y-4 shadow-sm hover:border-accent/30 hover:shadow-lg hover:shadow-accent/5 transition-all duration-300 h-full">
-          <div className="h-10 w-10 rounded-lg bg-accent-bg text-accent flex items-center justify-center font-bold shrink-0">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z" />
-            </svg>
-          </div>
-          <h3 className="text-base font-bold text-theme-primary tracking-tight font-display">Real Specs Verification</h3>
-          <p className="text-xs sm:text-sm text-theme-secondary leading-relaxed font-normal">
-            See actual verified ports, materials, and display color gamuts side-by-side. Unverified ratings are highlighted so you can make informed decisions.
-          </p>
-        </div>
-
-        <div className="rounded-xl border border-theme bg-theme-surface p-6 flex flex-col justify-start space-y-4 shadow-sm hover:border-accent/30 hover:shadow-lg hover:shadow-accent/5 transition-all duration-300 h-full">
-          <div className="h-10 w-10 rounded-lg bg-accent-bg text-accent flex items-center justify-center font-bold shrink-0">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 6a7.5 7.5 0 107.5 7.5h-7.5V6z" />
-              <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 10.5H21A7.5 7.5 0 0013.5 3v7.5z" />
-            </svg>
-          </div>
-          <h3 className="text-base font-bold text-theme-primary tracking-tight font-display">Weighted Specs Score</h3>
-          <p className="text-xs sm:text-sm text-theme-secondary leading-relaxed font-normal">
-            Our 0-100 dynamic scoring algorithm normalizes performance, screen, and battery configurations isolated by category to give you accurate insights.
-          </p>
-        </div>
+        ))}
       </section>
 
-      {/* Featured Products Section */}
-      <section className="space-y-6">
-        <div className="flex items-end justify-between">
+      <section className="space-y-5">
+        <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
           <div>
-            <h2 className="text-xl sm:text-2xl font-black text-theme-primary tracking-tight font-display">
-              Top Specs {activeCategory === 'laptop' ? 'Laptops' : 'Phones'}
+            <p className="font-mono text-xs font-bold uppercase tracking-wide text-ts-accent-2">Ranked by Specs Score</p>
+            <h2 className="mt-2 text-2xl font-black tracking-tight text-theme-primary sm:text-3xl">
+              Top {copy.label} Right Now
             </h2>
-            <p className="text-xs text-theme-secondary mt-1">Leading products in our database sorted by computed Specs Score.</p>
           </div>
+
           <Link
             href={`/phones?category=${activeCategory}`}
-            className="text-xs font-bold text-accent hover:text-accent-hover transition-colors flex items-center gap-1"
+            className="inline-flex h-10 items-center justify-center gap-2 rounded-lg border border-theme bg-theme-elevated px-4 text-xs font-bold text-theme-primary shadow-ts-shadow transition-all hover:border-accent/40 hover:text-accent"
           >
-            <span>View all {activeCategory === 'laptop' ? 'laptops' : 'phones'}</span>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-3.5 h-3.5">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-            </svg>
+            View All {copy.label}
+            <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
           {featuredProducts.map(({ product, configCount }) => (
             <PhoneCard key={product.id} phone={product} configCount={configCount} />
           ))}
+        </div>
+      </section>
+
+      <section className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_360px]">
+        <div className="rounded-lg border border-theme bg-theme-elevated p-5 shadow-ts-shadow">
+          <div className="flex items-center gap-2">
+            <ShieldCheck className="h-5 w-5 text-success" />
+            <h2 className="text-lg font-black text-theme-primary">Decision Signals</h2>
+          </div>
+
+          <div className="mt-5 grid gap-3 sm:grid-cols-3">
+            {[
+              { label: 'Verified specs', value: 'Official and checked fields stay visibly separated from in-review fields.' },
+              { label: 'Weighted scores', value: 'Performance, display, battery, build, and camera value are blended into one scan-ready score.' },
+              { label: 'Store comparison', value: 'Amazon and Flipkart prices stay close to the decision point on product detail pages.' },
+            ].map((item) => (
+              <div key={item.label} className="border-l-2 border-ts-accent-2 pl-3">
+                <h3 className="text-sm font-extrabold text-theme-primary">{item.label}</h3>
+                <p className="mt-1 text-xs leading-5 text-theme-secondary">{item.value}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="rounded-lg border border-theme bg-theme-elevated p-5 shadow-ts-shadow">
+          <h2 className="text-lg font-black text-theme-primary">Browse Brands</h2>
+          <p className="mt-1 text-xs text-theme-secondary">Jump straight into the makers people compare most.</p>
+          <div className="mt-4 flex flex-wrap gap-2">
+            {copy.brands.map((brand) => (
+              <Link
+                key={brand}
+                href={`/phones?category=${activeCategory}&brand=${brand}`}
+                className="rounded-md border border-theme bg-theme-surface px-3 py-2 text-xs font-bold text-theme-secondary transition-all hover:border-accent/40 hover:text-theme-primary"
+              >
+                {brand}
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
     </div>
