@@ -27,14 +27,14 @@ function ImagePreview({ url }: { url: string }) {
 
   if (error) {
     return (
-      <div className="h-12 w-12 shrink-0 rounded-lg border border-rose-950 bg-rose-950/20 text-rose-400 text-[9px] flex items-center justify-center font-bold text-center p-1 leading-none">
+      <div className="h-12 w-12 shrink-0 rounded-lg border border-rose-200 bg-rose-50 text-rose-600 text-[9px] flex items-center justify-center font-bold text-center p-1 leading-none">
         Broken Image
       </div>
     );
   }
 
   return (
-    <div className="h-12 w-12 shrink-0 rounded-lg border border-zinc-800 bg-zinc-900 overflow-hidden flex items-center justify-center">
+    <div className="h-12 w-12 shrink-0 rounded-lg border border-theme bg-theme-surface overflow-hidden flex items-center justify-center">
       <img
         src={url}
         alt="Preview"
@@ -801,8 +801,8 @@ export default function PhoneForm({ initialPhone, allPhones }: PhoneFormProps) {
       {toast && (
         <div className={`fixed top-5 right-5 z-55 flex items-center gap-2 px-4 py-3 rounded-lg border text-sm font-semibold shadow-lg transition-all ${
           toast.type === 'success' 
-            ? 'bg-emerald-950/80 border-emerald-800 text-emerald-400' 
-            : 'bg-rose-950/80 border-rose-800 text-rose-400'
+            ? 'bg-emerald-600 border-emerald-500 text-white' 
+            : 'bg-rose-600 border-rose-500 text-white text-rose-600'
         }`}>
           <span>{toast.type === 'success' ? '✓' : '⚠️'}</span>
           <span>{toast.message}</span>
@@ -810,12 +810,12 @@ export default function PhoneForm({ initialPhone, allPhones }: PhoneFormProps) {
       )}
 
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-zinc-800/80 pb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-theme/80 pb-6">
         <div>
           <h1 className="text-3xl font-black tracking-tight text-white">
             {initialPhone ? `Edit Specs: ${initialPhone.brand} ${initialPhone.model}` : (formState.category === 'laptop' ? 'Add New Laptop' : 'Add New Phone')}
           </h1>
-          <p className="text-sm text-zinc-400 mt-1">
+          <p className="text-sm text-theme-secondary mt-1">
             Fill in the detailed technical specifications below. Drafts are autosaved locally.
           </p>
         </div>
@@ -845,17 +845,17 @@ export default function PhoneForm({ initialPhone, allPhones }: PhoneFormProps) {
         <div className="lg:col-span-2 space-y-6">
           
           {/* SECTION 1: BASIC INFO */}
-          <div className="rounded-2xl border border-zinc-800/80 bg-zinc-900/10 p-6 space-y-4">
-            <h3 className="text-sm font-extrabold text-zinc-300 uppercase tracking-wide border-b border-zinc-800/60 pb-2">
+          <div className="rounded-2xl border border-theme bg-theme-surface shadow-xs p-6 space-y-4">
+            <h3 className="text-sm font-extrabold text-theme-primary uppercase tracking-wide border-b border-theme pb-2">
               Basic Information
             </h3>
             {/* Category Selector */}
             <div className="space-y-1.5">
-              <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider block">Category *</label>
+              <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider block">Category *</label>
               <select
                 value={formState.category}
                 onChange={(e) => handleInputChange('root', 'category', e.target.value)}
-                className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all cursor-pointer"
+                className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all cursor-pointer"
               >
                 <option value="phone">Smartphone</option>
                 <option value="laptop">Laptop</option>
@@ -863,25 +863,25 @@ export default function PhoneForm({ initialPhone, allPhones }: PhoneFormProps) {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-1.5">
-                <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Brand Name *</label>
+                <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider">Brand Name *</label>
                 <input
                   type="text"
                   required
                   placeholder="e.g. Apple, Samsung, OnePlus"
                   value={formState.brand}
                   onChange={handleBrandChange}
-                  className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
+                  className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
                 />
               </div>
               <div className="space-y-1.5">
-                <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Model Name *</label>
+                <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider">Model Name *</label>
                 <input
                   type="text"
                   required
                   placeholder="e.g. Galaxy S24 Ultra, iPhone 15 Pro Max"
                   value={formState.model}
                   onChange={handleModelChange}
-                  className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
+                  className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
                 />
               </div>
             </div>
@@ -889,7 +889,7 @@ export default function PhoneForm({ initialPhone, allPhones }: PhoneFormProps) {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-1.5">
                 <div className="flex items-center justify-between">
-                  <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">URL Slug</label>
+                  <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider">URL Slug</label>
                   <button
                     type="button"
                     onClick={() => setManualSlug(!manualSlug)}
@@ -904,46 +904,46 @@ export default function PhoneForm({ initialPhone, allPhones }: PhoneFormProps) {
                   value={formState.slug}
                   disabled={!manualSlug}
                   onChange={(e) => handleInputChange('root', 'slug', e.target.value)}
-                  className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all disabled:opacity-50 disabled:bg-zinc-900/20"
+                  className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all disabled:opacity-50 disabled:bg-theme-surface-hover"
                 />
               </div>
               <div className="space-y-1.5">
-                <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Release Date</label>
+                <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider">Release Date</label>
                 <input
                   type="date"
                   value={formState.releaseDate}
                   onChange={(e) => handleInputChange('root', 'releaseDate', e.target.value)}
-                  className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
+                  className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
                 />
               </div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-1.5">
-                <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider block">Variant Group ID (Optional)</label>
+                <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider block">Variant Group ID (Optional)</label>
                 <input
                   type="text"
                   placeholder="e.g. asus-zenbook-14, google-pixel-9"
                   value={formState.variantGroupId || ''}
                   onChange={(e) => handleInputChange('root', 'variantGroupId', e.target.value)}
-                  className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
+                  className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
                 />
               </div>
               <div className="space-y-1.5">
-                <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider block">Variant Label (Optional)</label>
+                <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider block">Variant Label (Optional)</label>
                 <input
                   type="text"
                   placeholder="e.g. Core i7 / 16GB / 512GB"
                   value={formState.variantLabel || ''}
                   onChange={(e) => handleInputChange('root', 'variantLabel', e.target.value)}
-                  className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
+                  className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
                 />
               </div>
             </div>
 
             {/* Images list with thumbnail previews */}
             <div className="space-y-3">
-              <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider block">Images (URLs)</label>
+              <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider block">Images (URLs)</label>
               {formState.images.map((imgUrl, idx) => (
                 <div key={idx} className="flex items-center gap-3">
                   <input
@@ -951,13 +951,13 @@ export default function PhoneForm({ initialPhone, allPhones }: PhoneFormProps) {
                     placeholder="https://images.unsplash.com/photo-..."
                     value={imgUrl}
                     onChange={(e) => handleImageChange(idx, e.target.value)}
-                    className="flex-1 h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
+                    className="flex-1 h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
                   />
                   <ImagePreview url={imgUrl} />
                   <button
                     type="button"
                     onClick={() => removeImageRow(idx)}
-                    className="h-11 w-11 rounded-lg border border-zinc-850 bg-zinc-900/10 hover:bg-zinc-800/40 text-zinc-400 hover:text-rose-400 flex items-center justify-center shrink-0 transition-all"
+                    className="h-11 w-11 rounded-lg border border-theme bg-theme-surface hover:bg-theme-surface-hover text-theme-secondary hover:text-rose-600 flex items-center justify-center shrink-0 transition-all"
                   >
                     ×
                   </button>
@@ -966,7 +966,7 @@ export default function PhoneForm({ initialPhone, allPhones }: PhoneFormProps) {
               <button
                 type="button"
                 onClick={addImageRow}
-                className="w-full h-10 rounded-lg border border-dashed border-zinc-800 hover:border-zinc-700 bg-zinc-900/5 hover:bg-zinc-900/20 text-zinc-400 hover:text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition-all"
+                className="w-full h-10 rounded-lg border border-dashed border-theme hover:border-theme bg-theme-surface-hover hover:bg-theme-surface-hover text-theme-secondary hover:text-theme-primary text-xs font-semibold flex items-center justify-center gap-1.5 transition-all"
               >
                 + Add Image URL
               </button>
@@ -974,61 +974,61 @@ export default function PhoneForm({ initialPhone, allPhones }: PhoneFormProps) {
           </div>
 
           {/* SECTION 2: PRICING */}
-          <div className="rounded-2xl border border-zinc-800/80 bg-zinc-900/10 p-6 space-y-4">
-            <h3 className="text-sm font-extrabold text-zinc-300 uppercase tracking-wide border-b border-zinc-800/60 pb-2">
+          <div className="rounded-2xl border border-theme bg-theme-surface shadow-xs p-6 space-y-4">
+            <h3 className="text-sm font-extrabold text-theme-primary uppercase tracking-wide border-b border-theme pb-2">
               Pricing & Affiliate Links
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div className="space-y-1.5">
-                <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">MRP (INR)</label>
+                <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider">MRP (INR)</label>
                 <input
                   type="number"
                   placeholder="159900"
                   value={formState.price.mrp}
                   onChange={(e) => handleInputChange('price', 'mrp', e.target.value)}
-                  className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
+                  className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
                 />
               </div>
               <div className="space-y-1.5">
-                <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Amazon Price (INR)</label>
+                <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider">Amazon Price (INR)</label>
                 <input
                   type="number"
                   placeholder="148900"
                   value={formState.price.amazonPrice}
                   onChange={(e) => handleInputChange('price', 'amazonPrice', e.target.value)}
-                  className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
+                  className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
                 />
               </div>
               <div className="space-y-1.5">
-                <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Flipkart Price (INR)</label>
+                <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider">Flipkart Price (INR)</label>
                 <input
                   type="number"
                   placeholder="149900"
                   value={formState.price.flipkartPrice}
                   onChange={(e) => handleInputChange('price', 'flipkartPrice', e.target.value)}
-                  className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
+                  className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
                 />
               </div>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-1.5">
-                <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Amazon Affiliate URL</label>
+                <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider">Amazon Affiliate URL</label>
                 <input
                   type="text"
                   placeholder="https://www.amazon.in/dp/..."
                   value={formState.affiliateLinks.amazon}
                   onChange={(e) => handleInputChange('affiliateLinks', 'amazon', e.target.value)}
-                  className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
+                  className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
                 />
               </div>
               <div className="space-y-1.5">
-                <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Flipkart Affiliate URL</label>
+                <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider">Flipkart Affiliate URL</label>
                 <input
                   type="text"
                   placeholder="https://www.flipkart.com/..."
                   value={formState.affiliateLinks.flipkart}
                   onChange={(e) => handleInputChange('affiliateLinks', 'flipkart', e.target.value)}
-                  className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
+                  className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
                 />
               </div>
             </div>
@@ -1044,85 +1044,85 @@ export default function PhoneForm({ initialPhone, allPhones }: PhoneFormProps) {
               <>
 
             {/* A. Laptop Display Specs */}
-            <div className="rounded-2xl border border-zinc-800/80 bg-zinc-900/10 overflow-hidden">
+            <div className="rounded-2xl border border-theme bg-theme-surface shadow-xs overflow-hidden">
               <button
                 type="button"
                 onClick={() => toggleSection('display')}
-                className="w-full px-6 py-4 flex items-center justify-between bg-zinc-900/25 border-b border-zinc-800/50 hover:bg-zinc-900/40 transition-all"
+                className="w-full px-6 py-4 flex items-center justify-between bg-theme-surface/25 border-b border-theme hover:bg-theme-surface-hover transition-all"
               >
-                <span className="font-extrabold text-zinc-300 text-sm tracking-wide uppercase">1. Display Specs</span>
-                <span className="text-zinc-500 text-lg">{openSections.display ? '−' : '+'}</span>
+                <span className="font-extrabold text-theme-primary text-sm tracking-wide uppercase">1. Display Specs</span>
+                <span className="text-theme-secondary text-lg">{openSections.display ? '−' : '+'}</span>
               </button>
 
               {openSections.display && (
                 <div className="p-6 space-y-4 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
                   <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Display Size (inches)</label>
+                    <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider">Display Size (inches)</label>
                     <input
                       type="number"
                       step="0.1"
                       placeholder="e.g. 13.3"
                       value={formState.laptopSpecs.display.size}
                       onChange={(e) => handleLaptopSpecChange('display', 'size', e.target.value)}
-                      className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
+                      className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Resolution</label>
+                    <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider">Resolution</label>
                     <input
                       type="text"
                       placeholder="e.g. 2560 x 1600"
                       value={formState.laptopSpecs.display.resolution}
                       onChange={(e) => handleLaptopSpecChange('display', 'resolution', e.target.value)}
-                      className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
+                      className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Panel Type</label>
+                    <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider">Panel Type</label>
                     <input
                       type="text"
                       placeholder="e.g. IPS, OLED, Mini LED"
                       value={formState.laptopSpecs.display.panelType}
                       onChange={(e) => handleLaptopSpecChange('display', 'panelType', e.target.value)}
-                      className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
+                      className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Refresh Rate (Hz)</label>
+                    <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider">Refresh Rate (Hz)</label>
                     <input
                       type="number"
                       placeholder="e.g. 60, 120"
                       value={formState.laptopSpecs.display.refreshRate}
                       onChange={(e) => handleLaptopSpecChange('display', 'refreshRate', e.target.value)}
-                      className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
+                      className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Brightness (nits)</label>
+                    <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider">Brightness (nits)</label>
                     <input
                       type="number"
                       placeholder="e.g. 400"
                       value={formState.laptopSpecs.display.brightness}
                       onChange={(e) => handleLaptopSpecChange('display', 'brightness', e.target.value)}
-                      className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
+                      className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Color Gamut (% sRGB)</label>
+                    <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider">Color Gamut (% sRGB)</label>
                     <input
                       type="number"
                       placeholder="e.g. 100"
                       value={formState.laptopSpecs.display.colorGamutSRGBPercent}
                       onChange={(e) => handleLaptopSpecChange('display', 'colorGamutSRGBPercent', e.target.value)}
-                      className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
+                      className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider block">Touchscreen</label>
+                    <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider block">Touchscreen</label>
                     <select
                       value={formState.laptopSpecs.display.touchscreen}
                       onChange={(e) => handleLaptopSpecChange('display', 'touchscreen', e.target.value)}
-                      className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all cursor-pointer"
+                      className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all cursor-pointer"
                     >
                       <option value="no">No</option>
                       <option value="yes">Yes</option>
@@ -1133,24 +1133,24 @@ export default function PhoneForm({ initialPhone, allPhones }: PhoneFormProps) {
             </div>
 
             {/* B. Laptop Performance Specs */}
-            <div className="rounded-2xl border border-zinc-800/80 bg-zinc-900/10 overflow-hidden">
+            <div className="rounded-2xl border border-theme bg-theme-surface shadow-xs overflow-hidden">
               <button
                 type="button"
                 onClick={() => toggleSection('performance')}
-                className="w-full px-6 py-4 flex items-center justify-between bg-zinc-900/25 border-b border-zinc-800/50 hover:bg-zinc-900/40 transition-all"
+                className="w-full px-6 py-4 flex items-center justify-between bg-theme-surface/25 border-b border-theme hover:bg-theme-surface-hover transition-all"
               >
-                <span className="font-extrabold text-zinc-300 text-sm tracking-wide uppercase">2. Performance & Hardware</span>
-                <span className="text-zinc-500 text-lg">{openSections.performance ? '−' : '+'}</span>
+                <span className="font-extrabold text-theme-primary text-sm tracking-wide uppercase">2. Performance & Hardware</span>
+                <span className="text-theme-secondary text-lg">{openSections.performance ? '−' : '+'}</span>
               </button>
 
               {openSections.performance && (
                 <div className="p-6 space-y-4 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
                   <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider block">CPU Brand</label>
+                    <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider block">CPU Brand</label>
                     <select
                       value={formState.laptopSpecs.performance.cpuBrand}
                       onChange={(e) => handleLaptopSpecChange('performance', 'cpuBrand', e.target.value)}
-                      className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all cursor-pointer"
+                      className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all cursor-pointer"
                     >
                       <option value="Intel">Intel</option>
                       <option value="AMD">AMD</option>
@@ -1159,103 +1159,103 @@ export default function PhoneForm({ initialPhone, allPhones }: PhoneFormProps) {
                     </select>
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">CPU Model</label>
+                    <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider">CPU Model</label>
                     <input
                       type="text"
                       placeholder="e.g. Core i7-13700H"
                       value={formState.laptopSpecs.performance.cpuModel}
                       onChange={(e) => handleLaptopSpecChange('performance', 'cpuModel', e.target.value)}
-                      className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
+                      className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">CPU Generation</label>
+                    <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider">CPU Generation</label>
                     <input
                       type="text"
                       placeholder="e.g. 13th Gen"
                       value={formState.laptopSpecs.performance.cpuGeneration}
                       onChange={(e) => handleLaptopSpecChange('performance', 'cpuGeneration', e.target.value)}
-                      className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
+                      className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">CPU Cores Count</label>
+                    <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider">CPU Cores Count</label>
                     <input
                       type="number"
                       placeholder="e.g. 10"
                       value={formState.laptopSpecs.performance.cpuCores}
                       onChange={(e) => handleLaptopSpecChange('performance', 'cpuCores', e.target.value)}
-                      className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
+                      className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider block">GPU Type</label>
+                    <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider block">GPU Type</label>
                     <select
                       value={formState.laptopSpecs.performance.gpuType}
                       onChange={(e) => handleLaptopSpecChange('performance', 'gpuType', e.target.value)}
-                      className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all cursor-pointer"
+                      className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all cursor-pointer"
                     >
                       <option value="integrated">Integrated</option>
                       <option value="dedicated">Dedicated</option>
                     </select>
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">GPU Model</label>
+                    <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider">GPU Model</label>
                     <input
                       type="text"
                       placeholder="e.g. NVIDIA GeForce RTX 4060"
                       value={formState.laptopSpecs.performance.gpuModel}
                       onChange={(e) => handleLaptopSpecChange('performance', 'gpuModel', e.target.value)}
-                      className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
+                      className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">GPU VRAM</label>
+                    <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider">GPU VRAM</label>
                     <input
                       type="text"
                       placeholder="e.g. 8GB GDDR6, Shared"
                       value={formState.laptopSpecs.performance.gpuVRAM}
                       onChange={(e) => handleLaptopSpecChange('performance', 'gpuVRAM', e.target.value)}
-                      className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
+                      className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">RAM Size (GB)</label>
+                    <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider">RAM Size (GB)</label>
                     <input
                       type="number"
                       placeholder="e.g. 16"
                       value={formState.laptopSpecs.performance.ramSize}
                       onChange={(e) => handleLaptopSpecChange('performance', 'ramSize', e.target.value)}
-                      className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
+                      className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">RAM Type</label>
+                    <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider">RAM Type</label>
                     <input
                       type="text"
                       placeholder="e.g. DDR5, LPDDR5X"
                       value={formState.laptopSpecs.performance.ramType}
                       onChange={(e) => handleLaptopSpecChange('performance', 'ramType', e.target.value)}
-                      className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
+                      className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider block">RAM Upgradeable</label>
+                    <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider block">RAM Upgradeable</label>
                     <select
                       value={formState.laptopSpecs.performance.ramUpgradeable}
                       onChange={(e) => handleLaptopSpecChange('performance', 'ramUpgradeable', e.target.value)}
-                      className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all cursor-pointer"
+                      className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all cursor-pointer"
                     >
                       <option value="no">No</option>
                       <option value="yes">Yes</option>
                     </select>
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider block">Storage Type</label>
+                    <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider block">Storage Type</label>
                     <select
                       value={formState.laptopSpecs.performance.storageType}
                       onChange={(e) => handleLaptopSpecChange('performance', 'storageType', e.target.value)}
-                      className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all cursor-pointer"
+                      className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all cursor-pointer"
                     >
                       <option value="SSD">SSD (PCIe NVMe)</option>
                       <option value="eMMC">eMMC</option>
@@ -1263,21 +1263,21 @@ export default function PhoneForm({ initialPhone, allPhones }: PhoneFormProps) {
                     </select>
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Storage Capacity</label>
+                    <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider">Storage Capacity</label>
                     <input
                       type="text"
                       placeholder="e.g. 512GB, 1TB"
                       value={formState.laptopSpecs.performance.storageCapacity}
                       onChange={(e) => handleLaptopSpecChange('performance', 'storageCapacity', e.target.value)}
-                      className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
+                      className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider block">Storage Upgradeable</label>
+                    <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider block">Storage Upgradeable</label>
                     <select
                       value={formState.laptopSpecs.performance.storageUpgradeable}
                       onChange={(e) => handleLaptopSpecChange('performance', 'storageUpgradeable', e.target.value)}
-                      className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all cursor-pointer"
+                      className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all cursor-pointer"
                     >
                       <option value="no">No</option>
                       <option value="yes">Yes</option>
@@ -1288,44 +1288,44 @@ export default function PhoneForm({ initialPhone, allPhones }: PhoneFormProps) {
             </div>
 
             {/* C. Laptop Battery Specs */}
-            <div className="rounded-2xl border border-zinc-800/80 bg-zinc-900/10 overflow-hidden">
+            <div className="rounded-2xl border border-theme bg-theme-surface shadow-xs overflow-hidden">
               <button
                 type="button"
                 onClick={() => toggleSection('battery')}
-                className="w-full px-6 py-4 flex items-center justify-between bg-zinc-900/25 border-b border-zinc-800/50 hover:bg-zinc-900/40 transition-all"
+                className="w-full px-6 py-4 flex items-center justify-between bg-theme-surface/25 border-b border-theme hover:bg-theme-surface-hover transition-all"
               >
-                <span className="font-extrabold text-zinc-300 text-sm tracking-wide uppercase">3. Battery & Power</span>
-                <span className="text-zinc-500 text-lg">{openSections.battery ? '−' : '+'}</span>
+                <span className="font-extrabold text-theme-primary text-sm tracking-wide uppercase">3. Battery & Power</span>
+                <span className="text-theme-secondary text-lg">{openSections.battery ? '−' : '+'}</span>
               </button>
 
               {openSections.battery && (
                 <div className="p-6 space-y-4 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
                   <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Battery Capacity (Wh)</label>
+                    <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider">Battery Capacity (Wh)</label>
                     <input
                       type="number"
                       placeholder="e.g. 70"
                       value={formState.laptopSpecs.battery.capacityWh}
                       onChange={(e) => handleLaptopSpecChange('battery', 'capacityWh', e.target.value)}
-                      className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
+                      className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Claimed Battery Life (Hours)</label>
+                    <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider">Claimed Battery Life (Hours)</label>
                     <input
                       type="number"
                       placeholder="e.g. 12"
                       value={formState.laptopSpecs.battery.claimedBatteryHours}
                       onChange={(e) => handleLaptopSpecChange('battery', 'claimedBatteryHours', e.target.value)}
-                      className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
+                      className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider block">Fast Charging</label>
+                    <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider block">Fast Charging</label>
                     <select
                       value={formState.laptopSpecs.battery.fastCharging}
                       onChange={(e) => handleLaptopSpecChange('battery', 'fastCharging', e.target.value)}
-                      className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all cursor-pointer"
+                      className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all cursor-pointer"
                     >
                       <option value="no">No</option>
                       <option value="yes">Yes</option>
@@ -1336,58 +1336,58 @@ export default function PhoneForm({ initialPhone, allPhones }: PhoneFormProps) {
             </div>
 
             {/* D. Laptop Build & Design Specs */}
-            <div className="rounded-2xl border border-zinc-800/80 bg-zinc-900/10 overflow-hidden">
+            <div className="rounded-2xl border border-theme bg-theme-surface shadow-xs overflow-hidden">
               <button
                 type="button"
                 onClick={() => toggleSection('build')}
-                className="w-full px-6 py-4 flex items-center justify-between bg-zinc-900/25 border-b border-zinc-800/50 hover:bg-zinc-900/40 transition-all"
+                className="w-full px-6 py-4 flex items-center justify-between bg-theme-surface/25 border-b border-theme hover:bg-theme-surface-hover transition-all"
               >
-                <span className="font-extrabold text-zinc-300 text-sm tracking-wide uppercase">4. Design & Build</span>
-                <span className="text-zinc-500 text-lg">{openSections.build ? '−' : '+'}</span>
+                <span className="font-extrabold text-theme-primary text-sm tracking-wide uppercase">4. Design & Build</span>
+                <span className="text-theme-secondary text-lg">{openSections.build ? '−' : '+'}</span>
               </button>
 
               {openSections.build && (
                 <div className="p-6 space-y-4 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
                   <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Weight (kg)</label>
+                    <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider">Weight (kg)</label>
                     <input
                       type="number"
                       step="0.01"
                       placeholder="e.g. 1.35"
                       value={formState.laptopSpecs.build.weight}
                       onChange={(e) => handleLaptopSpecChange('build', 'weight', e.target.value)}
-                      className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
+                      className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Thickness (mm)</label>
+                    <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider">Thickness (mm)</label>
                     <input
                       type="number"
                       step="0.1"
                       placeholder="e.g. 15.6"
                       value={formState.laptopSpecs.build.thickness}
                       onChange={(e) => handleLaptopSpecChange('build', 'thickness', e.target.value)}
-                      className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
+                      className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Chassis Material</label>
+                    <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider">Chassis Material</label>
                     <input
                       type="text"
                       placeholder="e.g. CNC Aluminum, Magnesium Alloy"
                       value={formState.laptopSpecs.build.chassisMaterial}
                       onChange={(e) => handleLaptopSpecChange('build', 'chassisMaterial', e.target.value)}
-                      className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
+                      className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Hinge Type</label>
+                    <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider">Hinge Type</label>
                     <input
                       type="text"
                       placeholder="e.g. Standard, 180-degree, 360-degree"
                       value={formState.laptopSpecs.build.hingeType}
                       onChange={(e) => handleLaptopSpecChange('build', 'hingeType', e.target.value)}
-                      className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
+                      className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
                     />
                   </div>
                 </div>
@@ -1395,77 +1395,77 @@ export default function PhoneForm({ initialPhone, allPhones }: PhoneFormProps) {
             </div>
 
             {/* E. Laptop Ports & Expansion Specs */}
-            <div className="rounded-2xl border border-zinc-800/80 bg-zinc-900/10 overflow-hidden">
+            <div className="rounded-2xl border border-theme bg-theme-surface shadow-xs overflow-hidden">
               <button
                 type="button"
                 onClick={() => toggleSection('camera')}
-                className="w-full px-6 py-4 flex items-center justify-between bg-zinc-900/25 border-b border-zinc-800/50 hover:bg-zinc-900/40 transition-all"
+                className="w-full px-6 py-4 flex items-center justify-between bg-theme-surface/25 border-b border-theme hover:bg-theme-surface-hover transition-all"
               >
-                <span className="font-extrabold text-zinc-300 text-sm tracking-wide uppercase">5. Ports & Expansion</span>
-                <span className="text-zinc-500 text-lg">{openSections.camera ? '−' : '+'}</span>
+                <span className="font-extrabold text-theme-primary text-sm tracking-wide uppercase">5. Ports & Expansion</span>
+                <span className="text-theme-secondary text-lg">{openSections.camera ? '−' : '+'}</span>
               </button>
 
               {openSections.camera && (
                 <div className="p-6 space-y-4 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
                   <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">USB-A Ports Count</label>
+                    <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider">USB-A Ports Count</label>
                     <input
                       type="number"
                       placeholder="e.g. 2"
                       value={formState.laptopSpecs.ports.usbACount}
                       onChange={(e) => handleLaptopSpecChange('ports', 'usbACount', e.target.value)}
-                      className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
+                      className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">USB-C Ports Count</label>
+                    <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider">USB-C Ports Count</label>
                     <input
                       type="number"
                       placeholder="e.g. 2"
                       value={formState.laptopSpecs.ports.usbCCount}
                       onChange={(e) => handleLaptopSpecChange('ports', 'usbCCount', e.target.value)}
-                      className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
+                      className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider block">Thunderbolt Support</label>
+                    <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider block">Thunderbolt Support</label>
                     <select
                       value={formState.laptopSpecs.ports.thunderboltSupport}
                       onChange={(e) => handleLaptopSpecChange('ports', 'thunderboltSupport', e.target.value)}
-                      className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all cursor-pointer"
+                      className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all cursor-pointer"
                     >
                       <option value="no">No</option>
                       <option value="yes">Yes</option>
                     </select>
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider block">HDMI Port</label>
+                    <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider block">HDMI Port</label>
                     <select
                       value={formState.laptopSpecs.ports.hdmiPort}
                       onChange={(e) => handleLaptopSpecChange('ports', 'hdmiPort', e.target.value)}
-                      className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all cursor-pointer"
+                      className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all cursor-pointer"
                     >
                       <option value="no">No</option>
                       <option value="yes">Yes</option>
                     </select>
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider block">SD Card Slot</label>
+                    <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider block">SD Card Slot</label>
                     <select
                       value={formState.laptopSpecs.ports.sdCardSlot}
                       onChange={(e) => handleLaptopSpecChange('ports', 'sdCardSlot', e.target.value)}
-                      className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all cursor-pointer"
+                      className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all cursor-pointer"
                     >
                       <option value="no">No</option>
                       <option value="yes">Yes (Full Size / Micro)</option>
                     </select>
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider block">Headphone Jack</label>
+                    <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider block">Headphone Jack</label>
                     <select
                       value={formState.laptopSpecs.ports.headphoneJack}
                       onChange={(e) => handleLaptopSpecChange('ports', 'headphoneJack', e.target.value)}
-                      className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all cursor-pointer"
+                      className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all cursor-pointer"
                     >
                       <option value="yes">Yes (3.5mm Combo)</option>
                       <option value="no">No</option>
@@ -1476,36 +1476,36 @@ export default function PhoneForm({ initialPhone, allPhones }: PhoneFormProps) {
             </div>
 
             {/* F. Laptop Connectivity Specs */}
-            <div className="rounded-2xl border border-zinc-800/80 bg-zinc-900/10 overflow-hidden">
+            <div className="rounded-2xl border border-theme bg-theme-surface shadow-xs overflow-hidden">
               <button
                 type="button"
                 onClick={() => toggleSection('connectivity')}
-                className="w-full px-6 py-4 flex items-center justify-between bg-zinc-900/25 border-b border-zinc-800/50 hover:bg-zinc-900/40 transition-all"
+                className="w-full px-6 py-4 flex items-center justify-between bg-theme-surface/25 border-b border-theme hover:bg-theme-surface-hover transition-all"
               >
-                <span className="font-extrabold text-zinc-300 text-sm tracking-wide uppercase">6. Connectivity & Wireless</span>
-                <span className="text-zinc-500 text-lg">{openSections.connectivity ? '−' : '+'}</span>
+                <span className="font-extrabold text-theme-primary text-sm tracking-wide uppercase">6. Connectivity & Wireless</span>
+                <span className="text-theme-secondary text-lg">{openSections.connectivity ? '−' : '+'}</span>
               </button>
 
               {openSections.connectivity && (
                 <div className="p-6 space-y-4 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
                   <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Wi-Fi Standard</label>
+                    <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider">Wi-Fi Standard</label>
                     <input
                       type="text"
                       placeholder="e.g. Wi-Fi 6E (802.11ax)"
                       value={formState.laptopSpecs.connectivity.wifiStandard}
                       onChange={(e) => handleLaptopSpecChange('connectivity', 'wifiStandard', e.target.value)}
-                      className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
+                      className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Bluetooth Version</label>
+                    <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider">Bluetooth Version</label>
                     <input
                       type="text"
                       placeholder="e.g. 5.3"
                       value={formState.laptopSpecs.connectivity.bluetoothVersion}
                       onChange={(e) => handleLaptopSpecChange('connectivity', 'bluetoothVersion', e.target.value)}
-                      className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
+                      className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
                     />
                   </div>
                 </div>
@@ -1513,34 +1513,34 @@ export default function PhoneForm({ initialPhone, allPhones }: PhoneFormProps) {
             </div>
 
             {/* G. Laptop OS Specs */}
-            <div className="rounded-2xl border border-zinc-800/80 bg-zinc-900/10 overflow-hidden">
+            <div className="rounded-2xl border border-theme bg-theme-surface shadow-xs overflow-hidden">
               <button
                 type="button"
                 onClick={() => toggleSection('os' as any)}
-                className="w-full px-6 py-4 flex items-center justify-between bg-zinc-900/25 border-b border-zinc-800/50 hover:bg-zinc-900/40 transition-all"
+                className="w-full px-6 py-4 flex items-center justify-between bg-theme-surface/25 border-b border-theme hover:bg-theme-surface-hover transition-all"
               >
-                <span className="font-extrabold text-zinc-300 text-sm tracking-wide uppercase">7. Operating System</span>
-                <span className="text-zinc-500 text-lg">{openSections.os ? '−' : '+'}</span>
+                <span className="font-extrabold text-theme-primary text-sm tracking-wide uppercase">7. Operating System</span>
+                <span className="text-theme-secondary text-lg">{openSections.os ? '−' : '+'}</span>
               </button>
 
               {openSections.os && (
                 <div className="p-6 space-y-4 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
                   <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Preinstalled OS</label>
+                    <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider">Preinstalled OS</label>
                     <input
                       type="text"
                       placeholder="e.g. Windows 11 Home, macOS Sonoma"
                       value={formState.laptopSpecs.os.preinstalledOS}
                       onChange={(e) => handleLaptopSpecChange('os', 'preinstalledOS', e.target.value)}
-                      className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
+                      className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider block">OS Upgradeable</label>
+                    <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider block">OS Upgradeable</label>
                     <select
                       value={formState.laptopSpecs.os.osUpgradeable}
                       onChange={(e) => handleLaptopSpecChange('os', 'osUpgradeable', e.target.value)}
-                      className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all cursor-pointer"
+                      className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all cursor-pointer"
                     >
                       <option value="yes">Yes</option>
                       <option value="no">No</option>
@@ -1560,75 +1560,75 @@ export default function PhoneForm({ initialPhone, allPhones }: PhoneFormProps) {
             </h3>
 
             {/* A. Display Specs */}
-            <div className="rounded-2xl border border-zinc-800/80 bg-zinc-900/10 overflow-hidden">
+            <div className="rounded-2xl border border-theme bg-theme-surface shadow-xs overflow-hidden">
               <button
                 type="button"
                 onClick={() => toggleSection('display')}
-                className="w-full px-6 py-4 flex items-center justify-between bg-zinc-900/25 border-b border-zinc-800/50 hover:bg-zinc-900/40 transition-all"
+                className="w-full px-6 py-4 flex items-center justify-between bg-theme-surface/25 border-b border-theme hover:bg-theme-surface-hover transition-all"
               >
-                <span className="font-extrabold text-zinc-300 text-sm tracking-wide uppercase">1. Display Specs</span>
-                <span className="text-zinc-500 text-lg">{openSections.display ? '−' : '+'}</span>
+                <span className="font-extrabold text-theme-primary text-sm tracking-wide uppercase">1. Display Specs</span>
+                <span className="text-theme-secondary text-lg">{openSections.display ? '−' : '+'}</span>
               </button>
 
               {openSections.display && (
                 <div className="p-6 space-y-4 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
                   <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Display Size (inches)</label>
+                    <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider">Display Size (inches)</label>
                     <input
                       type="number"
                       step="0.01"
                       placeholder="e.g. 6.7"
                       value={formState.specs.display.size}
                       onChange={(e) => handleSpecChange('display', 'size', e.target.value)}
-                      className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
+                      className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Resolution (Width x Height)</label>
+                    <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider">Resolution (Width x Height)</label>
                     <input
                       type="text"
                       placeholder="e.g. 2796 x 1290"
                       value={formState.specs.display.resolution}
                       onChange={(e) => handleSpecChange('display', 'resolution', e.target.value)}
-                      className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
+                      className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Panel Type</label>
+                    <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider">Panel Type</label>
                     <input
                       type="text"
                       placeholder="e.g. LTPO Super Retina XDR OLED"
                       value={formState.specs.display.type}
                       onChange={(e) => handleSpecChange('display', 'type', e.target.value)}
-                      className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
+                      className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Refresh Rate (Hz)</label>
+                    <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider">Refresh Rate (Hz)</label>
                     <input
                       type="number"
                       placeholder="e.g. 120"
                       value={formState.specs.display.refreshRate}
                       onChange={(e) => handleSpecChange('display', 'refreshRate', e.target.value)}
-                      className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
+                      className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Peak Brightness (nits)</label>
+                    <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider">Peak Brightness (nits)</label>
                     <input
                       type="number"
                       placeholder="e.g. 2000"
                       value={formState.specs.display.peakBrightness}
                       onChange={(e) => handleSpecChange('display', 'peakBrightness', e.target.value)}
-                      className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
+                      className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Widevine Level</label>
+                    <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider">Widevine Level</label>
                     <select
                       value={formState.specs.display.widevineLevel}
                       onChange={(e) => handleSpecChange('display', 'widevineLevel', e.target.value)}
-                      className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
+                      className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
                     >
                       <option value="L1">L1</option>
                       <option value="L3">L3</option>
@@ -1641,75 +1641,75 @@ export default function PhoneForm({ initialPhone, allPhones }: PhoneFormProps) {
                       type="checkbox"
                       checked={formState.specs.display.hdrSupport}
                       onChange={(e) => handleSpecChange('display', 'hdrSupport', e.target.checked)}
-                      className="h-4 w-4 rounded border-zinc-800 bg-zinc-950 text-accent focus:ring-accent"
+                      className="h-4 w-4 rounded border-theme bg-theme-elevated text-accent focus:ring-accent"
                     />
-                    <label htmlFor="hdrSupport" className="text-xs font-bold text-zinc-300 uppercase tracking-wider">HDR Support (HDR10/Dolby Vision)</label>
+                    <label htmlFor="hdrSupport" className="text-xs font-bold text-theme-primary uppercase tracking-wider">HDR Support (HDR10/Dolby Vision)</label>
                   </div>
                 </div>
               )}
             </div>
 
             {/* B. Performance Specs */}
-            <div className="rounded-2xl border border-zinc-800/80 bg-zinc-900/10 overflow-hidden">
+            <div className="rounded-2xl border border-theme bg-theme-surface shadow-xs overflow-hidden">
               <button
                 type="button"
                 onClick={() => toggleSection('performance')}
-                className="w-full px-6 py-4 flex items-center justify-between bg-zinc-900/25 border-b border-zinc-800/50 hover:bg-zinc-900/40 transition-all"
+                className="w-full px-6 py-4 flex items-center justify-between bg-theme-surface/25 border-b border-theme hover:bg-theme-surface-hover transition-all"
               >
-                <span className="font-extrabold text-zinc-300 text-sm tracking-wide uppercase">2. Performance Specs</span>
-                <span className="text-zinc-500 text-lg">{openSections.performance ? '−' : '+'}</span>
+                <span className="font-extrabold text-theme-primary text-sm tracking-wide uppercase">2. Performance Specs</span>
+                <span className="text-theme-secondary text-lg">{openSections.performance ? '−' : '+'}</span>
               </button>
 
               {openSections.performance && (
                 <div className="p-6 space-y-4 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
                   <div className="space-y-1.5 sm:col-span-2">
-                    <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Chipset (SoC)</label>
+                    <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider">Chipset (SoC)</label>
                     <input
                       type="text"
                       placeholder="e.g. Apple A17 Pro, Snapdragon 8 Gen 3"
                       value={formState.specs.performance.chipset}
                       onChange={(e) => handleSpecChange('performance', 'chipset', e.target.value)}
-                      className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
+                      className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">RAM Options (comma separated GBs)</label>
+                    <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider">RAM Options (comma separated GBs)</label>
                     <input
                       type="text"
                       placeholder="e.g. 8, 12"
                       value={formState.specs.performance.ram}
                       onChange={(e) => handleSpecChange('performance', 'ram', e.target.value)}
-                      className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
+                      className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Storage Options (comma separated GBs)</label>
+                    <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider">Storage Options (comma separated GBs)</label>
                     <input
                       type="text"
                       placeholder="e.g. 128, 256, 512, 1024"
                       value={formState.specs.performance.storage}
                       onChange={(e) => handleSpecChange('performance', 'storage', e.target.value)}
-                      className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
+                      className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">AnTuTu Score (optional)</label>
+                    <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider">AnTuTu Score (optional)</label>
                     <input
                       type="number"
                       placeholder="e.g. 1550000"
                       value={formState.specs.performance.antutu}
                       onChange={(e) => handleSpecChange('performance', 'antutu', e.target.value)}
-                      className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
+                      className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Cooling System (optional)</label>
+                    <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider">Cooling System (optional)</label>
                     <input
                       type="text"
                       placeholder="e.g. Dual Vapor Chamber, Graphite Sheets"
                       value={formState.specs.performance.coolingSystem}
                       onChange={(e) => handleSpecChange('performance', 'coolingSystem', e.target.value)}
-                      className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
+                      className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
                     />
                   </div>
                 </div>
@@ -1717,37 +1717,37 @@ export default function PhoneForm({ initialPhone, allPhones }: PhoneFormProps) {
             </div>
 
             {/* C. Camera Specs */}
-            <div className="rounded-2xl border border-zinc-800/80 bg-zinc-900/10 overflow-hidden">
+            <div className="rounded-2xl border border-theme bg-theme-surface shadow-xs overflow-hidden">
               <button
                 type="button"
                 onClick={() => toggleSection('camera')}
-                className="w-full px-6 py-4 flex items-center justify-between bg-zinc-900/25 border-b border-zinc-800/50 hover:bg-zinc-900/40 transition-all"
+                className="w-full px-6 py-4 flex items-center justify-between bg-theme-surface/25 border-b border-theme hover:bg-theme-surface-hover transition-all"
               >
-                <span className="font-extrabold text-zinc-300 text-sm tracking-wide uppercase">3. Camera Specs</span>
-                <span className="text-zinc-500 text-lg">{openSections.camera ? '−' : '+'}</span>
+                <span className="font-extrabold text-theme-primary text-sm tracking-wide uppercase">3. Camera Specs</span>
+                <span className="text-theme-secondary text-lg">{openSections.camera ? '−' : '+'}</span>
               </button>
 
               {openSections.camera && (
                 <div className="p-6 space-y-4">
                   {/* Rear Camera Lenses (Repeatable) */}
                   <div className="space-y-3">
-                    <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider block">Rear Lenses</label>
+                    <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider block">Rear Lenses</label>
                     {formState.specs.camera.rear.map((lens: any, idx: number) => (
-                      <div key={idx} className="flex flex-col sm:flex-row sm:items-center gap-3 border border-zinc-800 bg-zinc-950/20 p-3 rounded-lg">
+                      <div key={idx} className="flex flex-col sm:flex-row sm:items-center gap-3 border border-theme bg-theme-elevated/20 p-3 rounded-lg">
                         <div className="grid grid-cols-2 sm:flex sm:items-center gap-3 flex-1">
                           <input
                             type="number"
                             placeholder="MP (e.g. 48)"
                             value={lens.megapixel}
                             onChange={(e) => handleRearLensChange(idx, 'megapixel', e.target.value)}
-                            className="h-10 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm w-full sm:w-28 focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
+                            className="h-10 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm w-full sm:w-28 focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
                           />
                           <input
                             type="text"
                             placeholder="Type (e.g. Wide, Ultrawide)"
                             value={lens.type}
                             onChange={(e) => handleRearLensChange(idx, 'type', e.target.value)}
-                            className="h-10 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm flex-1 focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
+                            className="h-10 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm flex-1 focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
                           />
                         </div>
                         <div className="flex items-center justify-between sm:justify-start gap-4">
@@ -1756,14 +1756,14 @@ export default function PhoneForm({ initialPhone, allPhones }: PhoneFormProps) {
                               type="checkbox"
                               checked={lens.ois}
                               onChange={(e) => handleRearLensChange(idx, 'ois', e.target.checked)}
-                              className="h-4 w-4 rounded border-zinc-800 bg-zinc-950 text-accent focus:ring-accent"
+                              className="h-4 w-4 rounded border-theme bg-theme-elevated text-accent focus:ring-accent"
                             />
-                            <span className="text-xs font-bold text-zinc-400 uppercase tracking-wider">OIS</span>
+                            <span className="text-xs font-bold text-theme-secondary uppercase tracking-wider">OIS</span>
                           </label>
                           <button
                             type="button"
                             onClick={() => removeRearLens(idx)}
-                            className="h-9 px-3 rounded-lg border border-zinc-850 bg-zinc-900/10 hover:bg-zinc-850 hover:text-rose-400 text-zinc-400 transition-all text-xs font-bold"
+                            className="h-9 px-3 rounded-lg border border-theme bg-theme-surface hover:bg-theme-surface-hover hover:text-rose-600 text-theme-secondary transition-all text-xs font-bold"
                           >
                             Remove
                           </button>
@@ -1773,7 +1773,7 @@ export default function PhoneForm({ initialPhone, allPhones }: PhoneFormProps) {
                     <button
                       type="button"
                       onClick={addRearLens}
-                      className="w-full h-10 rounded-lg border border-dashed border-zinc-800 hover:border-zinc-700 bg-zinc-900/5 hover:bg-zinc-900/20 text-zinc-400 hover:text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition-all"
+                      className="w-full h-10 rounded-lg border border-dashed border-theme hover:border-theme bg-theme-surface-hover hover:bg-theme-surface-hover text-theme-secondary hover:text-theme-primary text-xs font-semibold flex items-center justify-center gap-1.5 transition-all"
                     >
                       + Add Lens Row
                     </button>
@@ -1781,23 +1781,23 @@ export default function PhoneForm({ initialPhone, allPhones }: PhoneFormProps) {
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-1.5">
-                      <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Front Camera (Megapixel details)</label>
+                      <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider">Front Camera (Megapixel details)</label>
                       <input
                         type="text"
                         placeholder="e.g. 12MP with OIS & Autofocus"
                         value={formState.specs.camera.front}
                         onChange={(e) => handleSpecChange('camera', 'front', e.target.value)}
-                        className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
+                        className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
                       />
                     </div>
                     <div className="space-y-1.5">
-                      <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Video Max Resolution & Stabilization</label>
+                      <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider">Video Max Resolution & Stabilization</label>
                       <input
                         type="text"
                         placeholder="e.g. 4K @ 60fps, ProRes, Action Mode (EIS)"
                         value={formState.specs.camera.video}
                         onChange={(e) => handleSpecChange('camera', 'video', e.target.value)}
-                        className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
+                        className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
                       />
                     </div>
                   </div>
@@ -1806,36 +1806,36 @@ export default function PhoneForm({ initialPhone, allPhones }: PhoneFormProps) {
             </div>
 
             {/* D. Battery Specs */}
-            <div className="rounded-2xl border border-zinc-800/80 bg-zinc-900/10 overflow-hidden">
+            <div className="rounded-2xl border border-theme bg-theme-surface shadow-xs overflow-hidden">
               <button
                 type="button"
                 onClick={() => toggleSection('battery')}
-                className="w-full px-6 py-4 flex items-center justify-between bg-zinc-900/25 border-b border-zinc-800/50 hover:bg-zinc-900/40 transition-all"
+                className="w-full px-6 py-4 flex items-center justify-between bg-theme-surface/25 border-b border-theme hover:bg-theme-surface-hover transition-all"
               >
-                <span className="font-extrabold text-zinc-300 text-sm tracking-wide uppercase">4. Battery & Charging</span>
-                <span className="text-zinc-500 text-lg">{openSections.battery ? '−' : '+'}</span>
+                <span className="font-extrabold text-theme-primary text-sm tracking-wide uppercase">4. Battery & Charging</span>
+                <span className="text-theme-secondary text-lg">{openSections.battery ? '−' : '+'}</span>
               </button>
 
               {openSections.battery && (
                 <div className="p-6 space-y-4 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
                   <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Battery Capacity (mAh)</label>
+                    <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider">Battery Capacity (mAh)</label>
                     <input
                       type="number"
                       placeholder="e.g. 5000"
                       value={formState.specs.battery.capacity}
                       onChange={(e) => handleSpecChange('battery', 'capacity', e.target.value)}
-                      className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
+                      className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Wired Charging Speed (Watts)</label>
+                    <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider">Wired Charging Speed (Watts)</label>
                     <input
                       type="number"
                       placeholder="e.g. 67"
                       value={formState.specs.battery.chargingSpeedWatts}
                       onChange={(e) => handleSpecChange('battery', 'chargingSpeedWatts', e.target.value)}
-                      className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
+                      className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
                     />
                   </div>
                   <div className="flex items-center gap-3 pt-2">
@@ -1844,9 +1844,9 @@ export default function PhoneForm({ initialPhone, allPhones }: PhoneFormProps) {
                       type="checkbox"
                       checked={formState.specs.battery.wirelessCharging}
                       onChange={(e) => handleSpecChange('battery', 'wirelessCharging', e.target.checked)}
-                      className="h-4 w-4 rounded border-zinc-800 bg-zinc-950 text-accent focus:ring-accent"
+                      className="h-4 w-4 rounded border-theme bg-theme-elevated text-accent focus:ring-accent"
                     />
-                    <label htmlFor="wirelessCharging" className="text-xs font-bold text-zinc-300 uppercase tracking-wider">Wireless Charging</label>
+                    <label htmlFor="wirelessCharging" className="text-xs font-bold text-theme-primary uppercase tracking-wider">Wireless Charging</label>
                   </div>
                   <div className="flex items-center gap-3 pt-2">
                     <input
@@ -1854,64 +1854,64 @@ export default function PhoneForm({ initialPhone, allPhones }: PhoneFormProps) {
                       type="checkbox"
                       checked={formState.specs.battery.reverseCharging}
                       onChange={(e) => handleSpecChange('battery', 'reverseCharging', e.target.checked)}
-                      className="h-4 w-4 rounded border-zinc-800 bg-zinc-950 text-accent focus:ring-accent"
+                      className="h-4 w-4 rounded border-theme bg-theme-elevated text-accent focus:ring-accent"
                     />
-                    <label htmlFor="reverseCharging" className="text-xs font-bold text-zinc-300 uppercase tracking-wider">Reverse Wireless Charging</label>
+                    <label htmlFor="reverseCharging" className="text-xs font-bold text-theme-primary uppercase tracking-wider">Reverse Wireless Charging</label>
                   </div>
                 </div>
               )}
             </div>
 
             {/* E. Build Specs */}
-            <div className="rounded-2xl border border-zinc-800/80 bg-zinc-900/10 overflow-hidden">
+            <div className="rounded-2xl border border-theme bg-theme-surface shadow-xs overflow-hidden">
               <button
                 type="button"
                 onClick={() => toggleSection('build')}
-                className="w-full px-6 py-4 flex items-center justify-between bg-zinc-900/25 border-b border-zinc-800/50 hover:bg-zinc-900/40 transition-all"
+                className="w-full px-6 py-4 flex items-center justify-between bg-theme-surface/25 border-b border-theme hover:bg-theme-surface-hover transition-all"
               >
-                <span className="font-extrabold text-zinc-300 text-sm tracking-wide uppercase">5. Build & Design</span>
-                <span className="text-zinc-500 text-lg">{openSections.build ? '−' : '+'}</span>
+                <span className="font-extrabold text-theme-primary text-sm tracking-wide uppercase">5. Build & Design</span>
+                <span className="text-theme-secondary text-lg">{openSections.build ? '−' : '+'}</span>
               </button>
 
               {openSections.build && (
                 <div className="p-6 space-y-4 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
                   <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Weight (grams)</label>
+                    <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider">Weight (grams)</label>
                     <input
                       type="number"
                       placeholder="e.g. 221"
                       value={formState.specs.build.weight}
                       onChange={(e) => handleSpecChange('build', 'weight', e.target.value)}
-                      className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
+                      className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Thickness (mm)</label>
+                    <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider">Thickness (mm)</label>
                     <input
                       type="number"
                       step="0.01"
                       placeholder="e.g. 8.25"
                       value={formState.specs.build.thickness}
                       onChange={(e) => handleSpecChange('build', 'thickness', e.target.value)}
-                      className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
+                      className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Materials Used</label>
+                    <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider">Materials Used</label>
                     <input
                       type="text"
                       placeholder="e.g. Titanium frame, Glass back"
                       value={formState.specs.build.materials}
                       onChange={(e) => handleSpecChange('build', 'materials', e.target.value)}
-                      className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
+                      className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">IP Water/Dust Rating</label>
+                    <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider">IP Water/Dust Rating</label>
                     <select
                       value={formState.specs.build.ipRating}
                       onChange={(e) => handleSpecChange('build', 'ipRating', e.target.value)}
-                      className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
+                      className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
                     >
                       <option value="IP68">IP68</option>
                       <option value="IP67">IP67</option>
@@ -1925,65 +1925,65 @@ export default function PhoneForm({ initialPhone, allPhones }: PhoneFormProps) {
                       type="checkbox"
                       checked={formState.specs.build.stereoSpeakers}
                       onChange={(e) => handleSpecChange('build', 'stereoSpeakers', e.target.checked)}
-                      className="h-4 w-4 rounded border-zinc-800 bg-zinc-950 text-accent focus:ring-accent"
+                      className="h-4 w-4 rounded border-theme bg-theme-elevated text-accent focus:ring-accent"
                     />
-                    <label htmlFor="stereoSpeakers" className="text-xs font-bold text-zinc-300 uppercase tracking-wider">Stereo Speakers</label>
+                    <label htmlFor="stereoSpeakers" className="text-xs font-bold text-theme-primary uppercase tracking-wider">Stereo Speakers</label>
                   </div>
                 </div>
               )}
             </div>
 
             {/* F. Connectivity Specs */}
-            <div className="rounded-2xl border border-zinc-800/80 bg-zinc-900/10 overflow-hidden">
+            <div className="rounded-2xl border border-theme bg-theme-surface shadow-xs overflow-hidden">
               <button
                 type="button"
                 onClick={() => toggleSection('connectivity')}
-                className="w-full px-6 py-4 flex items-center justify-between bg-zinc-900/25 border-b border-zinc-800/50 hover:bg-zinc-900/40 transition-all"
+                className="w-full px-6 py-4 flex items-center justify-between bg-theme-surface/25 border-b border-theme hover:bg-theme-surface-hover transition-all"
               >
-                <span className="font-extrabold text-zinc-300 text-sm tracking-wide uppercase">6. Connectivity Specs</span>
-                <span className="text-zinc-500 text-lg">{openSections.connectivity ? '−' : '+'}</span>
+                <span className="font-extrabold text-theme-primary text-sm tracking-wide uppercase">6. Connectivity Specs</span>
+                <span className="text-theme-secondary text-lg">{openSections.connectivity ? '−' : '+'}</span>
               </button>
 
               {openSections.connectivity && (
                 <div className="p-6 space-y-4 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
                   <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Carrier Aggregation Bands</label>
+                    <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider">Carrier Aggregation Bands</label>
                     <input
                       type="text"
                       placeholder="e.g. 4x4 MIMO, 30+ Bands"
                       value={formState.specs.connectivity.carrierAggregationBands}
                       onChange={(e) => handleSpecChange('connectivity', 'carrierAggregationBands', e.target.value)}
-                      className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
+                      className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">SIM Slot Type</label>
+                    <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider">SIM Slot Type</label>
                     <input
                       type="text"
                       placeholder="e.g. Dual eSIM, eSIM + Physical SIM"
                       value={formState.specs.connectivity.sim}
                       onChange={(e) => handleSpecChange('connectivity', 'sim', e.target.value)}
-                      className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
+                      className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">USB Port Type</label>
+                    <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider">USB Port Type</label>
                     <input
                       type="text"
                       placeholder="e.g. USB Type-C 3.0"
                       value={formState.specs.connectivity.usbType}
                       onChange={(e) => handleSpecChange('connectivity', 'usbType', e.target.value)}
-                      className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
+                      className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Bluetooth Version</label>
+                    <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider">Bluetooth Version</label>
                     <input
                       type="text"
                       placeholder="e.g. 5.3"
                       value={formState.specs.connectivity.bluetoothVersion}
                       onChange={(e) => handleSpecChange('connectivity', 'bluetoothVersion', e.target.value)}
-                      className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
+                      className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
                     />
                   </div>
                   <div className="grid grid-cols-2 gap-4 sm:col-span-2 pt-2">
@@ -1992,27 +1992,27 @@ export default function PhoneForm({ initialPhone, allPhones }: PhoneFormProps) {
                         type="checkbox"
                         checked={formState.specs.connectivity.network5G}
                         onChange={(e) => handleSpecChange('connectivity', 'network5G', e.target.checked)}
-                        className="h-4 w-4 rounded border-zinc-800 bg-zinc-950 text-accent focus:ring-accent"
+                        className="h-4 w-4 rounded border-theme bg-theme-elevated text-accent focus:ring-accent"
                       />
-                      <span className="text-xs font-bold text-zinc-300 uppercase tracking-wider">5G Connected</span>
+                      <span className="text-xs font-bold text-theme-primary uppercase tracking-wider">5G Connected</span>
                     </label>
                     <label className="flex items-center gap-2 cursor-pointer">
                       <input
                         type="checkbox"
                         checked={formState.specs.connectivity.nfc}
                         onChange={(e) => handleSpecChange('connectivity', 'nfc', e.target.checked)}
-                        className="h-4 w-4 rounded border-zinc-800 bg-zinc-950 text-accent focus:ring-accent"
+                        className="h-4 w-4 rounded border-theme bg-theme-elevated text-accent focus:ring-accent"
                       />
-                      <span className="text-xs font-bold text-zinc-300 uppercase tracking-wider">NFC Support</span>
+                      <span className="text-xs font-bold text-theme-primary uppercase tracking-wider">NFC Support</span>
                     </label>
                     <label className="flex items-center gap-2 cursor-pointer">
                       <input
                         type="checkbox"
                         checked={formState.specs.connectivity.vowifi}
                         onChange={(e) => handleSpecChange('connectivity', 'vowifi', e.target.checked)}
-                        className="h-4 w-4 rounded border-zinc-800 bg-zinc-950 text-accent focus:ring-accent"
+                        className="h-4 w-4 rounded border-theme bg-theme-elevated text-accent focus:ring-accent"
                       />
-                      <span className="text-xs font-bold text-zinc-300 uppercase tracking-wider">VoWiFi Enabled</span>
+                      <span className="text-xs font-bold text-theme-primary uppercase tracking-wider">VoWiFi Enabled</span>
                     </label>
                   </div>
                 </div>
@@ -2026,29 +2026,29 @@ export default function PhoneForm({ initialPhone, allPhones }: PhoneFormProps) {
           </div>
           {/* SECTION 4: MEDIA SAMPLES */}
           {formState.category !== 'laptop' && (
-            <div className="rounded-2xl border border-zinc-800/80 bg-zinc-900/10 p-6 space-y-4">
-            <h3 className="text-sm font-extrabold text-zinc-300 uppercase tracking-wide border-b border-zinc-800/60 pb-2">
+            <div className="rounded-2xl border border-theme bg-theme-surface shadow-xs p-6 space-y-4">
+            <h3 className="text-sm font-extrabold text-theme-primary uppercase tracking-wide border-b border-theme pb-2">
               Media Samples
             </h3>
             {/* Camera photo samples (repeatable) */}
             <div className="space-y-3">
-              <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider block">Camera Sample Photos</label>
+              <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider block">Camera Sample Photos</label>
               {formState.mediaSamples.cameraPhotos.map((photo, idx) => (
-                <div key={idx} className="flex flex-col sm:flex-row sm:items-center gap-3 border border-zinc-800 bg-zinc-950/20 p-3 rounded-lg">
+                <div key={idx} className="flex flex-col sm:flex-row sm:items-center gap-3 border border-theme bg-theme-elevated/20 p-3 rounded-lg">
                   <div className="flex-1 space-y-2">
                     <input
                       type="text"
                       placeholder="Photo Image URL"
                       value={photo.url}
                       onChange={(e) => handleMediaPhotoChange(idx, 'url', e.target.value)}
-                      className="w-full h-10 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-xs focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
+                      className="w-full h-10 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-xs focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
                     />
                     <input
                       type="text"
                       placeholder="Caption (e.g. 5x Zoom - Outdoor Sunset)"
                       value={photo.caption}
                       onChange={(e) => handleMediaPhotoChange(idx, 'caption', e.target.value)}
-                      className="w-full h-10 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-xs focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
+                      className="w-full h-10 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-xs focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
                     />
                   </div>
                   <div className="flex items-center gap-3">
@@ -2056,7 +2056,7 @@ export default function PhoneForm({ initialPhone, allPhones }: PhoneFormProps) {
                     <button
                       type="button"
                       onClick={() => removeMediaPhoto(idx)}
-                      className="h-10 px-3 rounded-lg border border-zinc-850 bg-zinc-900/10 hover:bg-zinc-850 hover:text-rose-400 text-zinc-400 transition-all text-xs font-bold"
+                      className="h-10 px-3 rounded-lg border border-theme bg-theme-surface hover:bg-theme-surface-hover hover:text-rose-600 text-theme-secondary transition-all text-xs font-bold"
                     >
                       Remove
                     </button>
@@ -2066,7 +2066,7 @@ export default function PhoneForm({ initialPhone, allPhones }: PhoneFormProps) {
               <button
                 type="button"
                 onClick={addMediaPhoto}
-                className="w-full h-10 rounded-lg border border-dashed border-zinc-800 hover:border-zinc-700 bg-zinc-900/5 hover:bg-zinc-900/20 text-zinc-400 hover:text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition-all"
+                className="w-full h-10 rounded-lg border border-dashed border-theme hover:border-theme bg-theme-surface-hover hover:bg-theme-surface-hover text-theme-secondary hover:text-theme-primary text-xs font-semibold flex items-center justify-center gap-1.5 transition-all"
               >
                 + Add Photo Sample
               </button>
@@ -2074,23 +2074,23 @@ export default function PhoneForm({ initialPhone, allPhones }: PhoneFormProps) {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
               <div className="space-y-1.5">
-                <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Sample Video URL</label>
+                <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider">Sample Video URL</label>
                 <input
                   type="text"
                   placeholder="https://..."
                   value={formState.mediaSamples.sampleVideoUrl}
                   onChange={(e) => handleInputChange('mediaSamples', 'sampleVideoUrl', e.target.value)}
-                  className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-xs focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
+                  className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-xs focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
                 />
               </div>
               <div className="space-y-1.5">
-                <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Review Video Timestamp URL (optional)</label>
+                <label className="text-[11px] font-bold text-theme-secondary uppercase tracking-wider">Review Video Timestamp URL (optional)</label>
                 <input
                   type="text"
                   placeholder="https://youtube.com/embed/..."
                   value={formState.mediaSamples.reviewVideoTimestampUrl}
                   onChange={(e) => handleInputChange('mediaSamples', 'reviewVideoTimestampUrl', e.target.value)}
-                  className="w-full h-11 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-100 text-xs focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
+                  className="w-full h-11 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-xs focus:outline-none focus:ring-2 focus:ring-accent/30 transition-all"
                 />
               </div>
             </div>
@@ -2100,8 +2100,8 @@ export default function PhoneForm({ initialPhone, allPhones }: PhoneFormProps) {
           {/* SECTION 5: PROS & CONS */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {/* Pros */}
-            <div className="rounded-2xl border border-zinc-800/80 bg-zinc-900/10 p-6 space-y-4">
-              <h3 className="text-sm font-extrabold text-emerald-400 uppercase tracking-wide border-b border-zinc-800/60 pb-2 flex items-center gap-1.5">
+            <div className="rounded-2xl border border-theme bg-theme-surface shadow-xs p-6 space-y-4">
+              <h3 className="text-sm font-extrabold text-emerald-400 uppercase tracking-wide border-b border-theme pb-2 flex items-center gap-1.5">
                 <span className="text-emerald-500">✓</span> Pros Bullet Points
               </h3>
               <div className="space-y-2">
@@ -2112,12 +2112,12 @@ export default function PhoneForm({ initialPhone, allPhones }: PhoneFormProps) {
                       placeholder="e.g. Incredible zoom range"
                       value={pro}
                       onChange={(e) => handleProsConsChange('pros', idx, e.target.value)}
-                      className="flex-1 h-10 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-950 transition-all"
+                      className="flex-1 h-10 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-emerald-950 transition-all"
                     />
                     <button
                       type="button"
                       onClick={() => removeProsConsRow('pros', idx)}
-                      className="h-10 w-10 rounded-lg bg-zinc-900/10 hover:bg-zinc-800/40 text-zinc-500 hover:text-rose-400 flex items-center justify-center shrink-0 transition-all"
+                      className="h-10 w-10 rounded-lg bg-theme-surface hover:bg-theme-surface-hover text-theme-secondary hover:text-rose-600 flex items-center justify-center shrink-0 transition-all"
                     >
                       ×
                     </button>
@@ -2126,7 +2126,7 @@ export default function PhoneForm({ initialPhone, allPhones }: PhoneFormProps) {
                 <button
                   type="button"
                   onClick={() => addProsConsRow('pros')}
-                  className="w-full h-9 rounded-lg border border-dashed border-zinc-800 hover:border-zinc-700 text-zinc-400 hover:text-emerald-400 text-xs font-semibold flex items-center justify-center gap-1.5 transition-all"
+                  className="w-full h-9 rounded-lg border border-dashed border-theme hover:border-theme text-theme-secondary hover:text-emerald-400 text-xs font-semibold flex items-center justify-center gap-1.5 transition-all"
                 >
                   + Add Pro Point
                 </button>
@@ -2134,8 +2134,8 @@ export default function PhoneForm({ initialPhone, allPhones }: PhoneFormProps) {
             </div>
 
             {/* Cons */}
-            <div className="rounded-2xl border border-zinc-800/80 bg-zinc-900/10 p-6 space-y-4">
-              <h3 className="text-sm font-extrabold text-rose-400 uppercase tracking-wide border-b border-zinc-800/60 pb-2 flex items-center gap-1.5">
+            <div className="rounded-2xl border border-theme bg-theme-surface shadow-xs p-6 space-y-4">
+              <h3 className="text-sm font-extrabold text-rose-600 uppercase tracking-wide border-b border-theme pb-2 flex items-center gap-1.5">
                 <span className="text-rose-500">✗</span> Cons Bullet Points
               </h3>
               <div className="space-y-2">
@@ -2146,12 +2146,12 @@ export default function PhoneForm({ initialPhone, allPhones }: PhoneFormProps) {
                       placeholder="e.g. Slow wired charging speed"
                       value={con}
                       onChange={(e) => handleProsConsChange('cons', idx, e.target.value)}
-                      className="flex-1 h-10 px-3 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-200 text-sm focus:outline-none focus:ring-2 focus:ring-rose-950 transition-all"
+                      className="flex-1 h-10 px-3 rounded-lg border border-theme bg-theme-elevated text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-rose-950 transition-all"
                     />
                     <button
                       type="button"
                       onClick={() => removeProsConsRow('cons', idx)}
-                      className="h-10 w-10 rounded-lg bg-zinc-900/10 hover:bg-zinc-800/40 text-zinc-500 hover:text-rose-400 flex items-center justify-center shrink-0 transition-all"
+                      className="h-10 w-10 rounded-lg bg-theme-surface hover:bg-theme-surface-hover text-theme-secondary hover:text-rose-600 flex items-center justify-center shrink-0 transition-all"
                     >
                       ×
                     </button>
@@ -2160,7 +2160,7 @@ export default function PhoneForm({ initialPhone, allPhones }: PhoneFormProps) {
                 <button
                   type="button"
                   onClick={() => addProsConsRow('cons')}
-                  className="w-full h-9 rounded-lg border border-dashed border-zinc-800 hover:border-zinc-700 text-zinc-400 hover:text-rose-400 text-xs font-semibold flex items-center justify-center gap-1.5 transition-all"
+                  className="w-full h-9 rounded-lg border border-dashed border-theme hover:border-theme text-theme-secondary hover:text-rose-600 text-xs font-semibold flex items-center justify-center gap-1.5 transition-all"
                 >
                   + Add Con Point
                 </button>
@@ -2173,13 +2173,13 @@ export default function PhoneForm({ initialPhone, allPhones }: PhoneFormProps) {
         <div className="space-y-6">
           
           {/* CONTROL: SAVE */}
-          <div className="rounded-2xl border border-zinc-800 bg-zinc-950 p-6 space-y-4 sticky top-20 shadow-xl">
-            <h3 className="text-xs font-bold text-zinc-400 uppercase tracking-wider">
+          <div className="rounded-2xl border border-theme bg-theme-elevated p-6 space-y-4 sticky top-20 shadow-xl">
+            <h3 className="text-xs font-bold text-theme-secondary uppercase tracking-wider">
               Publish Status
             </h3>
 
             {saveError && (
-              <div className="rounded-lg border border-rose-900/50 bg-rose-950/30 px-4 py-3 text-xs font-semibold text-rose-400 flex items-center gap-2">
+              <div className="rounded-lg border border-rose-900/50 bg-rose-950/30 px-4 py-3 text-xs font-semibold text-rose-600 flex items-center gap-2">
                 <span className="shrink-0 text-rose-500">⚠️</span>
                 <span>{saveError}</span>
               </div>
@@ -2212,11 +2212,11 @@ export default function PhoneForm({ initialPhone, allPhones }: PhoneFormProps) {
             </div>
 
             {/* DATA COMPLETENESS VERIFICATION CHECKBOXES */}
-            <div className="border-t border-zinc-900 pt-4 space-y-3">
-              <h4 className="text-[10px] font-black text-zinc-500 uppercase tracking-widest">
+            <div className="border-t border-theme pt-4 space-y-3">
+              <h4 className="text-[10px] font-black text-theme-secondary uppercase tracking-widest">
                 Data Verification Status
               </h4>
-              <p className="text-[11px] text-zinc-400 leading-relaxed">
+              <p className="text-[11px] text-theme-secondary leading-relaxed">
                 Check sections you have manually verified. Unchecked sections display an &quot;Unverified&quot; flag on the public comparison page.
               </p>
 
@@ -2237,15 +2237,15 @@ export default function PhoneForm({ initialPhone, allPhones }: PhoneFormProps) {
                 }).map((sec, idx) => {
                   const isVerified = formState.dataCompleteness.verifiedFields.includes(sec.key);
                   return (
-                    <label key={sec.key} className="flex items-center justify-between p-2 rounded-lg border border-zinc-900 bg-zinc-950/40 hover:border-zinc-800 cursor-pointer select-none">
-                      <span className="text-xs font-semibold text-zinc-300">
+                    <label key={sec.key} className="flex items-center justify-between p-2 rounded-lg border border-theme bg-theme-elevated hover:border-theme cursor-pointer select-none">
+                      <span className="text-xs font-semibold text-theme-primary">
                         {idx + 1}. {sec.label.split('. ')[1]}
                       </span>
                       <input
                         type="checkbox"
                         checked={isVerified}
                         onChange={(e) => handleVerifyChange(sec.key, e.target.checked)}
-                        className="h-4 w-4 rounded border-zinc-800 bg-zinc-950 text-accent focus:ring-accent"
+                        className="h-4 w-4 rounded border-theme bg-theme-elevated text-accent focus:ring-accent"
                       />
                     </label>
                   );
@@ -2254,9 +2254,9 @@ export default function PhoneForm({ initialPhone, allPhones }: PhoneFormProps) {
             </div>
 
             {/* LIVE SPECS SCORE PREVIEW */}
-            <div className="border-t border-zinc-900 pt-4 space-y-4">
+            <div className="border-t border-theme pt-4 space-y-4">
               <div className="flex items-center justify-between">
-                <h4 className="text-[10px] font-black text-zinc-500 uppercase tracking-widest">
+                <h4 className="text-[10px] font-black text-theme-secondary uppercase tracking-widest">
                   Computed Score Preview
                 </h4>
                 {scoreBreakdown && (
@@ -2268,32 +2268,32 @@ export default function PhoneForm({ initialPhone, allPhones }: PhoneFormProps) {
 
               {scoreBreakdown ? (
                 <div className="space-y-2 text-xs">
-                  <div className="flex items-center justify-between text-zinc-400">
+                  <div className="flex items-center justify-between text-theme-secondary">
                     <span>Performance {formState.category === 'laptop' ? '(35%)' : '(30%)'}:</span>
-                    <span className="font-bold text-zinc-200">{scoreBreakdown.performance.score}/100</span>
+                    <span className="font-bold text-theme-primary">{scoreBreakdown.performance.score}/100</span>
                   </div>
-                  <div className="flex items-center justify-between text-zinc-400">
+                  <div className="flex items-center justify-between text-theme-secondary">
                     <span>Display (20%):</span>
-                    <span className="font-bold text-zinc-200">{scoreBreakdown.display.score}/100</span>
+                    <span className="font-bold text-theme-primary">{scoreBreakdown.display.score}/100</span>
                   </div>
-                  <div className="flex items-center justify-between text-zinc-400">
+                  <div className="flex items-center justify-between text-theme-secondary">
                     <span>{formState.category === 'laptop' ? 'Build & Ports (20%)' : 'Camera (25%)'}:</span>
-                    <span className="font-bold text-zinc-200">{scoreBreakdown.camera.score}/100</span>
+                    <span className="font-bold text-theme-primary">{scoreBreakdown.camera.score}/100</span>
                   </div>
-                  <div className="flex items-center justify-between text-zinc-400">
+                  <div className="flex items-center justify-between text-theme-secondary">
                     <span>Battery (15%):</span>
-                    <span className="font-bold text-zinc-200">{scoreBreakdown.battery.score}/100</span>
+                    <span className="font-bold text-theme-primary">{scoreBreakdown.battery.score}/100</span>
                   </div>
-                  <div className="flex items-center justify-between text-zinc-400">
+                  <div className="flex items-center justify-between text-theme-secondary">
                     <span>{formState.category === 'laptop' ? 'Storage/Upgrade (10%)' : 'Build & Conn (10%)'}:</span>
-                    <span className="font-bold text-zinc-200">{scoreBreakdown.buildConnectivity.score}/100</span>
+                    <span className="font-bold text-theme-primary">{scoreBreakdown.buildConnectivity.score}/100</span>
                   </div>
-                  <div className="pt-2 text-[10px] italic text-zinc-500 border-t border-zinc-900 leading-normal">
+                  <div className="pt-2 text-[10px] italic text-theme-secondary border-t border-theme leading-normal">
                     <strong>Explanation:</strong> {scoreBreakdown.explanation}
                   </div>
                 </div>
               ) : (
-                <div className="text-[11px] text-zinc-600 italic">
+                <div className="text-[11px] text-theme-secondary italic">
                   Fill in standard specs to compute live score breakdown.
                 </div>
               )}

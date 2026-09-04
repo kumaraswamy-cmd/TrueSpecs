@@ -426,7 +426,7 @@ export default function AdminBrandLogosManager({
       {/* Add New Brand Modal */}
       {isAddModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs animate-fade-in">
-          <div className="bg-theme-surface border border-theme rounded-2xl p-6 max-w-md w-full shadow-2xl space-y-4 animate-scale-in">
+          <div className="bg-theme-surface border border-theme rounded-2xl p-6 max-w-md w-full shadow-2xl space-y-5 animate-scale-in">
             <div className="flex items-center justify-between border-b border-theme pb-3">
               <h3 className="text-base font-black text-theme-primary font-display flex items-center gap-2">
                 <Plus className="w-4 h-4 text-accent" />
@@ -435,10 +435,37 @@ export default function AdminBrandLogosManager({
               <button
                 type="button"
                 onClick={() => setIsAddModalOpen(false)}
-                className="p-1 text-theme-secondary hover:text-theme-primary rounded-lg"
+                className="p-1 text-theme-secondary hover:text-theme-primary rounded-lg cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
+            </div>
+
+            {/* Live Preview Avatar */}
+            <div className="flex items-center gap-4 bg-theme-surface-hover p-3.5 rounded-xl border border-theme">
+              <div className="w-14 h-14 shrink-0 rounded-full bg-white ring-2 ring-accent/30 flex items-center justify-center overflow-hidden shadow-sm">
+                <BrandLogo
+                  brand={newBrandName || 'New'}
+                  customLogoUrl={newBrandLogoUrl || undefined}
+                  size="xl"
+                  className="w-full h-full"
+                />
+              </div>
+              <div className="min-w-0 flex-1">
+                <div className="text-xs font-bold text-theme-secondary uppercase tracking-wider">Live Preview</div>
+                <div className="text-sm font-extrabold text-theme-primary truncate font-display">
+                  {newBrandName || 'Brand Name'}
+                </div>
+                <div className="text-[11px] text-theme-secondary">
+                  {newBrandCategory === 'both'
+                    ? 'Phones & Laptops'
+                    : newBrandCategory === 'chip'
+                    ? 'Processor / Chipset'
+                    : newBrandCategory === 'laptop'
+                    ? 'Laptops'
+                    : 'Smartphones'}
+                </div>
+              </div>
             </div>
 
             <form onSubmit={handleAddBrandSubmit} className="space-y-4">
@@ -450,7 +477,7 @@ export default function AdminBrandLogosManager({
                   type="text"
                   value={newBrandName}
                   onChange={(e) => setNewBrandName(e.target.value)}
-                  placeholder="e.g. Sony, Huawei, Alienware"
+                  placeholder="e.g. Sony, Alienware, Huawei"
                   required
                   className="w-full h-10 px-3 rounded-xl border border-theme bg-theme-elevated text-xs text-theme-primary focus:outline-none focus:ring-2 focus:ring-accent"
                 />
@@ -474,28 +501,36 @@ export default function AdminBrandLogosManager({
 
               <div>
                 <label className="text-xs font-bold text-theme-secondary block mb-1">
-                  Logo URL or Upload Image
+                  Brand Logo (Image URL or File Upload)
                 </label>
-                <input
-                  type="text"
-                  value={newBrandLogoUrl}
-                  onChange={(e) => setNewBrandLogoUrl(e.target.value)}
-                  placeholder="Paste direct image URL or upload below"
-                  className="w-full h-10 px-3 rounded-xl border border-theme bg-theme-elevated text-xs text-theme-primary focus:outline-none focus:ring-2 focus:ring-accent font-mono mb-2"
-                />
+                <div className="relative mb-2">
+                  <LinkIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-theme-secondary" />
+                  <input
+                    type="text"
+                    value={newBrandLogoUrl}
+                    onChange={(e) => setNewBrandLogoUrl(e.target.value)}
+                    placeholder="https://example.com/logo.png"
+                    className="w-full h-10 pl-8 pr-3 rounded-xl border border-theme bg-theme-elevated text-xs text-theme-primary focus:outline-none focus:ring-2 focus:ring-accent font-mono"
+                  />
+                </div>
                 <label className="w-full inline-flex items-center justify-center gap-2 px-3 py-2 rounded-xl border border-dashed border-theme bg-theme-surface-hover hover:bg-theme-elevated text-xs font-bold text-theme-primary cursor-pointer transition-colors">
                   <Upload className="w-3.5 h-3.5 text-accent" />
-                  <span>Or Upload Image File</span>
+                  <span>Or Choose Local Image File</span>
                   <input
                     type="file"
-                    accept="image/*"
+                    accept="image/png,image/jpeg,image/svg+xml,image/webp"
                     className="hidden"
                     onChange={(e) => {
                       const file = e.target.files?.[0];
                       if (!file) return;
+                      if (file.size > 2 * 1024 * 1024) {
+                        showToast('Image must be under 2MB', 'error');
+                        return;
+                      }
                       const reader = new FileReader();
                       reader.onload = (evt) => {
-                        setNewBrandLogoUrl(evt.target?.result as string);
+                        const dataUrl = evt.target?.result as string;
+                        if (dataUrl) setNewBrandLogoUrl(dataUrl);
                       };
                       reader.readAsDataURL(file);
                     }}
@@ -514,9 +549,10 @@ export default function AdminBrandLogosManager({
                 <button
                   type="submit"
                   disabled={isPending}
-                  className="px-5 py-2 rounded-xl bg-accent hover:bg-accent-hover text-white text-xs font-bold shadow-sm cursor-pointer"
+                  className="px-5 py-2 rounded-xl bg-accent hover:bg-accent-hover text-white text-xs font-bold shadow-sm cursor-pointer flex items-center gap-1.5"
                 >
-                  Add Brand
+                  {isPending && <RefreshCw className="w-3.5 h-3.5 animate-spin" />}
+                  <span>Add Brand</span>
                 </button>
               </div>
             </form>

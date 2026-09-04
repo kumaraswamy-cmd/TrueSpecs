@@ -35,12 +35,14 @@ interface BrandLogoProps {
   brand: BrandName;
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   className?: string;
+  customLogoUrl?: string;
 }
 
 export default function BrandLogo({
   brand,
   size = 'sm',
   className = '',
+  customLogoUrl: explicitLogoUrl,
 }: BrandLogoProps) {
   const normalized = (brand || '').trim().toLowerCase();
 
@@ -54,11 +56,11 @@ export default function BrandLogo({
 
   const currentSize = sizeClasses[size] || sizeClasses.sm;
 
-  // Check if admin uploaded a custom logo for this brand
+  // Check if admin uploaded a custom logo for this brand or explicit prop passed
   const customBrandEntry = Object.entries(
     brandsData as Record<string, { logoUrl?: string }>
   ).find(([key]) => key.toLowerCase() === normalized);
-  const customLogoUrl = customBrandEntry?.[1]?.logoUrl;
+  const customLogoUrl = explicitLogoUrl !== undefined ? explicitLogoUrl : customBrandEntry?.[1]?.logoUrl;
 
   if (customLogoUrl) {
     return (
