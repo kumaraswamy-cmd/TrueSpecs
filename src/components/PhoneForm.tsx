@@ -812,7 +812,7 @@ export default function PhoneForm({ initialPhone, allPhones }: PhoneFormProps) {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-theme/80 pb-6">
         <div>
-          <h1 className="text-3xl font-black tracking-tight text-white">
+          <h1 className="text-3xl font-black tracking-tight text-theme-primary font-display">
             {initialPhone ? `Edit Specs: ${initialPhone.brand} ${initialPhone.model}` : (formState.category === 'laptop' ? 'Add New Laptop' : 'Add New Phone')}
           </h1>
           <p className="text-sm text-theme-secondary mt-1">
@@ -1036,7 +1036,7 @@ export default function PhoneForm({ initialPhone, allPhones }: PhoneFormProps) {
 
                     {/* SECTION 3: TECHNICAL SPECS (Collapsible) */}
           <div className="space-y-4">
-            <h3 className="text-base font-extrabold text-white uppercase tracking-wider">
+            <h3 className="text-base font-extrabold text-theme-primary uppercase tracking-wider font-display">
               Technical Specifications
             </h3>
 
@@ -1555,7 +1555,7 @@ export default function PhoneForm({ initialPhone, allPhones }: PhoneFormProps) {
               <>
                 {/* SECTION 3: TECHNICAL SPECS (Collapsible) */}
           <div className="space-y-4">
-            <h3 className="text-base font-extrabold text-white uppercase tracking-wider">
+            <h3 className="text-base font-extrabold text-theme-primary uppercase tracking-wider font-display">
               Technical Specifications
             </h3>
 
