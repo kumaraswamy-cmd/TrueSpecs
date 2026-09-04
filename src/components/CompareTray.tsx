@@ -1,15 +1,17 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useCompare } from '@/context/CompareContext';
 import phonesData from '@/data/phones.json';
 import { Phone } from '@/types/phone';
+import { ArrowRight, ChevronDown, ChevronUp, Scale, Trash2, X } from 'lucide-react';
 
 export default function CompareTray() {
   const pathname = usePathname();
   const { selectedIds, isMounted, removePhone, clearCompare } = useCompare();
+  const [isMinimized, setIsMinimized] = useState(false);
 
   if (pathname === '/compare' || !isMounted || selectedIds.length === 0) return null;
 
@@ -19,78 +21,117 @@ export default function CompareTray() {
   );
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 p-4 bg-theme-elevated/95 border-t border-theme backdrop-blur-lg shadow-2xl animate-slide-up transition-colors duration-200">
-      <div className="mx-auto max-w-7xl flex flex-col md:flex-row items-center justify-between gap-4">
-        {/* Tray Heading */}
-        <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-accent-bg text-accent font-bold">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />
-            </svg>
-          </div>
-          <div>
-            <h4 className="text-sm font-bold text-theme-primary">Compare Tray</h4>
-            <p className="text-xs text-theme-secondary">
-              {selectedIds.length} of 4 products selected
-            </p>
-          </div>
-        </div>
-
-        {/* Selected Phone List */}
-        <div className="flex flex-wrap gap-3 items-center justify-center">
-          {selectedPhones.map((phone) => (
-            <div
-              key={phone.id}
-              className="group relative flex items-center gap-2 pl-2 pr-8 py-1.5 rounded-lg border border-theme bg-theme-surface hover:bg-theme-surface-hover transition-colors"
+    <div className="fixed bottom-0 left-0 right-0 z-50 transition-all duration-300 pointer-events-none">
+      <div className="mx-auto max-w-7xl px-3 sm:px-6 lg:px-8 pb-3 pointer-events-auto">
+        {/* Minimized Pill Mode (Especially useful on mobile screens) */}
+        {isMinimized ? (
+          <div className="flex justify-end">
+            <button
+              onClick={() => setIsMinimized(false)}
+              className="inline-flex items-center gap-2.5 rounded-full border border-accent/30 bg-theme-elevated/95 px-4 py-2.5 shadow-2xl backdrop-blur-md transition-all hover:scale-105 cursor-pointer text-theme-primary"
             >
-              <div className="relative h-6 w-6 rounded bg-theme-elevated overflow-hidden flex items-center justify-center border border-theme">
-                {phone.images && phone.images[0] ? (
-                  <img
-                    src={phone.images[0]}
-                    alt={phone.model}
-                    className="h-full object-contain"
-                  />
-                ) : (
-                  <span className="text-[10px] text-theme-secondary">TS</span>
+              <div className="flex h-6 w-6 items-center justify-center rounded-full bg-accent text-[11px] font-extrabold text-white">
+                {selectedIds.length}
+              </div>
+              <span className="text-xs font-bold font-display">Compare Selected</span>
+              <ChevronUp className="h-4 w-4 text-accent" />
+            </button>
+          </div>
+        ) : (
+          /* Full Compare Tray Bar */
+          <div className="rounded-2xl border border-theme bg-theme-elevated/95 p-3.5 sm:p-4 shadow-2xl backdrop-blur-xl animate-slide-up transition-all">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
+              {/* Left: Heading & Count */}
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2.5">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-accent-bg text-accent font-bold">
+                    <Scale className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <h4 className="text-xs sm:text-sm font-extrabold text-theme-primary font-display">Compare Tray</h4>
+                      <span className="text-[10px] font-bold bg-accent-bg text-accent px-2 py-0.5 rounded-full border border-accent/20">
+                        {selectedIds.length}/4
+                      </span>
+                    </div>
+                    <p className="text-[10px] sm:text-xs text-theme-secondary">
+                      Side-by-side specs comparison ready
+                    </p>
+                  </div>
+                </div>
+
+                {/* Minimize Toggle (Mobile Only) */}
+                <button
+                  onClick={() => setIsMinimized(true)}
+                  className="md:hidden flex h-8 w-8 items-center justify-center rounded-lg border border-theme bg-theme-surface text-theme-secondary hover:text-theme-primary transition-colors cursor-pointer"
+                  title="Minimize tray"
+                  aria-label="Minimize compare tray"
+                >
+                  <ChevronDown className="h-4 w-4" />
+                </button>
+              </div>
+
+              {/* Center: Selected Products Chips */}
+              <div className="flex flex-wrap items-center gap-2 max-h-24 overflow-y-auto py-1">
+                {selectedPhones.map((phone) => (
+                  <div
+                    key={phone.id}
+                    className="group relative flex items-center gap-2 pl-2 pr-7 py-1.5 rounded-lg border border-theme bg-theme-surface hover:bg-theme-surface-hover transition-colors"
+                  >
+                    <div className="h-6 w-6 rounded bg-theme-elevated overflow-hidden flex items-center justify-center border border-theme shrink-0">
+                      <img
+                        src={phone.images[0] || '/placeholder.png'}
+                        alt={phone.model}
+                        className="h-full object-contain"
+                      />
+                    </div>
+                    <span className="text-xs font-semibold text-theme-primary max-w-[120px] truncate">
+                      {phone.model}
+                    </span>
+                    <button
+                      onClick={() => removePhone(phone.id)}
+                      className="absolute right-1.5 top-1/2 -translate-y-1/2 text-theme-secondary hover:text-danger p-0.5 rounded transition-colors cursor-pointer"
+                      title="Remove product"
+                      aria-label={`Remove ${phone.model} from comparison`}
+                    >
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                ))}
+
+                {selectedIds.length > 0 && (
+                  <button
+                    onClick={clearCompare}
+                    className="text-[11px] text-danger hover:text-danger/80 transition-colors font-bold px-2 py-1 rounded hover:bg-danger-bg flex items-center gap-1 cursor-pointer"
+                  >
+                    <Trash2 className="w-3 h-3" />
+                    <span>Clear</span>
+                  </button>
                 )}
               </div>
-              <span className="text-xs font-semibold text-theme-primary">
-                {phone.model}
-              </span>
-              <button
-                onClick={() => removePhone(phone.id)}
-                className="absolute right-2 top-1/2 -translate-y-1/2 text-theme-secondary hover:text-red-500 transition-colors"
-                title="Remove"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-3.5 h-3.5">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
+
+              {/* Right: Actions */}
+              <div className="flex items-center justify-end gap-2 shrink-0">
+                <button
+                  onClick={() => setIsMinimized(true)}
+                  className="hidden md:flex items-center gap-1 px-2.5 py-2 rounded-lg text-xs font-bold text-theme-secondary hover:text-theme-primary hover:bg-theme-surface transition-colors cursor-pointer"
+                  title="Minimize tray"
+                >
+                  <ChevronDown className="w-4 h-4" />
+                  <span>Minimize</span>
+                </button>
+
+                <Link
+                  href="/compare"
+                  className="px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl font-bold text-xs shadow-md transition-all bg-accent hover:bg-accent-hover text-white shadow-accent/20 hover:scale-102 flex items-center gap-1.5 cursor-pointer"
+                >
+                  <span>Compare Now</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
             </div>
-          ))}
-
-          {selectedIds.length > 0 && (
-            <button
-              onClick={clearCompare}
-              className="text-xs text-danger hover:text-danger/80 transition-colors font-bold underline underline-offset-4 pl-2"
-            >
-              Clear All
-            </button>
-          )}
-        </div>
-
-        {/* Action Buttons */}
-        <div className="flex items-center gap-3">
-          <Link
-            href="/compare"
-            className="px-5 py-2.5 rounded-lg font-bold text-xs shadow-md transition-all bg-accent hover:bg-accent-hover text-white shadow-accent/15 hover:scale-102 flex items-center gap-1.5 cursor-pointer"
-          >
-            <span>Compare Now ({selectedIds.length})</span>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-3.5 h-3.5">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-            </svg>
-          </Link>
-        </div>
+          </div>
+        )}
       </div>
     </div>
   );

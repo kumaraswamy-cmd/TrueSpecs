@@ -2,14 +2,15 @@
 
 import React, { Suspense, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import phonesData from '@/data/phones.json';
 import { Phone } from '@/types/phone';
 import PhoneCard from '@/components/PhoneCard';
 import FilterSidebar, { FilterState } from '@/components/FilterSidebar';
-import { ArrowDownUp, Laptop, Search, SlidersHorizontal, Smartphone, X } from 'lucide-react';
+import { searchProducts, getAlternateCategoryCount } from '@/utils/search';
+import { ArrowDownUp, Laptop, RotateCcw, Search, SlidersHorizontal, Smartphone, Sparkles, X } from 'lucide-react';
 
-type SortOption = 'price-asc' | 'price-desc' | 'score-desc' | 'date-desc';
+type SortOption = 'score-desc' | 'price-asc' | 'price-desc' | 'date-desc';
 type Category = 'phone' | 'laptop';
 
 const emptyFilters: FilterState = {
@@ -27,6 +28,7 @@ function priceOf(product: Phone) {
 }
 
 function ListingContent() {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const categoryParam = searchParams.get('category') || 'phone';
   const category: Category = categoryParam === 'laptop' ? 'laptop' : 'phone';
@@ -34,6 +36,7 @@ function ListingContent() {
   const [filters, setFilters] = useState<FilterState>(emptyFilters);
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState<SortOption>('score-desc');
+  const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
 
   useEffect(() => {
     setFilters(emptyFilters);
@@ -61,31 +64,41 @@ function ListingContent() {
     setSearchQuery('');
   };
 
+  const removeBrandFilter = (brand: string) => {
+    setFilters((prev) => ({
+      ...prev,
+      brands: prev.brands.filter((b) => b !== brand),
+    }));
+  };
+
+  const removeRamFilter = (ram: number) => {
+    setFilters((prev) => ({
+      ...prev,
+      ram: prev.ram.filter((r) => r !== ram),
+    }));
+  };
+
+  // Step 1: Filter by category and intelligent search
+  const searchedProducts = useMemo(() => {
+    if (!searchQuery.trim()) {
+      return (phonesData as Phone[]).filter((p) => (p.category || 'phone') === category);
+    }
+    return searchProducts(phonesData as Phone[], searchQuery, category);
+  }, [searchQuery, category]);
+
+  // Alternate category match check (e.g. searching 'MacBook' while on phone category)
+  const alternateCategoryInfo = useMemo(() => {
+    if (!searchQuery.trim()) return null;
+    return getAlternateCategoryCount(phonesData as Phone[], searchQuery, category);
+  }, [searchQuery, category]);
+
+  // Step 2: Apply sidebar filters on top of search results
   const filteredPhones = useMemo(() => {
-    return (phonesData as Phone[]).filter((phone) => {
-      if ((phone.category || 'phone') !== category) return false;
-
-      if (searchQuery.trim()) {
-        const query = searchQuery.toLowerCase().trim();
-        const matchesQuery =
-          (category === 'laptop'
-            ? phone.model.toLowerCase().includes(query) ||
-              phone.brand.toLowerCase().includes(query) ||
-              (phone.specs.performance?.cpuModel || '').toLowerCase().includes(query) ||
-              (phone.specs.performance?.gpuModel || '').toLowerCase().includes(query) ||
-              (phone.specs.display?.panelType || '').toLowerCase().includes(query)
-            : phone.model.toLowerCase().includes(query) ||
-              phone.brand.toLowerCase().includes(query) ||
-              (phone.specs.performance?.chipset || '').toLowerCase().includes(query) ||
-              (phone.specs.display?.type || '').toLowerCase().includes(query)) ||
-          (phone.variantGroupId || '').toLowerCase().includes(query) ||
-          (phone.variantLabel || '').toLowerCase().includes(query);
-
-        if (!matchesQuery) return false;
-      }
-
+    return searchedProducts.filter((phone) => {
+      // Brand filter
       if (filters.brands.length > 0 && !filters.brands.includes(phone.brand)) return false;
 
+      // Price filter
       const price = priceOf(phone);
       if (filters.priceRange !== 'all') {
         if (filters.priceRange === 'under-15k' && price >= 15000) return false;
@@ -95,48 +108,42 @@ function ListingContent() {
         if (filters.priceRange === 'above-100k' && price < 100000) return false;
       }
 
+      // RAM filter
       if (filters.ram.length > 0) {
         if (category === 'laptop') {
           if (!filters.ram.includes(phone.specs.performance?.ramSize)) return false;
         } else {
-          const hasMatchingRam = (phone.specs.performance?.ram || []).some((ram: number) => filters.ram.includes(ram));
+          const hasMatchingRam = (phone.specs.performance?.ram || []).some((r: number) => filters.ram.includes(r));
           if (!hasMatchingRam) return false;
         }
       }
 
+      // Specs Score filter
       if (phone.specsScore < filters.specsScore) return false;
+
+      // 5G filter (phones only)
       if (category === 'phone' && filters.only5G && !phone.specs.connectivity?.network5G) return false;
 
-      if (category === 'laptop' && filters.cpuBrands && filters.cpuBrands.length > 0) {
-        if (!filters.cpuBrands.includes(phone.specs.performance?.cpuBrand)) return false;
-      }
-
-      if (category === 'laptop' && filters.gpuTypes && filters.gpuTypes.length > 0) {
-        if (!filters.gpuTypes.includes(phone.specs.performance?.gpuType)) return false;
+      // Laptop specific CPU & GPU filters
+      if (category === 'laptop') {
+        if (filters.cpuBrands && filters.cpuBrands.length > 0) {
+          if (!filters.cpuBrands.includes(phone.specs.performance?.cpuBrand)) return false;
+        }
+        if (filters.gpuTypes && filters.gpuTypes.length > 0) {
+          if (!filters.gpuTypes.includes(phone.specs.performance?.gpuType)) return false;
+        }
       }
 
       return true;
     });
-  }, [filters, searchQuery, category]);
+  }, [searchedProducts, filters, category]);
 
-  const sortedPhones = useMemo(() => {
-    return [...filteredPhones].sort((a, b) => {
-      const priceA = priceOf(a);
-      const priceB = priceOf(b);
-
-      if (sortBy === 'price-asc') return priceA - priceB;
-      if (sortBy === 'price-desc') return priceB - priceA;
-      if (sortBy === 'score-desc') return b.specsScore - a.specsScore;
-      if (sortBy === 'date-desc') return new Date(b.releaseDate).getTime() - new Date(a.releaseDate).getTime();
-      return 0;
-    });
-  }, [filteredPhones, sortBy]);
-
+  // Step 3: Group variant representatives
   const groupedSortedPhones = useMemo(() => {
     const result: { product: Phone; configCount: number }[] = [];
     const groupMap = new Map<string, Phone[]>();
 
-    sortedPhones.forEach((product) => {
+    filteredPhones.forEach((product) => {
       if (!product.variantGroupId) {
         result.push({ product, configCount: 1 });
         return;
@@ -168,7 +175,7 @@ function ListingContent() {
       if (sortBy === 'date-desc') return new Date(productB.releaseDate).getTime() - new Date(productA.releaseDate).getTime();
       return 0;
     });
-  }, [sortedPhones, sortBy]);
+  }, [filteredPhones, sortBy]);
 
   const brandCounts = useMemo(() => {
     const counts: Record<string, number> = {};
@@ -209,27 +216,29 @@ function ListingContent() {
     (filters.gpuTypes?.length || 0);
 
   const pageTitle = searchQuery
-    ? `Search results for "${searchQuery}"`
+    ? `Results for "${searchQuery}"`
     : category === 'laptop'
       ? 'Laptop Finder'
       : 'Phone Finder';
 
   return (
-    <div className="space-y-7 py-2 animate-slide-up">
-      <section className="rounded-lg border border-theme bg-theme-elevated p-5 shadow-ts-shadow">
-        <div className="flex flex-col justify-between gap-5 lg:flex-row lg:items-end">
+    <div className="space-y-6 py-2 animate-slide-up">
+      {/* Header Bar */}
+      <section className="rounded-xl border border-theme bg-theme-elevated p-4 sm:p-6 shadow-ts-shadow">
+        <div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-end">
           <div>
             <div className="inline-flex items-center gap-2 rounded-md bg-accent-bg px-2.5 py-1 text-xs font-bold text-accent">
               <SlidersHorizontal className="h-3.5 w-3.5" />
-              {groupedSortedPhones.length} of {totalAvailable} matches
+              {groupedSortedPhones.length} of {totalAvailable} {category === 'laptop' ? 'laptops' : 'phones'} available
             </div>
-            <h1 className="mt-3 text-3xl font-black tracking-tight text-theme-primary sm:text-4xl">{pageTitle}</h1>
-            <p className="mt-2 max-w-2xl text-sm leading-6 text-theme-secondary">
-              Search, filter, and compare devices by the specs that actually change the buying decision.
+            <h1 className="mt-2.5 text-2xl sm:text-3xl font-black tracking-tight text-theme-primary font-display">{pageTitle}</h1>
+            <p className="mt-1 text-xs sm:text-sm text-theme-secondary">
+              Search, filter, and compare devices by verified specs and benchmark ratings.
             </p>
           </div>
 
-          <div className="grid grid-cols-2 gap-1 rounded-lg border border-theme bg-ts-secondary p-1">
+          {/* Category Tabs */}
+          <div className="grid grid-cols-2 gap-1 rounded-lg border border-theme bg-ts-secondary p-1 shrink-0">
             {(['phone', 'laptop'] as const).map((item) => {
               const Icon = item === 'phone' ? Smartphone : Laptop;
               const active = category === item;
@@ -237,8 +246,8 @@ function ListingContent() {
               return (
                 <Link
                   key={item}
-                  href={`/phones?category=${item}`}
-                  className="inline-flex h-10 items-center justify-center gap-2 rounded-md px-4 text-xs font-bold transition-all"
+                  href={`/phones?category=${item}${searchQuery ? `&q=${encodeURIComponent(searchQuery)}` : ''}`}
+                  className="inline-flex h-10 items-center justify-center gap-2 rounded-md px-4 text-xs font-bold transition-all cursor-pointer"
                   style={{
                     backgroundColor: active ? 'var(--ts-card)' : 'transparent',
                     color: active ? (item === 'phone' ? 'var(--color-category-phone)' : 'var(--color-category-laptop)') : 'var(--ts-fg-muted)',
@@ -253,33 +262,36 @@ function ListingContent() {
           </div>
         </div>
 
-        <div className="mt-5 grid gap-3 lg:grid-cols-[minmax(0,1fr)_auto]">
-          <label className="relative block">
+        {/* Search & Sort Controls Row */}
+        <div className="mt-4 grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto_auto]">
+          <div className="relative">
             <Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-theme-secondary" />
             <input
-              type="search"
+              type="text"
               value={searchQuery}
               onChange={(event) => setSearchQuery(event.target.value)}
-              placeholder={category === 'laptop' ? 'Search by model, CPU, GPU, display...' : 'Search by model, chipset, display, brand...'}
-              className="h-11 w-full rounded-lg border border-theme bg-theme-surface px-10 text-sm text-theme-primary outline-none transition-all placeholder:text-theme-secondary focus:border-accent/40 focus:ring-2 focus:ring-accent/20"
+              placeholder={category === 'laptop' ? 'Search laptops by model, CPU (M4, Intel), GPU, RAM...' : 'Search phones by model, chipset (Snapdragon, Dimensity), RAM...'}
+              className="h-11 w-full rounded-lg border border-theme bg-theme-surface pl-10 pr-9 text-xs sm:text-sm text-theme-primary outline-none transition-all placeholder:text-theme-secondary focus:border-accent/40 focus:ring-2 focus:ring-accent/20"
             />
             {searchQuery && (
               <button
+                type="button"
                 onClick={() => setSearchQuery('')}
-                className="absolute right-3 top-1/2 flex h-6 w-6 -translate-y-1/2 items-center justify-center rounded-md text-theme-secondary transition-colors hover:bg-theme-surface-hover hover:text-theme-primary"
+                className="absolute right-3 top-1/2 flex h-6 w-6 -translate-y-1/2 items-center justify-center rounded-md text-theme-secondary transition-colors hover:bg-theme-surface-hover hover:text-theme-primary cursor-pointer"
                 aria-label="Clear search"
               >
                 <X className="h-3.5 w-3.5" />
               </button>
             )}
-          </label>
+          </div>
 
+          {/* Sort Selector */}
           <label className="flex h-11 items-center gap-2 rounded-lg border border-theme bg-theme-surface px-3">
-            <ArrowDownUp className="h-4 w-4 text-theme-secondary" />
+            <ArrowDownUp className="h-4 w-4 text-theme-secondary shrink-0" />
             <select
               value={sortBy}
               onChange={(event) => setSortBy(event.target.value as SortOption)}
-              className="h-full bg-transparent text-xs font-bold text-theme-primary outline-none"
+              className="h-full bg-transparent text-xs font-bold text-theme-primary outline-none cursor-pointer"
             >
               <option value="score-desc">Best Specs Score</option>
               <option value="price-asc">Price: Low to High</option>
@@ -287,10 +299,49 @@ function ListingContent() {
               <option value="date-desc">Newest First</option>
             </select>
           </label>
+
+          {/* Mobile Filter Sheet Trigger */}
+          <button
+            type="button"
+            onClick={() => setIsMobileFilterOpen(true)}
+            className="lg:hidden flex h-11 items-center justify-center gap-2 rounded-lg border border-theme bg-theme-surface px-4 text-xs font-bold text-theme-primary hover:bg-theme-surface-hover transition-colors cursor-pointer"
+          >
+            <SlidersHorizontal className="h-4 w-4 text-accent" />
+            <span>Filters</span>
+            {activeFilterCount > 0 && (
+              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-accent text-[10px] font-extrabold text-white">
+                {activeFilterCount}
+              </span>
+            )}
+          </button>
         </div>
       </section>
 
-      <div className="grid gap-6 lg:grid-cols-[280px_minmax(0,1fr)] lg:items-start">
+      {/* Cross-Category Recommendation Hint (e.g. When searching 'MacBook' while on phone category) */}
+      {alternateCategoryInfo && alternateCategoryInfo.count > 0 && groupedSortedPhones.length === 0 && (
+        <div className="rounded-xl border border-accent/30 bg-accent-bg p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 animate-slide-up">
+          <div className="flex items-center gap-3">
+            <Sparkles className="w-5 h-5 text-accent shrink-0" />
+            <div>
+              <p className="text-xs font-bold text-theme-primary">
+                Looking for {alternateCategoryInfo.category === 'laptop' ? 'laptops' : 'phones'}?
+              </p>
+              <p className="text-[11px] text-theme-secondary">
+                We found <strong className="text-accent">{alternateCategoryInfo.count} matching {alternateCategoryInfo.category === 'laptop' ? 'laptops' : 'phones'}</strong> for &quot;{searchQuery}&quot;.
+              </p>
+            </div>
+          </div>
+          <Link
+            href={`/phones?category=${alternateCategoryInfo.category}&q=${encodeURIComponent(searchQuery)}`}
+            className="px-4 py-2 rounded-lg bg-accent hover:bg-accent-hover text-white text-xs font-bold transition-all shrink-0 text-center"
+          >
+            Switch to {alternateCategoryInfo.category === 'laptop' ? 'Laptops' : 'Phones'} ({alternateCategoryInfo.count})
+          </Link>
+        </div>
+      )}
+
+      {/* Main Grid: Filter Sidebar + Products */}
+      <div className="grid gap-6 lg:grid-cols-[260px_minmax(0,1fr)] lg:items-start">
         <FilterSidebar
           filters={filters}
           onChange={setFilters}
@@ -299,47 +350,132 @@ function ListingContent() {
           onReset={handleResetFilters}
           category={category}
           brandCounts={brandCounts}
+          isMobileDrawerOpen={isMobileFilterOpen}
+          onCloseMobileDrawer={() => setIsMobileFilterOpen(false)}
         />
 
         <div className="min-w-0 space-y-4">
+          {/* Active Filter Chips with Individual 1-Click Removals */}
           {activeFilterCount > 0 && (
-            <div className="flex flex-wrap items-center gap-2 rounded-lg border border-theme bg-theme-elevated p-3 text-xs text-theme-secondary shadow-ts-shadow">
-              <span className="font-bold text-theme-primary">{activeFilterCount} active filter{activeFilterCount === 1 ? '' : 's'}</span>
+            <div className="flex flex-wrap items-center gap-2 rounded-xl border border-theme bg-theme-elevated p-3 text-xs text-theme-secondary shadow-ts-shadow">
+              <span className="font-bold text-theme-primary mr-1">
+                {activeFilterCount} active filter{activeFilterCount === 1 ? '' : 's'}:
+              </span>
+
+              {/* Brand Pills */}
               {filters.brands.map((brand) => (
-                <span key={brand} className="rounded-md bg-ts-secondary px-2 py-1 font-semibold">{brand}</span>
+                <span
+                  key={brand}
+                  className="inline-flex items-center gap-1.5 rounded-lg bg-ts-secondary border border-theme px-2.5 py-1 font-semibold text-theme-primary text-xs"
+                >
+                  <span>{brand}</span>
+                  <button
+                    type="button"
+                    onClick={() => removeBrandFilter(brand)}
+                    className="hover:text-danger cursor-pointer"
+                    aria-label={`Remove brand filter ${brand}`}
+                  >
+                    <X className="w-3 h-3" />
+                  </button>
+                </span>
               ))}
-              {filters.priceRange !== 'all' && <span className="rounded-md bg-ts-secondary px-2 py-1 font-semibold">{filters.priceRange}</span>}
+
+              {/* Price Pill */}
+              {filters.priceRange !== 'all' && (
+                <span className="inline-flex items-center gap-1.5 rounded-lg bg-ts-secondary border border-theme px-2.5 py-1 font-semibold text-theme-primary text-xs">
+                  <span>Price: {filters.priceRange}</span>
+                  <button
+                    type="button"
+                    onClick={() => setFilters((p) => ({ ...p, priceRange: 'all' }))}
+                    className="hover:text-danger cursor-pointer"
+                  >
+                    <X className="w-3 h-3" />
+                  </button>
+                </span>
+              )}
+
+              {/* RAM Pills */}
               {filters.ram.map((ram) => (
-                <span key={ram} className="rounded-md bg-ts-secondary px-2 py-1 font-semibold">{ram}GB RAM</span>
+                <span
+                  key={ram}
+                  className="inline-flex items-center gap-1.5 rounded-lg bg-ts-secondary border border-theme px-2.5 py-1 font-semibold text-theme-primary text-xs"
+                >
+                  <span>{ram}GB RAM</span>
+                  <button
+                    type="button"
+                    onClick={() => removeRamFilter(ram)}
+                    className="hover:text-danger cursor-pointer"
+                  >
+                    <X className="w-3 h-3" />
+                  </button>
+                </span>
               ))}
-              {filters.specsScore > 0 && <span className="rounded-md bg-ts-secondary px-2 py-1 font-semibold">{filters.specsScore}+ score</span>}
-              {filters.only5G && <span className="rounded-md bg-ts-secondary px-2 py-1 font-semibold">5G</span>}
-              <button onClick={handleResetFilters} className="ml-auto rounded-md px-2 py-1 font-bold text-accent transition-colors hover:bg-accent-bg">
-                Reset
+
+              {/* Specs Score Pill */}
+              {filters.specsScore > 0 && (
+                <span className="inline-flex items-center gap-1.5 rounded-lg bg-ts-secondary border border-theme px-2.5 py-1 font-semibold text-theme-primary text-xs">
+                  <span>{filters.specsScore}+ SpecsScore</span>
+                  <button
+                    type="button"
+                    onClick={() => setFilters((p) => ({ ...p, specsScore: 0 }))}
+                    className="hover:text-danger cursor-pointer"
+                  >
+                    <X className="w-3 h-3" />
+                  </button>
+                </span>
+              )}
+
+              {/* 5G Pill */}
+              {filters.only5G && (
+                <span className="inline-flex items-center gap-1.5 rounded-lg bg-ts-secondary border border-theme px-2.5 py-1 font-semibold text-theme-primary text-xs">
+                  <span>5G Only</span>
+                  <button
+                    type="button"
+                    onClick={() => setFilters((p) => ({ ...p, only5G: false }))}
+                    className="hover:text-danger cursor-pointer"
+                  >
+                    <X className="w-3 h-3" />
+                  </button>
+                </span>
+              )}
+
+              <button
+                type="button"
+                onClick={handleResetFilters}
+                className="ml-auto flex items-center gap-1 rounded-md px-2 py-1 font-bold text-accent transition-colors hover:bg-accent-bg cursor-pointer text-xs"
+              >
+                <RotateCcw className="w-3 h-3" />
+                <span>Clear All</span>
               </button>
             </div>
           )}
 
+          {/* Products Grid */}
           {groupedSortedPhones.length > 0 ? (
-            <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
               {groupedSortedPhones.map(({ product, configCount }) => (
                 <PhoneCard key={product.id} phone={product} configCount={configCount} />
               ))}
             </div>
           ) : (
-            <div className="mx-auto max-w-lg rounded-lg border border-dashed border-theme bg-theme-elevated px-6 py-16 text-center shadow-ts-shadow">
-              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-lg border border-theme bg-theme-surface text-theme-secondary">
-                <Search className="h-5 w-5" />
+            /* Empty State */
+            <div className="mx-auto max-w-lg rounded-2xl border border-dashed border-theme bg-theme-elevated px-6 py-16 text-center shadow-ts-shadow">
+              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl border border-theme bg-theme-surface text-theme-secondary">
+                <Search className="h-6 w-6" />
               </div>
-              <h3 className="mt-4 text-base font-black text-theme-primary">No matching products</h3>
-              <p className="mx-auto mt-2 max-w-sm text-sm leading-6 text-theme-secondary">
-                Widen the filters or clear the search to bring more devices back into view.
+              <h3 className="mt-4 text-base font-black text-theme-primary font-display">No matching products</h3>
+              <p className="mx-auto mt-2 max-w-sm text-xs sm:text-sm leading-relaxed text-theme-secondary">
+                {searchQuery
+                  ? `No ${category === 'laptop' ? 'laptops' : 'phones'} matched your search "${searchQuery}". Try a different keyword or reset active filters.`
+                  : 'Try relaxing some filters to bring more devices back into view.'}
               </p>
               <button
+                type="button"
                 onClick={handleResetFilters}
-                className="mt-5 inline-flex h-10 items-center justify-center rounded-lg bg-ts-primary px-4 text-xs font-bold text-white shadow-ts-shadow transition-all hover:bg-ts-primary-hover"
+                className="mt-6 inline-flex h-10 items-center justify-center gap-1.5 rounded-xl bg-ts-primary px-5 text-xs font-bold text-white shadow-ts-shadow transition-all hover:bg-ts-primary-hover cursor-pointer"
               >
-                Reset Filters
+                <RotateCcw className="w-3.5 h-3.5" />
+                <span>Reset All Filters</span>
               </button>
             </div>
           )}

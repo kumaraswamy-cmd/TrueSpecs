@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { ChevronDown, RotateCcw, SlidersHorizontal, X } from 'lucide-react';
 
 export interface FilterState {
   brands: string[];
@@ -20,10 +21,12 @@ interface FilterSidebarProps {
   onReset: () => void;
   category?: 'phone' | 'laptop';
   brandCounts?: Record<string, number>;
+  isMobileDrawerOpen?: boolean;
+  onCloseMobileDrawer?: () => void;
 }
 
-const PHONE_BRANDS = ['Apple', 'Samsung', 'Google', 'OnePlus', 'Nothing', 'Poco', 'Motorola', 'Xiaomi'];
-const LAPTOP_BRANDS = ['Apple', 'Dell', 'HP', 'Lenovo', 'Asus', 'Acer'];
+const PHONE_BRANDS = ['Apple', 'Samsung', 'Google', 'OnePlus', 'Nothing', 'Poco', 'Motorola', 'Xiaomi', 'Realme', 'iQOO'];
+const LAPTOP_BRANDS = ['Apple', 'Dell', 'HP', 'Lenovo', 'Asus', 'Acer', 'Microsoft', 'Razer'];
 
 const PRICE_RANGES = [
   { label: 'All Prices', value: 'all' },
@@ -35,9 +38,9 @@ const PRICE_RANGES = [
 ];
 
 const PHONE_RAM_OPTIONS = [4, 6, 8, 12, 16];
-const LAPTOP_RAM_OPTIONS = [8, 16, 32];
+const LAPTOP_RAM_OPTIONS = [8, 16, 32, 64];
 
-const CPU_BRANDS = ['Intel', 'AMD', 'Apple'];
+const CPU_BRANDS = ['Intel', 'AMD', 'Apple', 'Qualcomm'];
 const GPU_TYPES = [
   { label: 'Integrated', value: 'integrated' },
   { label: 'Dedicated', value: 'dedicated' },
@@ -51,6 +54,8 @@ export default function FilterSidebar({
   onReset,
   category = 'phone',
   brandCounts = {},
+  isMobileDrawerOpen = false,
+  onCloseMobileDrawer,
 }: FilterSidebarProps) {
   const isLaptop = category === 'laptop';
   const availableBrands = isLaptop ? LAPTOP_BRANDS : PHONE_BRANDS;
@@ -123,22 +128,26 @@ export default function FilterSidebar({
       ((filters.cpuBrands && filters.cpuBrands.length > 0) ||
         (filters.gpuTypes && filters.gpuTypes.length > 0)));
 
-  return (
-    <div className="w-full lg:w-64 flex-shrink-0 bg-theme-surface border border-theme rounded-2xl p-6 h-fit sticky top-24 shadow-sm transition-colors duration-200">
+  const filterContent = (
+    <div className="space-y-4 font-sans">
       {/* Active count & clear */}
-      <div className="flex items-center justify-between border-b border-theme pb-4 mb-5">
+      <div className="flex items-center justify-between border-b border-theme pb-4 mb-3">
         <div>
-          <h3 className="text-sm font-bold text-theme-primary">Filters</h3>
+          <h3 className="text-sm font-extrabold text-theme-primary font-display flex items-center gap-1.5">
+            <SlidersHorizontal className="w-4 h-4 text-accent" />
+            Filters
+          </h3>
           <p className="text-[11px] text-theme-secondary mt-0.5 font-semibold">
-            Showing {totalMatched} of {totalAvailable} {isLaptop ? 'laptops' : 'phones'}
+            {totalMatched} of {totalAvailable} {isLaptop ? 'laptops' : 'phones'}
           </p>
         </div>
         {hasActiveFilters && (
           <button
             onClick={onReset}
-            className="text-xs text-accent hover:text-accent-hover font-bold transition-colors cursor-pointer"
+            className="text-xs text-accent hover:text-accent-hover font-bold transition-colors cursor-pointer flex items-center gap-1"
           >
-            Reset
+            <RotateCcw className="w-3 h-3" />
+            <span>Reset</span>
           </button>
         )}
       </div>
@@ -148,35 +157,37 @@ export default function FilterSidebar({
         {/* Brand Accordion */}
         <div className="border-b border-theme pb-4">
           <button
+            type="button"
             onClick={() => toggleSection('brands')}
             className="w-full flex items-center justify-between text-xs font-bold text-theme-secondary uppercase tracking-wider select-none cursor-pointer"
           >
-            <span>Brands</span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
+            <span>Brands {filters.brands.length > 0 && `(${filters.brands.length})`}</span>
+            <ChevronDown
               className={`w-4 h-4 transition-transform duration-200 ${expandedSections.brands ? 'rotate-180' : ''}`}
-            >
-              <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clipRule="evenodd" />
-            </svg>
+            />
           </button>
           {expandedSections.brands && (
-            <div className="space-y-2 max-h-48 overflow-y-auto pr-1 mt-3 animate-slide-up">
+            <div className="space-y-1.5 max-h-52 overflow-y-auto pr-1 mt-3 animate-slide-up">
               {availableBrands.map((brand) => {
                 const count = brandCounts[brand] || 0;
+                const isChecked = filters.brands.includes(brand);
                 return (
-                  <label key={brand} className="flex items-center justify-between text-sm text-theme-secondary hover:text-theme-primary cursor-pointer select-none">
-                    <span className="flex items-center gap-2.5">
+                  <label
+                    key={brand}
+                    className={`flex items-center justify-between text-xs px-2 py-1.5 rounded-lg cursor-pointer select-none transition-colors ${
+                      isChecked ? 'bg-accent-bg text-accent font-bold' : 'text-theme-secondary hover:text-theme-primary hover:bg-theme-surface-hover'
+                    }`}
+                  >
+                    <span className="flex items-center gap-2">
                       <input
                         type="checkbox"
-                        checked={filters.brands.includes(brand)}
+                        checked={isChecked}
                         onChange={(e) => handleBrandChange(brand, e.target.checked)}
-                        className="h-4 w-4 rounded border-theme bg-theme-surface text-accent focus:ring-accent"
+                        className="h-3.5 w-3.5 rounded border-theme text-accent focus:ring-accent"
                       />
-                      <span className="font-medium text-xs sm:text-sm">{brand}</span>
+                      <span>{brand}</span>
                     </span>
-                    <span className="text-[10px] text-theme-secondary font-mono">({count})</span>
+                    <span className="text-[10px] opacity-70 font-mono">({count})</span>
                   </label>
                 );
               })}
@@ -187,25 +198,21 @@ export default function FilterSidebar({
         {/* Price Accordion */}
         <div className="border-b border-theme pb-4">
           <button
+            type="button"
             onClick={() => toggleSection('price')}
             className="w-full flex items-center justify-between text-xs font-bold text-theme-secondary uppercase tracking-wider select-none cursor-pointer"
           >
             <span>Price Range</span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
+            <ChevronDown
               className={`w-4 h-4 transition-transform duration-200 ${expandedSections.price ? 'rotate-180' : ''}`}
-            >
-              <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clipRule="evenodd" />
-            </svg>
+            />
           </button>
           {expandedSections.price && (
             <div className="mt-3 animate-slide-up">
               <select
                 value={filters.priceRange}
                 onChange={handlePriceChange}
-                className="w-full h-10 px-3 rounded-lg border border-theme bg-theme-surface text-xs sm:text-sm text-theme-primary focus:outline-none focus:ring-2 focus:ring-accent/40 focus:border-accent/40"
+                className="w-full h-10 px-3 rounded-lg border border-theme bg-theme-surface text-xs text-theme-primary focus:outline-none focus:ring-2 focus:ring-accent/40 focus:border-accent/40"
               >
                 {PRICE_RANGES.map((pr) => (
                   <option key={pr.value} value={pr.value}>
@@ -220,18 +227,14 @@ export default function FilterSidebar({
         {/* RAM Accordion */}
         <div className="border-b border-theme pb-4">
           <button
+            type="button"
             onClick={() => toggleSection('ram')}
             className="w-full flex items-center justify-between text-xs font-bold text-theme-secondary uppercase tracking-wider select-none cursor-pointer"
           >
-            <span>RAM</span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
+            <span>RAM {filters.ram.length > 0 && `(${filters.ram.length})`}</span>
+            <ChevronDown
               className={`w-4 h-4 transition-transform duration-200 ${expandedSections.ram ? 'rotate-180' : ''}`}
-            >
-              <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clipRule="evenodd" />
-            </svg>
+            />
           </button>
           {expandedSections.ram && (
             <div className="flex flex-wrap gap-2 mt-3 animate-slide-up">
@@ -245,7 +248,7 @@ export default function FilterSidebar({
                     className={`px-3 py-1.5 rounded-lg border text-xs font-bold transition-all cursor-pointer ${
                       isSelected
                         ? 'border-accent bg-accent-bg text-accent'
-                        : 'border-theme bg-theme-surface text-theme-secondary hover:text-theme-primary'
+                        : 'border-theme bg-theme-surface text-theme-secondary hover:text-theme-primary hover:bg-theme-surface-hover'
                     }`}
                   >
                     {ramVal} GB
@@ -259,18 +262,14 @@ export default function FilterSidebar({
         {/* Specs Score Accordion */}
         <div className="border-b border-theme pb-4">
           <button
+            type="button"
             onClick={() => toggleSection('score')}
             className="w-full flex items-center justify-between text-xs font-bold text-theme-secondary uppercase tracking-wider select-none cursor-pointer"
           >
-            <span>Min Specs Score</span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
+            <span>Min Specs Score {filters.specsScore > 0 && `(${filters.specsScore}+)`}</span>
+            <ChevronDown
               className={`w-4 h-4 transition-transform duration-200 ${expandedSections.score ? 'rotate-180' : ''}`}
-            >
-              <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clipRule="evenodd" />
-            </svg>
+            />
           </button>
           {expandedSections.score && (
             <div className="grid grid-cols-4 gap-2 mt-3 animate-slide-up">
@@ -284,7 +283,7 @@ export default function FilterSidebar({
                     className={`py-1.5 rounded-lg border text-xs font-bold transition-all cursor-pointer ${
                       isSelected
                         ? 'border-accent bg-accent-bg text-accent'
-                        : 'border-theme bg-theme-surface text-theme-secondary hover:text-theme-primary'
+                        : 'border-theme bg-theme-surface text-theme-secondary hover:text-theme-primary hover:bg-theme-surface-hover'
                     }`}
                   >
                     {score === 0 ? 'Any' : `${score}+`}
@@ -299,30 +298,26 @@ export default function FilterSidebar({
         {isLaptop && (
           <div className="border-b border-theme pb-4">
             <button
+              type="button"
               onClick={() => toggleSection('cpu')}
               className="w-full flex items-center justify-between text-xs font-bold text-theme-secondary uppercase tracking-wider select-none cursor-pointer"
             >
               <span>CPU Brand</span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
+              <ChevronDown
                 className={`w-4 h-4 transition-transform duration-200 ${expandedSections.cpu ? 'rotate-180' : ''}`}
-              >
-                <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clipRule="evenodd" />
-              </svg>
+              />
             </button>
             {expandedSections.cpu && (
-              <div className="space-y-2 max-h-48 overflow-y-auto pr-1 mt-3 animate-slide-up">
+              <div className="space-y-1.5 max-h-48 overflow-y-auto pr-1 mt-3 animate-slide-up">
                 {CPU_BRANDS.map((cpuBrand) => (
-                  <label key={cpuBrand} className="flex items-center gap-2.5 text-sm text-theme-secondary hover:text-theme-primary cursor-pointer select-none">
+                  <label key={cpuBrand} className="flex items-center gap-2.5 text-xs text-theme-secondary hover:text-theme-primary cursor-pointer select-none">
                     <input
                       type="checkbox"
                       checked={(filters.cpuBrands || []).includes(cpuBrand)}
                       onChange={(e) => handleCpuBrandChange(cpuBrand, e.target.checked)}
-                      className="h-4 w-4 rounded border-theme bg-theme-surface text-accent focus:ring-accent"
+                      className="h-3.5 w-3.5 rounded border-theme text-accent focus:ring-accent"
                     />
-                    <span className="font-medium text-xs sm:text-sm">{cpuBrand}</span>
+                    <span className="font-medium">{cpuBrand}</span>
                   </label>
                 ))}
               </div>
@@ -334,30 +329,26 @@ export default function FilterSidebar({
         {isLaptop && (
           <div className="border-b border-theme pb-4">
             <button
+              type="button"
               onClick={() => toggleSection('gpu')}
               className="w-full flex items-center justify-between text-xs font-bold text-theme-secondary uppercase tracking-wider select-none cursor-pointer"
             >
               <span>GPU Type</span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
+              <ChevronDown
                 className={`w-4 h-4 transition-transform duration-200 ${expandedSections.gpu ? 'rotate-180' : ''}`}
-              >
-                <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clipRule="evenodd" />
-              </svg>
+              />
             </button>
             {expandedSections.gpu && (
-              <div className="space-y-2 max-h-48 overflow-y-auto pr-1 mt-3 animate-slide-up">
+              <div className="space-y-1.5 max-h-48 overflow-y-auto pr-1 mt-3 animate-slide-up">
                 {GPU_TYPES.map((gpuType) => (
-                  <label key={gpuType.value} className="flex items-center gap-2.5 text-sm text-theme-secondary hover:text-theme-primary cursor-pointer select-none">
+                  <label key={gpuType.value} className="flex items-center gap-2.5 text-xs text-theme-secondary hover:text-theme-primary cursor-pointer select-none">
                     <input
                       type="checkbox"
                       checked={(filters.gpuTypes || []).includes(gpuType.value)}
                       onChange={(e) => handleGpuTypeChange(gpuType.value, e.target.checked)}
-                      className="h-4 w-4 rounded border-theme bg-theme-surface text-accent focus:ring-accent"
+                      className="h-3.5 w-3.5 rounded border-theme text-accent focus:ring-accent"
                     />
-                    <span className="font-medium text-xs sm:text-sm">{gpuType.label}</span>
+                    <span className="font-medium">{gpuType.label}</span>
                   </label>
                 ))}
               </div>
@@ -365,21 +356,67 @@ export default function FilterSidebar({
           </div>
         )}
 
-        {/* 5G Support Accordion (Phones only) */}
+        {/* 5G Support (Phones only) */}
         {!isLaptop && (
           <div className="pb-2">
-            <label className="flex items-center justify-between text-sm text-theme-secondary hover:text-theme-primary cursor-pointer select-none">
-              <span className="font-bold text-xs sm:text-sm">5G Support Only</span>
+            <label className="flex items-center justify-between text-xs text-theme-secondary hover:text-theme-primary cursor-pointer select-none">
+              <span className="font-bold">5G Support Only</span>
               <input
                 type="checkbox"
                 checked={filters.only5G}
                 onChange={(e) => handle5GChange(e.target.checked)}
-                className="h-4 w-4 rounded border-theme bg-theme-surface text-accent focus:ring-accent"
+                className="h-4 w-4 rounded border-theme text-accent focus:ring-accent"
               />
             </label>
           </div>
         )}
       </div>
     </div>
+  );
+
+  return (
+    <>
+      {/* Desktop Sidebar (Hidden on mobile) */}
+      <aside className="hidden lg:block w-64 flex-shrink-0 bg-theme-surface border border-theme rounded-2xl p-5 h-fit sticky top-24 shadow-sm transition-colors duration-200">
+        {filterContent}
+      </aside>
+
+      {/* Mobile Drawer Overlay */}
+      {isMobileDrawerOpen && (
+        <div className="lg:hidden fixed inset-0 z-50 flex">
+          {/* Backdrop */}
+          <div
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
+            onClick={onCloseMobileDrawer}
+          />
+
+          {/* Drawer Content */}
+          <div className="relative ml-auto flex h-full w-full max-w-xs flex-col bg-theme-elevated p-5 shadow-2xl overflow-y-auto animate-slide-up">
+            <div className="flex items-center justify-between border-b border-theme pb-3 mb-4">
+              <span className="text-sm font-extrabold text-theme-primary font-display">Filters & Refinements</span>
+              <button
+                type="button"
+                onClick={onCloseMobileDrawer}
+                className="p-1 rounded-lg border border-theme text-theme-secondary hover:text-theme-primary"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {filterContent}
+
+            <div className="mt-6 pt-4 border-t border-theme sticky bottom-0 bg-theme-elevated">
+              <button
+                type="button"
+                onClick={onCloseMobileDrawer}
+                className="w-full py-2.5 rounded-xl bg-accent hover:bg-accent-hover text-white text-xs font-bold shadow-md shadow-accent/20 cursor-pointer"
+              >
+                Show {totalMatched} Results
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 }
