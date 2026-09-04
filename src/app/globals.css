@@ -2,41 +2,41 @@
 
 :root,
 [data-theme="light"] {
-  /* TrueSpecs product-lab palette (Light) */
-  --ts-bg: #F6F8FB;
+  /* TrueSpecs Studio Palette (Light) */
+  --ts-bg: #F8FAFC;
   --ts-bg-elevated: #FFFFFF;
   --ts-card: #FFFFFF;
-  --ts-card-hover: #F0F4F8;
-  --ts-fg: #111827;
-  --ts-fg-muted: #5F6875;
-  --ts-fg-subtle: #8A94A6;
-  --ts-border: #DFE5EE;
-  --ts-border-strong: #B8C4D4;
+  --ts-card-hover: #F1F5F9;
+  --ts-fg: #0F172A;
+  --ts-fg-muted: #475569;
+  --ts-fg-subtle: #94A3B8;
+  --ts-border: #E2E8F0;
+  --ts-border-strong: #CBD5E1;
   --ts-primary: #2563EB;
   --ts-primary-hover: #1D4ED8;
   --ts-primary-fg: #FFFFFF;
-  --ts-accent-2: #0F766E;
-  --ts-accent-2-bg: #E6FFFA;
-  --ts-accent-3: #B45309;
-  --ts-accent-3-bg: #FFF7ED;
-  --ts-success: #15803D;
-  --ts-success-bg: #ECFDF3;
-  --ts-warning: #B45309;
-  --ts-warning-bg: #FFF7ED;
-  --ts-danger: #DC2626;
+  --ts-accent-2: #0D9488;
+  --ts-accent-2-bg: #F0FDFA;
+  --ts-accent-3: #D97706;
+  --ts-accent-3-bg: #FFFBEB;
+  --ts-success: #16A34A;
+  --ts-success-bg: #F0FDF4;
+  --ts-warning: #D97706;
+  --ts-warning-bg: #FFFBEB;
+  --ts-danger: #E11D48;
   --ts-danger-bg: #FFF1F2;
   --ts-wishlist: #E11D48;
   --ts-wishlist-bg: #FFF1F2;
-  --ts-secondary: #EEF2F7;
-  --ts-secondary-hover: #E3EAF3;
+  --ts-secondary: #F1F5F9;
+  --ts-secondary-hover: #E2E8F0;
   --ts-ring-track: #E2E8F0;
-  --ts-hero-bg: #EDF2F8;
+  --ts-hero-bg: #F0F4F8;
   --ts-hero-ink: #0F172A;
-  --ts-shadow: 0 1px 2px rgba(16,24,40,0.05), 0 1px 3px rgba(16,24,40,0.08);
-  --ts-shadow-md: 0 10px 24px rgba(16,24,40,0.10);
-  --ts-shadow-lg: 0 18px 48px rgba(16,24,40,0.14);
+  --ts-shadow: 0 1px 3px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
+  --ts-shadow-md: 0 10px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
+  --ts-shadow-lg: 0 20px 35px -10px rgba(15, 23, 42, 0.12), 0 10px 15px -5px rgba(15, 23, 42, 0.06);
 
-  /* Mapping old vars to new tokens to avoid breaking other pages */
+  /* Mapping tokens */
   --bg-app: var(--ts-bg);
   --bg-surface: var(--ts-card);
   --bg-surface-hover: var(--ts-card-hover);
@@ -52,15 +52,15 @@
 
   --color-success: var(--ts-success);
   --color-success-bg: var(--ts-success-bg);
-  --color-success-border: rgba(22, 163, 74, 0.2);
+  --color-success-border: rgba(22, 163, 74, 0.25);
 
   --color-warning: var(--ts-warning);
   --color-warning-bg: var(--ts-warning-bg);
-  --color-warning-border: rgba(217, 119, 6, 0.2);
+  --color-warning-border: rgba(217, 119, 6, 0.25);
 
   --color-danger: var(--ts-danger);
   --color-danger-bg: var(--ts-danger-bg);
-  --color-danger-border: rgba(220, 38, 38, 0.2);
+  --color-danger-border: rgba(225, 29, 72, 0.25);
 
   --color-accent-secondary: var(--ts-secondary);
   --color-accent-secondary-hover: var(--ts-secondary-hover);
@@ -70,7 +70,7 @@
   --color-category-phone: var(--ts-primary);
   --color-category-phone-bg: rgba(37, 99, 235, 0.10);
   --color-category-laptop: var(--ts-accent-2);
-  --color-category-laptop-bg: rgba(15, 118, 110, 0.10);
+  --color-category-laptop-bg: rgba(13, 148, 136, 0.10);
 
   --card-shadow: var(--ts-shadow-md);
   --scrollbar-track: var(--ts-bg);
@@ -78,41 +78,41 @@
 }
 
 [data-theme="dark"] {
-  /* TrueSpecs product-lab palette (Dark) */
-  --ts-bg: #0F1115;
-  --ts-bg-elevated: #151922;
-  --ts-card: #171C25;
-  --ts-card-hover: #202838;
-  --ts-fg: #F4F7FB;
-  --ts-fg-muted: #AAB4C3;
-  --ts-fg-subtle: #6E7A8C;
-  --ts-border: #2B3442;
-  --ts-border-strong: #465469;
-  --ts-primary: #60A5FA;
-  --ts-primary-hover: #93C5FD;
+  /* TrueSpecs Studio Obsidian Palette (Dark) */
+  --ts-bg: #090B10;
+  --ts-bg-elevated: #0F131C;
+  --ts-card: #131823;
+  --ts-card-hover: #19202E;
+  --ts-fg: #F8FAFC;
+  --ts-fg-muted: #94A3B8;
+  --ts-fg-subtle: #64748B;
+  --ts-border: #1E2636;
+  --ts-border-strong: #2D394E;
+  --ts-primary: #3B82F6;
+  --ts-primary-hover: #60A5FA;
   --ts-primary-fg: #FFFFFF;
-  --ts-accent-2: #2DD4BF;
-  --ts-accent-2-bg: rgba(45,212,191,0.12);
-  --ts-accent-3: #FBBF24;
-  --ts-accent-3-bg: rgba(251,191,36,0.12);
-  --ts-success: #22C55E;
-  --ts-success-bg: rgba(34,197,94,0.12);
+  --ts-accent-2: #14B8A6;
+  --ts-accent-2-bg: rgba(20, 184, 166, 0.14);
+  --ts-accent-3: #F59E0B;
+  --ts-accent-3-bg: rgba(245, 158, 11, 0.14);
+  --ts-success: #10B981;
+  --ts-success-bg: rgba(16, 185, 129, 0.14);
   --ts-warning: #F59E0B;
-  --ts-warning-bg: rgba(245,158,11,0.12);
-  --ts-danger: #EF4444;
-  --ts-danger-bg: rgba(239,68,68,0.12);
-  --ts-wishlist: #FB7185;
-  --ts-wishlist-bg: rgba(251,113,133,0.12);
-  --ts-secondary: #202838;
-  --ts-secondary-hover: #293449;
-  --ts-ring-track: #2B3442;
-  --ts-hero-bg: #121722;
+  --ts-warning-bg: rgba(245, 158, 11, 0.14);
+  --ts-danger: #F43F5E;
+  --ts-danger-bg: rgba(244, 63, 94, 0.14);
+  --ts-wishlist: #F43F5E;
+  --ts-wishlist-bg: rgba(244, 63, 94, 0.16);
+  --ts-secondary: #171E2B;
+  --ts-secondary-hover: #212A3C;
+  --ts-ring-track: #1E2636;
+  --ts-hero-bg: #0C1018;
   --ts-hero-ink: #F8FAFC;
-  --ts-shadow: 0 1px 2px rgba(0,0,0,0.30), 0 1px 3px rgba(0,0,0,0.35);
-  --ts-shadow-md: 0 10px 24px rgba(0,0,0,0.35);
-  --ts-shadow-lg: 0 18px 48px rgba(0,0,0,0.48);
+  --ts-shadow: 0 2px 4px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.5);
+  --ts-shadow-md: 0 12px 32px rgba(0, 0, 0, 0.5), 0 2px 6px rgba(0, 0, 0, 0.4);
+  --ts-shadow-lg: 0 24px 64px rgba(0, 0, 0, 0.7), 0 4px 12px rgba(0, 0, 0, 0.5);
 
-  /* Mapping old vars to new tokens */
+  /* Mapping tokens */
   --bg-app: var(--ts-bg);
   --bg-surface: var(--ts-card);
   --bg-surface-hover: var(--ts-card-hover);
@@ -123,20 +123,20 @@
 
   --color-accent: var(--ts-primary);
   --color-accent-hover: var(--ts-primary-hover);
-  --color-accent-active: #BFDBFE;
-  --color-accent-bg: rgba(96, 165, 250, 0.15);
+  --color-accent-active: #93C5FD;
+  --color-accent-bg: rgba(59, 130, 246, 0.16);
 
   --color-success: var(--ts-success);
   --color-success-bg: var(--ts-success-bg);
-  --color-success-border: rgba(34, 197, 94, 0.25);
+  --color-success-border: rgba(16, 185, 129, 0.28);
 
   --color-warning: var(--ts-warning);
   --color-warning-bg: var(--ts-warning-bg);
-  --color-warning-border: rgba(245, 158, 11, 0.25);
+  --color-warning-border: rgba(245, 158, 11, 0.28);
 
   --color-danger: var(--ts-danger);
   --color-danger-bg: var(--ts-danger-bg);
-  --color-danger-border: rgba(239, 68, 68, 0.25);
+  --color-danger-border: rgba(244, 63, 94, 0.28);
 
   --color-accent-secondary: var(--ts-secondary);
   --color-accent-secondary-hover: var(--ts-secondary-hover);
@@ -144,9 +144,9 @@
   --color-accent-secondary-border: var(--ts-border);
 
   --color-category-phone: var(--ts-primary);
-  --color-category-phone-bg: rgba(96, 165, 250, 0.14);
+  --color-category-phone-bg: rgba(59, 130, 246, 0.16);
   --color-category-laptop: var(--ts-accent-2);
-  --color-category-laptop-bg: rgba(45, 212, 191, 0.12);
+  --color-category-laptop-bg: rgba(20, 184, 166, 0.16);
 
   --card-shadow: var(--ts-shadow-md);
   --scrollbar-track: var(--ts-bg);
@@ -241,12 +241,12 @@
 
 body {
   background:
-    linear-gradient(180deg, var(--ts-hero-bg) 0, var(--bg-app) 340px),
+    linear-gradient(180deg, var(--ts-hero-bg) 0, var(--bg-app) 380px),
     var(--bg-app);
   color: var(--text-primary);
   font-family: var(--font-sans);
   overflow-y: scroll;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  transition: background-color 0.25s ease, color 0.25s ease;
   --font-body: var(--font-sans);
 }
 
@@ -255,9 +255,9 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: 0;
 }
 
-/* Custom Scrollbar (Thin from Figma) */
+/* Custom Scrollbar */
 * { scrollbar-width: thin; scrollbar-color: var(--scrollbar-thumb) transparent; }
-::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 9px; }
 
@@ -289,7 +289,6 @@ h1, h2, h3, h4, h5, h6 {
 /* Graceful degradation for broken images */
 img {
   position: relative;
-  /* Hide the default broken image icon by making color transparent */
   color: transparent;
 }
 img::before {
@@ -301,49 +300,6 @@ img::before {
   height: 100%;
   background-color: var(--bg-surface-elevated);
   border-radius: inherit;
-}
-
-/* Admin Form Light Theme Overrides */
-[data-theme="light"] .admin-form-theme {
-  h1, h2, h3, h4, h5, h6, .text-white, .text-zinc-100, .text-zinc-300 {
-    color: var(--text-primary) !important;
-  }
-  .text-zinc-400, .text-zinc-500 {
-    color: var(--text-secondary) !important;
-  }
-  
-  /* Sections, grid components, and borders */
-  .bg-zinc-900\/10, .bg-zinc-900\/25, .bg-zinc-900\/5, .bg-zinc-900, .bg-zinc-950, .bg-zinc-800\/40 {
-    background-color: var(--bg-surface-elevated) !important;
-  }
-  .border-zinc-800\/80, .border-zinc-800\/50, .border-zinc-800\/60, .border-zinc-800, .border-zinc-850, .border-zinc-700 {
-    border-color: var(--border-theme) !important;
-  }
-  
-  /* Form elements: text input, select, textarea */
-  input, select, textarea, option {
-    background-color: var(--bg-surface) !important;
-    color: var(--text-primary) !important;
-    border-color: var(--border-theme) !important;
-  }
-  input:focus, select:focus, textarea:focus {
-    border-color: var(--color-accent) !important;
-    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15) !important;
-  }
-  input:disabled, select:disabled, textarea:disabled {
-    background-color: var(--bg-surface-hover) !important;
-    opacity: 0.6;
-  }
-  
-  /* Buttons inside form (that are outline style) */
-  .border-zinc-800.text-zinc-400 {
-    border-color: var(--border-theme) !important;
-    color: var(--text-secondary) !important;
-  }
-  .border-zinc-800.text-zinc-400:hover {
-    background-color: var(--bg-surface-hover) !important;
-    color: var(--text-primary) !important;
-  }
 }
 
 /* Global Button States for Accent Action Buttons */
@@ -358,7 +314,7 @@ img::before {
   transform: scale(0.985) !important;
 }
 
-/* Pulse cursor animation for typewriter */
+/* Pulse cursor animation */
 @keyframes pulse-cursor {
   from, to { border-color: transparent }
   50% { border-color: var(--color-accent) }
@@ -366,5 +322,3 @@ img::before {
 .animate-pulse-cursor {
   animation: pulse-cursor 0.75s step-end infinite;
 }
-
-
