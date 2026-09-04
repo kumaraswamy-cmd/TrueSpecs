@@ -118,7 +118,7 @@
       ],
       "unverifiedFields": []
     },
-    "specsScore": 99,
+    "specsScore": 98,
     "pros": [
       "Brilliant anti-reflective screen",
       "Stunning 200MP detail & extreme zoom ranges",
@@ -131,5 +131,121 @@
       "Slight shutter lag in low light"
     ],
     "lastUpdated": "2026-07-19"
+  },
+  {
+    "id": "apple-iphone-17-pro-max",
+    "category": "phone",
+    "brand": "Apple",
+    "model": "iPhone 17 Pro Max",
+    "slug": "apple-iphone-17-pro-max",
+    "releaseDate": "2025-09-19",
+    "images": [],
+    "price": {
+      "mrp": 134900,
+      "amazonPrice": 0,
+      "flipkartPrice": 0
+    },
+    "affiliateLinks": {
+      "amazon": "",
+      "flipkart": ""
+    },
+    "specs": {
+      "display": {
+        "size": 6.9,
+        "resolution": "2868x1320",
+        "type": "OLED",
+        "refreshRate": 120,
+        "peakBrightness": 3000,
+        "hdrSupport": true,
+        "widevineLevel": "L1"
+      },
+      "performance": {
+        "chipset": "Apple A19 Pro",
+        "ram": [
+          12
+        ],
+        "storage": [
+          256,
+          512,
+          1024,
+          2048
+        ],
+        "antutu": 0,
+        "coolingSystem": "Vapor Chamber"
+      },
+      "camera": {
+        "rear": [
+          {
+            "megapixel": 48,
+            "type": "Wide",
+            "ois": true
+          },
+          {
+            "megapixel": 48,
+            "type": "Ultrawide",
+            "ois": false
+          },
+          {
+            "megapixel": 48,
+            "type": "Telephoto",
+            "ois": true
+          }
+        ],
+        "front": "18MP",
+        "video": "4K@120fps"
+      },
+      "battery": {
+        "capacity": 5088,
+        "chargingSpeedWatts": 40,
+        "wirelessCharging": true,
+        "reverseCharging": false
+      },
+      "build": {
+        "weight": 231,
+        "thickness": 8.75,
+        "materials": "Aluminium Unibody, Ceramic Shield 2 Front, Ceramic Shield Back",
+        "ipRating": "IP68",
+        "stereoSpeakers": true
+      },
+      "connectivity": {
+        "network5G": true,
+        "carrierAggregationBands": "n1, n3, n5, n7, n8, n28, n38, n40, n41, n48, n53, n66, n70, n75, n77, n78, n79",
+        "sim": "Dual eSIM",
+        "nfc": true,
+        "usbType": "USB-C 3",
+        "vowifi": true,
+        "bluetoothVersion": "6.0"
+      }
+    },
+    "mediaSamples": {
+      "cameraPhotos": [],
+      "sampleVideoUrl": "",
+      "reviewVideoTimestampUrl": ""
+    },
+    "dataCompleteness": {
+      "verifiedFields": [],
+      "unverifiedFields": [
+        "display",
+        "performance",
+        "camera",
+        "battery",
+        "build",
+        "connectivity"
+      ]
+    },
+    "specsScore": 74,
+    "pros": [
+      "Excellent 6.9-inch 120Hz ProMotion OLED display",
+      "Powerful A19 Pro chip with advanced vapor-chamber cooling",
+      "Triple 48MP Pro Fusion camera system with 8x optical-quality telephoto",
+      "Exceptional battery life with up to 37 hours of video playback"
+    ],
+    "cons": [
+      "Very heavy at 231g",
+      "Expensive starting price",
+      "No physical SIM card support",
+      "Large camera plateau design"
+    ],
+    "lastUpdated": "2026-09-04"
   }
 ]
