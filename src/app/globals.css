@@ -158,7 +158,7 @@
   --font-display: var(--font-space-grotesk), var(--font-inter), system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), 'SFMono-Regular', monospace;
 
-  /* Figma TS colors */
+  /* Theme tokens */
   --color-ts-bg: var(--ts-bg);
   --color-ts-elevated: var(--ts-bg-elevated);
   --color-ts-card: var(--ts-card);
@@ -191,7 +191,7 @@
   --shadow-ts-shadow-md: var(--ts-shadow-md);
   --shadow-ts-shadow-lg: var(--ts-shadow-lg);
 
-  /* Custom theme mapping for existing classes */
+  /* Custom theme mapping */
   --color-accent: var(--color-accent);
   --color-accent-hover: var(--color-accent-hover);
   --color-accent-active: var(--color-accent-active);
@@ -214,12 +214,17 @@
   --color-category-laptop: var(--color-category-laptop);
   --color-category-laptop-bg: var(--color-category-laptop-bg);
 
-  --animate-slide-up: slide-up 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  --animate-bounce-short: bounce-short 2s infinite;
+  /* Fluid Motion & Animations */
+  --animate-slide-up: slide-up 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-scale-in: scale-in 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-fade-in: fade-in 0.2s ease-out forwards;
+  --animate-bounce-short: bounce-short 2.4s infinite;
+  --animate-heart-pop: heart-pop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --animate-pulse-subtle: pulse-subtle 2.5s infinite ease-in-out;
 
   @keyframes slide-up {
     from {
-      transform: translateY(16px);
+      transform: translateY(12px);
       opacity: 0;
     }
     to {
@@ -227,15 +232,44 @@
       opacity: 1;
     }
   }
+
+  @keyframes scale-in {
+    from {
+      transform: scale(0.96);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes heart-pop {
+    0% { transform: scale(1); }
+    40% { transform: scale(1.35); }
+    70% { transform: scale(0.9); }
+    100% { transform: scale(1); }
+  }
+
   @keyframes bounce-short {
     0%, 100% {
       transform: translateY(0);
       animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
     }
     50% {
-      transform: translateY(-6px);
+      transform: translateY(-4px);
       animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
     }
+  }
+
+  @keyframes pulse-subtle {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.85; transform: scale(1.02); }
   }
 }
 
@@ -246,7 +280,7 @@ body {
   color: var(--text-primary);
   font-family: var(--font-sans);
   overflow-y: scroll;
-  transition: background-color 0.25s ease, color 0.25s ease;
+  transition: background-color 0.25s cubic-bezier(0.16, 1, 0.3, 1), color 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   --font-body: var(--font-sans);
 }
 
@@ -286,6 +320,28 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+/* Fluid UI Transitions */
+button, a, input, select, textarea {
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+button:active {
+  transform: scale(0.97);
+}
+
+/* Hover Lift Effect */
+.hover-lift {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease;
+}
+.hover-lift:hover {
+  transform: translateY(-2px);
+}
+
+/* Heart Pop Trigger */
+.animate-heart-click {
+  animation: heart-pop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
 /* Graceful degradation for broken images */
 img {
   position: relative;
@@ -304,14 +360,14 @@ img::before {
 
 /* Global Button States for Accent Action Buttons */
 .bg-accent {
-  transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease !important;
+  transition: background-color 0.2s ease, transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease !important;
 }
 .bg-accent:hover {
   background-color: var(--color-accent-hover) !important;
 }
 .bg-accent:active {
   background-color: var(--color-accent-active) !important;
-  transform: scale(0.985) !important;
+  transform: scale(0.97) !important;
 }
 
 /* Pulse cursor animation */

@@ -378,19 +378,19 @@ export default function HomePage() {
               <Link
                 key={product.id}
                 href={`/phones/${product.slug}`}
-                className="group grid grid-cols-[76px_minmax(0,1fr)] items-center gap-3 rounded-lg border border-theme bg-theme-elevated p-3 shadow-ts-shadow transition-all hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-ts-shadow-md"
+                className="group hover-lift grid grid-cols-[76px_minmax(0,1fr)] items-center gap-3 rounded-xl border border-theme bg-theme-elevated p-3 shadow-sm hover:border-accent/40 hover:shadow-md"
               >
-                <div className="flex aspect-square items-center justify-center rounded-md bg-ts-secondary p-2">
-                  <img src={product.images[0]} alt={product.model} className="h-full w-full object-contain transition-transform group-hover:scale-105" />
+                <div className="flex aspect-square items-center justify-center rounded-lg bg-ts-secondary p-2 overflow-hidden">
+                  <img src={product.images[0]} alt={product.model} className="h-full w-full object-contain transition-transform duration-500 ease-out group-hover:scale-110" />
                 </div>
                 <div className="min-w-0">
-                  <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wide text-ts-subtle">
+                  <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wide text-theme-secondary">
                     <span>#{index + 1}</span>
                     <span>{configCount > 1 ? `${configCount} configs` : product.brand}</span>
                   </div>
-                  <p className="mt-1 truncate text-sm font-extrabold text-theme-primary">{product.model}</p>
+                  <p className="mt-1 truncate text-sm font-extrabold text-theme-primary group-hover:text-accent transition-colors">{product.model}</p>
                   <div className="mt-2 flex items-center gap-2">
-                    <span className="rounded-md bg-accent-bg px-2 py-1 font-mono text-[10px] font-bold text-accent">
+                    <span className="rounded-md bg-accent-bg px-2 py-1 font-mono text-[10px] font-bold text-accent border border-accent/20">
                       {product.specsScore}
                     </span>
                     <span className="truncate text-[11px] font-semibold text-theme-secondary">
@@ -405,19 +405,19 @@ export default function HomePage() {
       </section>
 
       {/* Stats row */}
-      <section className="grid gap-3 md:grid-cols-4">
+      <section className="grid grid-cols-2 md:grid-cols-4 gap-3">
         {[
           { label: 'Products indexed', value: `${categoryCounts.phone + categoryCounts.laptop}`, icon: BadgeCheck },
           { label: 'Phone variants', value: `${categoryCounts.phone}`, icon: Smartphone },
           { label: 'Laptop variants', value: `${categoryCounts.laptop}`, icon: Laptop },
           { label: 'Score model', value: '5-axis', icon: TrendingUp },
         ].map(({ label, value, icon: Icon }) => (
-          <div key={label} className="rounded-lg border border-theme bg-theme-elevated p-4 shadow-ts-shadow">
+          <div key={label} className="hover-lift rounded-xl border border-theme bg-theme-elevated p-4 shadow-sm">
             <div className="flex items-center justify-between gap-3">
-              <p className="text-xs font-bold uppercase tracking-wide text-theme-secondary">{label}</p>
-              <Icon className="h-4 w-4 text-ts-accent-2" />
+              <p className="text-[10px] sm:text-xs font-bold uppercase tracking-wide text-theme-secondary">{label}</p>
+              <Icon className="h-4 w-4 text-accent" />
             </div>
-            <p className="mt-3 font-mono text-2xl font-bold text-theme-primary">{value}</p>
+            <p className="mt-2 sm:mt-3 font-mono text-xl sm:text-2xl font-black text-theme-primary">{value}</p>
           </div>
         ))}
       </section>

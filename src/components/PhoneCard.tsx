@@ -93,7 +93,7 @@ export default function PhoneCard({ phone: p, configCount, compact = false }: Ph
   return (
     <article
       onClick={() => router.push(`/phones/${p.slug}`)}
-      className="group flex h-full cursor-pointer flex-col overflow-hidden rounded-xl sm:rounded-2xl border border-theme bg-theme-surface shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-md"
+      className="group hover-lift flex h-full cursor-pointer flex-col overflow-hidden rounded-xl sm:rounded-2xl border border-theme bg-theme-surface shadow-sm hover:border-accent/40 hover:shadow-md"
     >
       {/* Product Image Section */}
       <div className="relative aspect-[4/3] overflow-hidden border-b border-theme bg-ts-secondary">
@@ -101,7 +101,7 @@ export default function PhoneCard({ phone: p, configCount, compact = false }: Ph
         <img
           src={p.images[0] || '/placeholder.png'}
           alt={p.model}
-          className="h-full w-full object-contain p-4 sm:p-6 transition-transform duration-300 group-hover:scale-105"
+          className="h-full w-full object-contain p-4 sm:p-6 transition-transform duration-500 ease-out group-hover:scale-105"
         />
 
         {/* Category & Config Badges */}
@@ -123,7 +123,7 @@ export default function PhoneCard({ phone: p, configCount, compact = false }: Ph
           )}
         </div>
 
-        {/* Wishlist Heart Button */}
+        {/* Wishlist Heart Button with Micro-pop */}
         <button
           onClick={(e) => {
             e.preventDefault();
@@ -133,14 +133,14 @@ export default function PhoneCard({ phone: p, configCount, compact = false }: Ph
           aria-pressed={isLiked}
           aria-label={isLiked ? 'Remove from saved products' : 'Save product'}
           title={isLiked ? 'Remove from saved products' : 'Save product'}
-          className="absolute right-2.5 top-2.5 sm:right-3 sm:top-3 flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-lg border border-theme bg-theme-elevated/95 text-theme-secondary shadow-sm transition-all hover:text-rose-500 cursor-pointer"
+          className="absolute right-2.5 top-2.5 sm:right-3 sm:top-3 flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-lg border border-theme bg-theme-elevated/95 text-theme-secondary shadow-sm hover:scale-110 active:scale-90 transition-all hover:text-rose-500 cursor-pointer"
           style={{
             backgroundColor: isLiked ? 'rgba(244, 63, 94, 0.15)' : undefined,
             borderColor: isLiked ? 'rgba(244, 63, 94, 0.3)' : undefined,
             color: isLiked ? '#f43f5e' : undefined,
           }}
         >
-          <Heart className="h-3.5 w-3.5 sm:h-4 sm:w-4" fill={isLiked ? 'currentColor' : 'none'} />
+          <Heart className={`h-3.5 w-3.5 sm:h-4 sm:w-4 ${isLiked ? 'animate-heart-click' : ''}`} fill={isLiked ? 'currentColor' : 'none'} />
         </button>
 
         {/* Specs Score Gauge */}
