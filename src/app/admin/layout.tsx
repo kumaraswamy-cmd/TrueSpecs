@@ -14,7 +14,7 @@ export default async function AdminLayout({
   }
 
   return (
-    <div className="w-full min-h-[80vh] flex flex-col gap-6 animate-slide-up">
+    <div className="w-full min-h-[80vh] flex flex-col gap-6">
       {children}
     </div>
   );

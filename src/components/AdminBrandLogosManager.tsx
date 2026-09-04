@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useState, useTransition } from 'react';
+import React, { useState, useEffect, useTransition } from 'react';
+import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import BrandLogo from '@/components/BrandLogo';
@@ -36,6 +37,11 @@ export default function AdminBrandLogosManager({
 }: AdminBrandLogosManagerProps) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const [brands, setBrands] = useState<Record<string, BrandEntry>>(initialBrands);
   const [searchQuery, setSearchQuery] = useState('');
@@ -423,26 +429,32 @@ export default function AdminBrandLogosManager({
         })}
       </div>
 
-      {/* Add New Brand Modal */}
-      {isAddModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs animate-fade-in">
-          <div className="bg-theme-surface border border-theme rounded-2xl p-6 max-w-md w-full shadow-2xl space-y-5 animate-scale-in">
-            <div className="flex items-center justify-between border-b border-theme pb-3">
-              <h3 className="text-base font-black text-theme-primary font-display flex items-center gap-2">
+      {/* Add New Brand Modal using React Portal */}
+      {isAddModalOpen && mounted && createPortal(
+        <div 
+          onClick={() => setIsAddModalOpen(false)}
+          className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6 bg-black/60 backdrop-blur-sm overflow-y-auto"
+        >
+          <div 
+            onClick={(e) => e.stopPropagation()}
+            className="relative bg-white border border-slate-200 rounded-2xl p-6 max-w-md w-full shadow-2xl space-y-5 my-auto"
+          >
+            <div className="flex items-center justify-between border-b border-slate-200 pb-3">
+              <h3 className="text-base font-black text-slate-900 font-display flex items-center gap-2">
                 <Plus className="w-4 h-4 text-accent" />
                 <span>Add New Brand</span>
               </h3>
               <button
                 type="button"
                 onClick={() => setIsAddModalOpen(false)}
-                className="p-1 text-theme-secondary hover:text-theme-primary rounded-lg cursor-pointer"
+                className="p-1 text-slate-400 hover:text-slate-700 rounded-lg cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
             {/* Live Preview Avatar */}
-            <div className="flex items-center gap-4 bg-theme-surface-hover p-3.5 rounded-xl border border-theme">
+            <div className="flex items-center gap-4 bg-slate-50 p-3.5 rounded-xl border border-slate-200">
               <div className="w-14 h-14 shrink-0 rounded-full bg-white ring-2 ring-accent/30 flex items-center justify-center overflow-hidden shadow-sm">
                 <BrandLogo
                   brand={newBrandName || 'New'}
@@ -452,11 +464,11 @@ export default function AdminBrandLogosManager({
                 />
               </div>
               <div className="min-w-0 flex-1">
-                <div className="text-xs font-bold text-theme-secondary uppercase tracking-wider">Live Preview</div>
-                <div className="text-sm font-extrabold text-theme-primary truncate font-display">
+                <div className="text-xs font-bold text-slate-400 uppercase tracking-wider">Live Preview</div>
+                <div className="text-sm font-extrabold text-slate-900 truncate font-display">
                   {newBrandName || 'Brand Name'}
                 </div>
-                <div className="text-[11px] text-theme-secondary">
+                <div className="text-[11px] text-slate-500">
                   {newBrandCategory === 'both'
                     ? 'Phones & Laptops'
                     : newBrandCategory === 'chip'
@@ -470,7 +482,7 @@ export default function AdminBrandLogosManager({
 
             <form onSubmit={handleAddBrandSubmit} className="space-y-4">
               <div>
-                <label className="text-xs font-bold text-theme-secondary block mb-1">
+                <label className="text-xs font-bold text-slate-600 block mb-1">
                   Brand Name *
                 </label>
                 <input
@@ -479,18 +491,18 @@ export default function AdminBrandLogosManager({
                   onChange={(e) => setNewBrandName(e.target.value)}
                   placeholder="e.g. Sony, Alienware, Huawei"
                   required
-                  className="w-full h-10 px-3 rounded-xl border border-theme bg-theme-elevated text-xs text-theme-primary focus:outline-none focus:ring-2 focus:ring-accent"
+                  className="w-full h-10 px-3 rounded-xl border border-slate-300 bg-slate-50 text-xs text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-accent"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-bold text-theme-secondary block mb-1">
+                <label className="text-xs font-bold text-slate-600 block mb-1">
                   Category
                 </label>
                 <select
                   value={newBrandCategory}
                   onChange={(e) => setNewBrandCategory(e.target.value as any)}
-                  className="w-full h-10 px-3 rounded-xl border border-theme bg-theme-elevated text-xs text-theme-primary focus:outline-none focus:ring-2 focus:ring-accent cursor-pointer"
+                  className="w-full h-10 px-3 rounded-xl border border-slate-300 bg-slate-50 text-xs text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-accent cursor-pointer"
                 >
                   <option value="phone">Phones</option>
                   <option value="laptop">Laptops</option>
@@ -500,20 +512,20 @@ export default function AdminBrandLogosManager({
               </div>
 
               <div>
-                <label className="text-xs font-bold text-theme-secondary block mb-1">
+                <label className="text-xs font-bold text-slate-600 block mb-1">
                   Brand Logo (Image URL or File Upload)
                 </label>
                 <div className="relative mb-2">
-                  <LinkIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-theme-secondary" />
+                  <LinkIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" />
                   <input
                     type="text"
                     value={newBrandLogoUrl}
                     onChange={(e) => setNewBrandLogoUrl(e.target.value)}
                     placeholder="https://example.com/logo.png"
-                    className="w-full h-10 pl-8 pr-3 rounded-xl border border-theme bg-theme-elevated text-xs text-theme-primary focus:outline-none focus:ring-2 focus:ring-accent font-mono"
+                    className="w-full h-10 pl-8 pr-3 rounded-xl border border-slate-300 bg-slate-50 text-xs text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-accent font-mono"
                   />
                 </div>
-                <label className="w-full inline-flex items-center justify-center gap-2 px-3 py-2 rounded-xl border border-dashed border-theme bg-theme-surface-hover hover:bg-theme-elevated text-xs font-bold text-theme-primary cursor-pointer transition-colors">
+                <label className="w-full inline-flex items-center justify-center gap-2 px-3 py-2 rounded-xl border border-dashed border-slate-300 bg-slate-50 hover:bg-slate-100 text-xs font-bold text-slate-700 cursor-pointer transition-colors">
                   <Upload className="w-3.5 h-3.5 text-accent" />
                   <span>Or Choose Local Image File</span>
                   <input
@@ -538,11 +550,11 @@ export default function AdminBrandLogosManager({
                 </label>
               </div>
 
-              <div className="flex items-center justify-end gap-2 pt-3 border-t border-theme">
+              <div className="flex items-center justify-end gap-2 pt-3 border-t border-slate-200">
                 <button
                   type="button"
                   onClick={() => setIsAddModalOpen(false)}
-                  className="px-4 py-2 rounded-xl border border-theme text-xs font-bold text-theme-secondary hover:text-theme-primary cursor-pointer"
+                  className="px-4 py-2 rounded-xl border border-slate-300 text-xs font-bold text-slate-600 hover:text-slate-900 cursor-pointer hover:bg-slate-50"
                 >
                   Cancel
                 </button>
@@ -557,7 +569,8 @@ export default function AdminBrandLogosManager({
               </div>
             </form>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );
