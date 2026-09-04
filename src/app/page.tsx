@@ -191,8 +191,11 @@ export default function HomePage() {
             </div>
 
             <div className="space-y-3">
-              <h1 className="font-display text-4xl font-black leading-none tracking-tight text-[var(--ts-hero-ink)] sm:text-5xl lg:text-6xl">
-                TrueSpecs
+              <h1 className="font-display text-4xl font-black leading-none tracking-tight text-[var(--ts-hero-ink)] sm:text-5xl lg:text-6xl flex items-center">
+                True
+                <span className="bg-gradient-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent ml-0.5">
+                  Specs
+                </span>
               </h1>
               <p className="max-w-2xl text-sm leading-6 text-theme-secondary sm:text-base">
                 Compare phones and laptops with clean specs, evidence-aware scores, live pricing, and side-by-side decisions that are easy to trust.
