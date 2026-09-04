@@ -1,8 +1,7 @@
 @import "tailwindcss";
 
-:root,
-[data-theme="light"] {
-  /* TrueSpecs Studio Palette (Light) */
+:root {
+  /* TrueSpecs Studio Clean Light Palette */
   --ts-bg: #F8FAFC;
   --ts-bg-elevated: #FFFFFF;
   --ts-card: #FFFFFF;
@@ -48,7 +47,7 @@
   --color-accent: var(--ts-primary);
   --color-accent-hover: var(--ts-primary-hover);
   --color-accent-active: #1E40AF;
-  --color-accent-bg: rgba(37, 99, 235, 0.10);
+  --color-accent-bg: rgba(37, 99, 235, 0.08);
 
   --color-success: var(--ts-success);
   --color-success-bg: var(--ts-success-bg);
@@ -68,85 +67,9 @@
   --color-accent-secondary-border: var(--ts-border);
 
   --color-category-phone: var(--ts-primary);
-  --color-category-phone-bg: rgba(37, 99, 235, 0.10);
+  --color-category-phone-bg: rgba(37, 99, 235, 0.08);
   --color-category-laptop: var(--ts-accent-2);
-  --color-category-laptop-bg: rgba(13, 148, 136, 0.10);
-
-  --card-shadow: var(--ts-shadow-md);
-  --scrollbar-track: var(--ts-bg);
-  --scrollbar-thumb: var(--ts-border-strong);
-}
-
-[data-theme="dark"] {
-  /* TrueSpecs Studio Obsidian Palette (Dark) */
-  --ts-bg: #090B10;
-  --ts-bg-elevated: #0F131C;
-  --ts-card: #131823;
-  --ts-card-hover: #19202E;
-  --ts-fg: #F8FAFC;
-  --ts-fg-muted: #94A3B8;
-  --ts-fg-subtle: #64748B;
-  --ts-border: #1E2636;
-  --ts-border-strong: #2D394E;
-  --ts-primary: #3B82F6;
-  --ts-primary-hover: #60A5FA;
-  --ts-primary-fg: #FFFFFF;
-  --ts-accent-2: #14B8A6;
-  --ts-accent-2-bg: rgba(20, 184, 166, 0.14);
-  --ts-accent-3: #F59E0B;
-  --ts-accent-3-bg: rgba(245, 158, 11, 0.14);
-  --ts-success: #10B981;
-  --ts-success-bg: rgba(16, 185, 129, 0.14);
-  --ts-warning: #F59E0B;
-  --ts-warning-bg: rgba(245, 158, 11, 0.14);
-  --ts-danger: #F43F5E;
-  --ts-danger-bg: rgba(244, 63, 94, 0.14);
-  --ts-wishlist: #F43F5E;
-  --ts-wishlist-bg: rgba(244, 63, 94, 0.16);
-  --ts-secondary: #171E2B;
-  --ts-secondary-hover: #212A3C;
-  --ts-ring-track: #1E2636;
-  --ts-hero-bg: #0C1018;
-  --ts-hero-ink: #F8FAFC;
-  --ts-shadow: 0 2px 4px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.5);
-  --ts-shadow-md: 0 12px 32px rgba(0, 0, 0, 0.5), 0 2px 6px rgba(0, 0, 0, 0.4);
-  --ts-shadow-lg: 0 24px 64px rgba(0, 0, 0, 0.7), 0 4px 12px rgba(0, 0, 0, 0.5);
-
-  /* Mapping tokens */
-  --bg-app: var(--ts-bg);
-  --bg-surface: var(--ts-card);
-  --bg-surface-hover: var(--ts-card-hover);
-  --bg-surface-elevated: var(--ts-bg-elevated);
-  --border-theme: var(--ts-border);
-  --text-primary: var(--ts-fg);
-  --text-secondary: var(--ts-fg-muted);
-
-  --color-accent: var(--ts-primary);
-  --color-accent-hover: var(--ts-primary-hover);
-  --color-accent-active: #93C5FD;
-  --color-accent-bg: rgba(59, 130, 246, 0.16);
-
-  --color-success: var(--ts-success);
-  --color-success-bg: var(--ts-success-bg);
-  --color-success-border: rgba(16, 185, 129, 0.28);
-
-  --color-warning: var(--ts-warning);
-  --color-warning-bg: var(--ts-warning-bg);
-  --color-warning-border: rgba(245, 158, 11, 0.28);
-
-  --color-danger: var(--ts-danger);
-  --color-danger-bg: var(--ts-danger-bg);
-  --color-danger-border: rgba(244, 63, 94, 0.28);
-
-  --color-accent-secondary: var(--ts-secondary);
-  --color-accent-secondary-hover: var(--ts-secondary-hover);
-  --color-accent-secondary-bg: var(--ts-secondary);
-  --color-accent-secondary-border: var(--ts-border);
-
-  --color-category-phone: var(--ts-primary);
-  --color-category-phone-bg: rgba(59, 130, 246, 0.16);
-  --color-category-laptop: var(--ts-accent-2);
-  --color-category-laptop-bg: rgba(20, 184, 166, 0.16);
+  --color-category-laptop-bg: rgba(13, 148, 136, 0.08);
 
   --card-shadow: var(--ts-shadow-md);
   --scrollbar-track: var(--ts-bg);

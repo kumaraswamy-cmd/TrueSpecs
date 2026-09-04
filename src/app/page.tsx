@@ -7,6 +7,7 @@ import phonesData from '@/data/phones.json';
 import { Phone } from '@/types/phone';
 import PhoneCard from '@/components/PhoneCard';
 import BrandLogo from '@/components/BrandLogo';
+import PopularBrandsRow from '@/components/PopularBrandsRow';
 import { searchProducts } from '@/utils/search';
 import {
   ArrowRight,
@@ -407,6 +408,9 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* Popular Brands Section Matching Reference Layout */}
+      <PopularBrandsRow category={activeCategory} />
 
       {/* Stats row */}
       <section className="grid grid-cols-2 md:grid-cols-4 gap-3">

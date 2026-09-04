@@ -317,37 +317,46 @@ function ListingContent() {
           </button>
         </div>
 
-        {/* Quick Brand Logos Filter Strip */}
-        <div className="mt-3.5 pt-3 border-t border-theme/60 flex items-center gap-1.5 overflow-x-auto pb-1 no-scrollbar">
-          <span className="text-[10px] uppercase font-bold text-theme-secondary tracking-wider shrink-0 mr-1">
-            Top Brands:
-          </span>
-          {(category === 'laptop'
-            ? ['Apple', 'Dell', 'HP', 'Lenovo', 'Asus', 'Acer', 'Microsoft']
-            : ['Apple', 'Samsung', 'Google', 'OnePlus', 'Nothing', 'Xiaomi', 'Poco', 'Motorola', 'Realme', 'iQOO']
-          ).map((b) => {
-            const isSelected = filters.brands.includes(b);
-            return (
-              <button
-                key={b}
-                type="button"
-                onClick={() => {
-                  setFilters((prev) => ({
-                    ...prev,
-                    brands: isSelected ? prev.brands.filter((item) => item !== b) : [...prev.brands, b],
-                  }));
-                }}
-                className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold transition-all shrink-0 cursor-pointer ${
-                  isSelected
-                    ? 'bg-accent text-white shadow-sm border border-accent'
-                    : 'bg-theme-surface hover:bg-theme-surface-hover text-theme-secondary hover:text-theme-primary border border-theme'
-                }`}
-              >
-                <BrandLogo brand={b} size="xs" />
-                <span>{b}</span>
-              </button>
-            );
-          })}
+        {/* Popular Brands Horizontal Avatar Strip Matching Reference Image */}
+        <div className="mt-4 pt-4 border-t border-theme/60">
+          <div className="flex items-center gap-4 sm:gap-6 overflow-x-auto pb-2 pt-1 no-scrollbar">
+            {(category === 'laptop'
+              ? ['Apple', 'Dell', 'HP', 'Lenovo', 'Asus', 'Acer', 'Microsoft', 'Razer']
+              : ['Vivo', 'Samsung', 'Motorola', 'Realme', 'OPPO', 'Xiaomi', 'Poco', 'OnePlus', 'Apple', 'iQOO']
+            ).map((b) => {
+              const isSelected = filters.brands.includes(b);
+              return (
+                <button
+                  key={b}
+                  type="button"
+                  onClick={() => {
+                    setFilters((prev) => ({
+                      ...prev,
+                      brands: isSelected ? prev.brands.filter((item) => item !== b) : [...prev.brands, b],
+                    }));
+                  }}
+                  className="group flex flex-col items-center gap-1.5 shrink-0 cursor-pointer select-none bg-transparent border-0 p-0 focus:outline-none"
+                >
+                  <div
+                    className={`relative rounded-full p-0.5 transition-all duration-200 group-hover:scale-110 group-active:scale-95 ${
+                      isSelected
+                        ? 'ring-2 ring-accent ring-offset-2 ring-offset-theme-surface shadow-md'
+                        : 'group-hover:shadow-xs'
+                    }`}
+                  >
+                    <BrandLogo brand={b} size="lg" className="shadow-xs" />
+                  </div>
+                  <span
+                    className={`text-[11px] font-bold transition-colors ${
+                      isSelected ? 'text-accent font-black' : 'text-theme-secondary group-hover:text-theme-primary'
+                    }`}
+                  >
+                    {b}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
         </div>
       </section>
 

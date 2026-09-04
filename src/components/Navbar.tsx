@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { useCompare } from '@/context/CompareContext';
 import { useWishlist } from '@/context/WishlistContext';
-import ThemeToggle from '@/components/ThemeToggle';
 import TrueSpecsLogo from '@/components/TrueSpecsLogo';
 import BrandLogo from '@/components/BrandLogo';
 import phonesData from '@/data/phones.json';
@@ -399,11 +398,6 @@ export default function Navbar() {
               </span>
             )}
           </Link>
-
-          {/* Theme Toggle Symbol */}
-          <div className="pl-1 border-l border-theme ml-1">
-            <ThemeToggle />
-          </div>
         </nav>
 
         {/* 4. Mobile Quick Symbol Action Bar */}
@@ -437,8 +431,6 @@ export default function Navbar() {
               </span>
             )}
           </Link>
-
-          <ThemeToggle />
 
           {/* Hamburger Menu Toggle */}
           <button

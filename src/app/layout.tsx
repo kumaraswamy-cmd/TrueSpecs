@@ -29,8 +29,6 @@ export const metadata: Metadata = {
   description: "Check genuine specs, side-by-side comparisons, Specs Score, and camera samples with zero bugs.",
 };
 
-import { ThemeProvider } from "@/context/ThemeContext";
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -42,24 +40,22 @@ export default function RootLayout({
       className={`${inter.variable} ${spaceGrotesk.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-theme-app text-theme-primary selection:bg-accent/30 selection:text-theme-primary transition-colors duration-200">
-        <ThemeProvider>
-          <WishlistProvider>
-            <CompareProvider>
-              <Suspense fallback={<div className="h-16 bg-theme-elevated border-b border-theme"></div>}>
-                <Navbar />
-              </Suspense>
-              <Suspense fallback={null}>
-                <ScrollRestoration>
-                  <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 pb-24 sm:pb-28">
-                    {children}
-                  </main>
-                </ScrollRestoration>
-              </Suspense>
-              <CompareTray />
-              <Footer />
-            </CompareProvider>
-          </WishlistProvider>
-        </ThemeProvider>
+        <WishlistProvider>
+          <CompareProvider>
+            <Suspense fallback={<div className="h-16 bg-theme-elevated border-b border-theme"></div>}>
+              <Navbar />
+            </Suspense>
+            <Suspense fallback={null}>
+              <ScrollRestoration>
+                <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 pb-24 sm:pb-28">
+                  {children}
+                </main>
+              </ScrollRestoration>
+            </Suspense>
+            <CompareTray />
+            <Footer />
+          </CompareProvider>
+        </WishlistProvider>
       </body>
     </html>
   );
