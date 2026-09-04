@@ -167,11 +167,11 @@ export default function Navbar() {
       <div className="mx-auto flex h-14 md:h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8 gap-4">
         {/* 1. Logo & Wordmark */}
         <Link href="/" className="flex items-center gap-2 group shrink-0">
-          <span className="relative flex h-10 w-10 items-center justify-center rounded-lg bg-accent font-bold text-white shadow-lg shadow-accent/20 group-hover:scale-105 transition-all font-display">
+          <span className="relative flex h-8 w-8 sm:h-9 sm:w-9 md:h-10 md:w-10 items-center justify-center rounded-lg bg-accent font-bold text-xs sm:text-sm text-white shadow-md shadow-accent/20 group-hover:scale-105 transition-all font-display">
             TS
             <span className="absolute -inset-0.5 rounded-lg bg-accent opacity-20 blur-sm group-hover:opacity-45 transition-opacity"></span>
           </span>
-          <span className="text-xl font-extrabold tracking-tight text-theme-primary group-hover:text-accent transition-colors font-display">
+          <span className="text-base sm:text-lg md:text-xl font-extrabold tracking-tight text-theme-primary group-hover:text-accent transition-colors font-display">
             TrueSpecs
           </span>
         </Link>
